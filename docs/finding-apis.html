@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Leon Yin">
+
+<title>Inspect Element - Appendix A — Finding Undocumented APIs</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./undocumented-apis.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Appendix A — Finding Undocumented APIs</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Inspect Element</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./build-your-own-datasets.html" class="sidebar-item-text sidebar-link">Build your own datasets</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./undocumented-apis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Undocumeted APIs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./finding-apis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Finding Undocumented APIs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#how-to-find-apis" id="toc-how-to-find-apis" class="nav-link active" data-scroll-target="#how-to-find-apis"><em>How to find APIs?</em></a>
+  <ul class="collapse">
+  <li><a href="#first-open-the-developer-console." id="toc-first-open-the-developer-console." class="nav-link" data-scroll-target="#first-open-the-developer-console.">1. First open the developer console.</a></li>
+  <li><a href="#click-the-network-tab." id="toc-click-the-network-tab." class="nav-link" data-scroll-target="#click-the-network-tab.">2. Click the “Network” tab.</a></li>
+  <li><a href="#filter-requests-by-fetchxhr" id="toc-filter-requests-by-fetchxhr" class="nav-link" data-scroll-target="#filter-requests-by-fetchxhr">3. Filter requests by fetch/XHR</a></li>
+  <li><a href="#analyze-the-response" id="toc-analyze-the-response" class="nav-link" data-scroll-target="#analyze-the-response">4. Analyze the response</a></li>
+  <li><a href="#copy-as-curl" id="toc-copy-as-curl" class="nav-link" data-scroll-target="#copy-as-curl">5. Copy as cURL</a></li>
+  <li><a href="#curl-to-requests" id="toc-curl-to-requests" class="nav-link" data-scroll-target="#curl-to-requests">6. Curl to requests</a></li>
+  <li><a href="#strip-it-down" id="toc-strip-it-down" class="nav-link" data-scroll-target="#strip-it-down">7. Strip it down</a></li>
+  <li><a href="#recycle-and-reuse" id="toc-recycle-and-reuse" class="nav-link" data-scroll-target="#recycle-and-reuse">8. Recycle and reuse</a></li>
+  </ul></li>
+  <li><a href="#do-it-yourself" id="toc-do-it-yourself" class="nav-link" data-scroll-target="#do-it-yourself">Do it Yourself</a>
+  <ul class="collapse">
+  <li><a href="#for-advanced-usage" id="toc-for-advanced-usage" class="nav-link" data-scroll-target="#for-advanced-usage">For advanced usage…</a></li>
+  </ul></li>
+  <li><a href="#homework-assignment" id="toc-homework-assignment" class="nav-link" data-scroll-target="#homework-assignment">Homework Assignment</a></li>
+  <li><a href="#contact" id="toc-contact" class="nav-link" data-scroll-target="#contact">Contact</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/blob/main/finding-apis.ipynb" class="toc-action">Edit this page</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Appendix A — Finding Undocumented APIs</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Leon Yin </p>
+          </div>
+  </div>
+    
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">March 10, 2023</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="how-to-find-apis" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-find-apis"><em>How to find APIs?</em></h2>
+<p>Most APIs are <em>undocumented</em>, hidden in plain sight.</p>
+<p>You can use these APIs to collect <a href="">datasets for investigations, audits, and tools</a>.</p>
+<p>You can sniff them out using a web browser’s developer tools (shortened to dev tools).</p>
+<p>Note that if you’re in a workshop setting: hitting the example API at the same time will get us all blocked from the website!</p>
+<section id="first-open-the-developer-console." class="level3">
+<h3 class="anchored" data-anchor-id="first-open-the-developer-console.">1. First open the developer console.</h3>
+<p>See how on <a href="https://developer.chrome.com/docs/devtools/open/">Chrome</a> or <a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_are_browser_developer_tools">Firefox</a> here.</p>
+<p>In this tutorial, we’ll see how Amazon.com autocomplete search suggestions work.</p>
+<p>My go-to method, (regardless of browser,) is to right-click and “Inspect” an element on the page.</p>
+<figure class="figure">
+<img src="assets/inspect-panel.png" style="width:50%" class="figure-img">
+<figcaption align="center" class="figure-caption">
+Example of inspecting an element on a page using a right-click
+</figcaption>
+</figure>
+<p>This will open the dev tools under the “Elements” tab, which is used to explore the source code of a page.</p>
+<p>Page source code is useful because it reveals useful clues that are otherwise unseen by regular users. Often times, clues are in accessibility features known as ARIA elements.</p>
+<p>However, this tutorial is not about source code… it’s about API requests that populate what we see on the page, and the hidden fields that we don’t see.</p>
+<p>Let’s try this!</p>
+<p>With dev tools open, go to Amazon.com, select the search bar on the website, and start typing a query (such as “spicy”).</p>
+</section>
+<section id="click-the-network-tab." class="level3">
+<h3 class="anchored" data-anchor-id="click-the-network-tab.">2. Click the “Network” tab.</h3>
+<p>This section of the dev tools is used to monitor network requests.</p>
+<p><em>Background</em></p>
+<p>Everything on a page is retrieved from some outside source, likely a server. This includes things like images embedded on the page, JavaScript code running in the background, and all the bits of “content” that populate the page before us.</p>
+<p>Using the network tab, we can find out how this information is requested from a server, and intercept the response before it is rendered on the page.</p>
+<p>These responses are information-rich, and contain fields that don’t end up in the source code <em>or</em> in the user interface that most people encounter when they visit a site.</p>
+<p>Further, we can reverse-engineer how this request is made, and use it to collect structured data at scale. This is the power of finding <em>undocumented APIs.</em></p>
+<p><em>Back to the console…</em></p>
+<p>The network tab can look pretty hectic at first. It has many uses, and a lot of information. We’ll cover some of the basics.</p>
+<video width="100%" controls="" loop="">
+<source src="assets/dev-console.mov" type="video/mp4">
+</video>
+</section>
+<section id="filter-requests-by-fetchxhr" class="level3">
+<h3 class="anchored" data-anchor-id="filter-requests-by-fetchxhr">3. Filter requests by fetch/XHR</h3>
+<p>This will reveal only API calls made to servers. This includes internal servers that are hosted by the folks who run the website we’re inspecting, as well as external servers. The latter often includes third-party trackers used in adtech, and verification services to authenticate user behavior.</p>
+<video width="100%" controls="" loop="">
+<source src="assets/filter-network.mp4" type="video/mp4">
+</video>
+<p>You might see quite a few network requests that were loaded onto the page. Look at “Domain” and “File” to narrow down where requests were sent, and whether the names are telling of the purpose of the request.</p>
+<p>💡Pro tip: you can “Filter URLs” using many different properties (see how to do this for <a href="https://developer.chrome.com/docs/devtools/network/reference/#filter-by-property">Chrome</a> and <a href="https://firefox-source-docs.mozilla.org/devtools-user/network_monitor/request_list/index.html#filtering-requests">Firefox</a>).</p>
+<p>In this example, notice that a request was sent to the “Domain” <code>completion.amazon.com</code>, using an API endpoint (in the “File” column) named <code>suggestions</code>. This is likely the API being called to populate autocompleted search suggestions on the Amazon marketplace.</p>
+<p>When clicking the network request, you’ll see “Headers”. Those are the <a href="https://developer.mozilla.org/en-US/docs/Glossary/Request_header">HTTP headers</a> that were sent along with the network request. This is not useful for us <em>just yet</em>, instead we want to see what data gets transferred as a result of the API call.</p>
+<p>To do this, we’ll look at the request’s “Response” attributes.</p>
+</section>
+<section id="analyze-the-response" class="level3">
+<h3 class="anchored" data-anchor-id="analyze-the-response">4. Analyze the response</h3>
+<p>This might seem intimidating at first, but let me <em>key</em> you in on some tips. Responses are almost always JSON-formatted. JSON is made up of lists and <a href="https://en.wikipedia.org/wiki/Name%E2%80%93value_pair">key-value</a> pairs. This means the information is stored like a dictionary, with words and their corresponding definitions.</p>
+<p>Looking at the JSON response, it looks like Amazon’s <code>completion.amazon.com/suggestions</code> API returns a list of “suggestions”. Each item in the list of suggestions has a “value”, in the example above that “value” is <code>spicy ramen</code>.</p>
+<p><strong>Check your work</strong>: confirm this interpretation is correct by cross-referencing the API response with what a user would see on the website.</p>
+<figure class="figure">
+<img src="assets/spicy.png" width="50%" class="figure-img">
+<figcaption align="center" class="figure-caption">
+Amazon’s suggestions for “spicy”.
+</figcaption>
+</figure>
+<p>Getting these steps down, is your one way ticket to spicy town, and you don’t need to code at all.</p>
+<p>However, some rudimentary coding can help you figure out how to use the API for vast inputs to collect your own dataset.</p>
+</section>
+<section id="copy-as-curl" class="level3">
+<h3 class="anchored" data-anchor-id="copy-as-curl">5. Copy as cURL</h3>
+<p>If you find an HTTP request that returns a response with useful information you can start to reverse-engineer it. To do that, we can isolate it by right-clicking the HTTP request and selecting “copy as cURL”. (<a href="https://developer.ibm.com/articles/what-is-curl-command/">cURL</a> stands for client URL, and is a tool used to transfer data across networks.)</p>
+<p><img src="assets/copy-curl.png" width="90%"></p>
+</section>
+<section id="curl-to-requests" class="level3">
+<h3 class="anchored" data-anchor-id="curl-to-requests">6. Curl to requests</h3>
+<p>We can use a site like <a href="https://curlconverter.com/">curlconverter.com</a> to convert the cURL we copied into a reusable API call. In this example, we use the default conversion to a Python <code>requests</code> script. You can do the same for any language and framework, but we use this to demonstrate because it’s exactly what I do in practice.</p>
+<p>Here is what the converted cURL looks like after being converted to a Python request:</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cookies <span class="op">=</span> {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'aws-ubid-main'</span>: <span class="st">'836-8365128-6734270'</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'session-id-time'</span>: <span class="st">'2082787201l'</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ubid-main'</span>: <span class="st">'135-7086948-2591317'</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'aws-priv'</span>: <span class="st">'eyJ2IjoxLCJldSI6MCwic3QiOjB9'</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'aws-target-static-id'</span>: <span class="st">'1593060129944-225088'</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'lc-main'</span>: <span class="st">'en_US'</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'aws-userInfo'</span>: <span class="st">'%7B%22arn</span><span class="sc">%22%</span><span class="st">3A%22arn%3Aaws%3Asts%3A%3A335340120612%3Aassumed-role</span><span class="sc">%2F</span><span class="st">AWSReservedSSO_PowerUserAccess_4dc523239a9019dc</span><span class="sc">%2F</span><span class="st">leon.yin%40themarkup.org</span><span class="sc">%22%</span><span class="st">2C%22alias</span><span class="sc">%22%</span><span class="st">3A%22themarkup-journalist-sandbox</span><span class="sc">%22%</span><span class="st">2C</span><span class="sc">%22u</span><span class="st">sername</span><span class="sc">%22%</span><span class="st">3A%22assumed-role</span><span class="sc">%252F</span><span class="st">AWSReservedSSO_PowerUserAccess_4dc523239a9019dc</span><span class="sc">%252F</span><span class="st">leon.yin%2540themarkup.org</span><span class="sc">%22%</span><span class="st">2C%22keybase</span><span class="sc">%22%</span><span class="st">3A</span><span class="sc">%22F</span><span class="st">wu</span><span class="sc">%2F</span><span class="st">zLIz0yD</span><span class="sc">%2F</span><span class="st">yfrORX%2BSIpIQPXrzr0kt24uqa8mNs7g%5Cu003d</span><span class="sc">%22%</span><span class="st">2C</span><span class="sc">%22i</span><span class="st">ssuer</span><span class="sc">%22%</span><span class="st">3A%22https%3A</span><span class="sc">%2F%2F</span><span class="st">d-90677ebe1e.awsapps.com</span><span class="sc">%2F</span><span class="st">start</span><span class="sc">%2F%23%</span><span class="st">2Fsaml</span><span class="sc">%2F</span><span class="st">custom</span><span class="sc">%2F</span><span class="st">335340120612</span><span class="sc">%2520%</span><span class="st">2528AWS%2520Journalist%2520Sandbox</span><span class="sc">%2529%</span><span class="st">2FMTI5NTE5MjY4NzI0X2lucy0wNzcxNmExOGZlNThiYjIyX3AtNDUyYTgyOTRhNTJlYWZjNQ%5Cu003d%5Cu003d</span><span class="sc">%22%</span><span class="st">2C</span><span class="sc">%22s</span><span class="st">igninType</span><span class="sc">%22%</span><span class="st">3A%22PUBLIC</span><span class="sc">%22%</span><span class="st">7D'</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'x-main'</span>: <span class="st">'Oz3Tb5n2p0ic7OhF3cU5dc9B4ZR2gFjhKEsP4zikHHD3Gk2O7NpSmuShBxLFrhpZ'</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'at-main'</span>: <span class="st">'Atza|IwEBILB5ARQ_IgTCiBLam_XE2pyT76jXTbAXHOm2AJomLPmDgoJUJIIlUmyFeh_gChLHCycKjNlys-5CqqMabKieAzqSf607ChJsNevw-V06e7VKgcWjvoMaZRWlGiZ-c5wSJ-e4QzIWzAxTS1EI6sRUaRZRv-a0ZpOJQ-sHHB99006ytcrHhubdrXYPJRqEP5Q-_30JtESMpAkASoOs4vETSFp5BDBJfSWWETeotpIVXwA4NoC8E59bZb_5wHTW9cRBSWYGi1XL7CRl2xGbJaO2Gv3unuhGMB1tiq9iwxodSPBBTw'</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'sess-at-main'</span>: <span class="st">'"PUq9PW1TbO9CTYhGMo7l1Dz+wedh40Ki8Z9rPC+1TSI="'</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'sst-main'</span>: <span class="st">'Sst1|PQHsbeSFCMSY0X0_WgvTo5NUCaZkG2J9RPqWWy0fCpyWopJXgu6_drU_LstOdJB2cDmaVCXwkNpsF5yNPrBDj3Wtx-TC-AaYZn6WUdp8vNRPb6iYqxPAjRDnfK3pCnHqt19I0GoG7Bd1wnOxkAvnH0992IUq14kH6Ojm0J8noVPwMez0lltD-jxBwtDQ_EZYUkZG741RDVEojfziawJY9iKc-cLCnKmhi-ca1PPJnsimPV4lXRtMAGFbf9nMkKq4CbpkaRMdVtlPr20vF9eqg_V_-LY_V7S44WlO-_t_bFBnK8Q'</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'i18n-prefs'</span>: <span class="st">'USD'</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'session-token'</span>: <span class="st">'ptze73uznXExrMCSV9AklvNOKa1ND9F0rlQH2ioSM26Vr6hSheH8O4v4P8Lg3zuv7oDM+HZ+8f2TlyoPXUmPShprMXdvEpAQieXUw7+83PZOJvkkg1jwP0NiG0ZqksIYOr3Zuwt3omMcfCKRReWKxl5rGaDEM6AISpwI5aMDDCnA7fWbVO/QQYNxUZMifc599EZ5Fg3uGjCAhBlb6I7UO8ewRbXJ1bo9'</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'session-id'</span>: <span class="st">'139-9925917-2023535'</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'aws-userInfo-signed'</span>: <span class="st">'eyJ0eXAiOiJKV1MiLCJrZXlSZWdpb24iOiJ1cy1lYXN0LTEiLCJhbGciOiJFUzM4NCIsImtpZCI6ImFhNDFkZjRjLTMxMzgtNGVkOC04YmU5LWYyMzUzYzNkOTEzYiJ9.eyJzdWIiOiJ0aGVtYXJrdXAtam91cm5hbGlzdC1zYW5kYm94Iiwic2lnbmluVHlwZSI6IlBVQkxJQyIsImlzcyI6Imh0dHBzOlwvXC9kLTkwNjc3ZWJlMWUuYXdzYXBwcy5jb21cL3N0YXJ0XC8jXC9zYW1sXC9jdXN0b21cLzMzNTM0MDEyMDYxMiUyMCUyOEFXUyUyMEpvdXJuYWxpc3QlMjBTYW5kYm94JTI5XC9NVEk1TlRFNU1qWTROekkwWDJsdWN5MHdOemN4Tm1FeE9HWmxOVGhpWWpJeVgzQXRORFV5WVRneU9UUmhOVEpsWVdaak5RPT0iLCJrZXliYXNlIjoiRnd1XC96TEl6MHlEXC95ZnJPUlgrU0lwSVFQWHJ6cjBrdDI0dXFhOG1OczdnPSIsImFybiI6ImFybjphd3M6c3RzOjozMzUzNDAxMjA2MTI6YXNzdW1lZC1yb2xlXC9BV1NSZXNlcnZlZFNTT19Qb3dlclVzZXJBY2Nlc3NfNGRjNTIzMjM5YTkwMTlkY1wvbGVvbi55aW5AdGhlbWFya3VwLm9yZyIsInVzZXJuYW1lIjoiYXNzdW1lZC1yb2xlJTJGQVdTUmVzZXJ2ZWRTU09fUG93ZXJVc2VyQWNjZXNzXzRkYzUyMzIzOWE5MDE5ZGMlMkZsZW9uLnlpbiU0MHRoZW1hcmt1cC5vcmcifQ.LWFZOJMDcYdu6od6Nk8TmhAFMGA9O98O4tIOsVlR7w5vAS_JgVixL8j75u6jTgjfWkdddhKqa5kgsXDmGNbjhzLIsD48ch1BUodlzxqeQfn0r8onIwLbUIHEnk6X-AJE'</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'skin'</span>: <span class="st">'noskin'</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'User-Agent'</span>: <span class="st">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:100.0) Gecko/20100101 Firefox/100.0'</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Accept'</span>: <span class="st">'application/json, text/javascript, */*; q=0.01'</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Accept-Language'</span>: <span class="st">'en-US,en;q=0.5'</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 'Accept-Encoding': 'gzip, deflate, br',</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Origin'</span>: <span class="st">'https://www.amazon.com'</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Connection'</span>: <span class="st">'keep-alive'</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Referer'</span>: <span class="st">'https://www.amazon.com/'</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Sec-Fetch-Dest'</span>: <span class="st">'empty'</span>,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Sec-Fetch-Mode'</span>: <span class="st">'cors'</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Sec-Fetch-Site'</span>: <span class="st">'same-site'</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">'limit'</span>: <span class="st">'11'</span>,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">'prefix'</span>: <span class="st">'spicy'</span>,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">'suggestion-type'</span>: [</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">'WIDGET'</span>,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        <span class="st">'KEYWORD'</span>,</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">'page-type'</span>: <span class="st">'Gateway'</span>,</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">'alias'</span>: <span class="st">'aps'</span>,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">'site-variant'</span>: <span class="st">'desktop'</span>,</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">'version'</span>: <span class="st">'3'</span>,</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">'event'</span>: <span class="st">'onKeyPress'</span>,</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wc'</span>: <span class="st">''</span>,</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">'lop'</span>: <span class="st">'en_US'</span>,</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">'last-prefix'</span>: <span class="st">'</span><span class="ch">\0</span><span class="st">'</span>,</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">'avg-ks-time'</span>: <span class="st">'2486'</span>,</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="st">'fb'</span>: <span class="st">'1'</span>,</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">'session-id'</span>: <span class="st">'139-9925917-2023535'</span>,</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">'request-id'</span>: <span class="st">'SVMTJXRDBQ9T8M7BRGNJ'</span>,</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    <span class="st">'mid'</span>: <span class="st">'ATVPDKIKX0DER'</span>,</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="st">'plain-mid'</span>: <span class="st">'1'</span>,</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    <span class="st">'client-info'</span>: <span class="st">'amazon-search-ui'</span>,</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(<span class="st">'https://completion.amazon.com/api/2017/suggestions'</span>, </span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>                        params<span class="op">=</span>params, cookies<span class="op">=</span>cookies, headers<span class="op">=</span>headers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can run this Python code, as-is, and it should work.</p>
+</section>
+<section id="strip-it-down" class="level3">
+<h3 class="anchored" data-anchor-id="strip-it-down">7. Strip it down</h3>
+<p>You might be overwhelmed with the parameters that go into this API request. Like the response output, the inputs are formatted like a JSON, too. Start removing these parameters one-by-one.</p>
+<p>I tend to keep a few essential ones for authentication, and also the parameters you care about changing for your own purposes. Notice that our example query of “spicy” stored in the <code>prefix</code> parameter.</p>
+<p>💡Pro tip: parameter values can expire, so test the request and each parameter to assure you only keep the shelf-stable parts.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'User-Agent'</span>: <span class="st">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:100.0) Gecko/20100101 Firefox/100.0'</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Accept'</span>: <span class="st">'application/json, text/javascript, */*; q=0.01'</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Accept-Language'</span>: <span class="st">'en-US,en;q=0.5'</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'prefix'</span>: <span class="st">'spicy'</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'suggestion-type'</span>: [</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'WIDGET'</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'KEYWORD'</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'alias'</span>: <span class="st">'aps'</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'plain-mid'</span>: <span class="st">'1'</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(<span class="st">'https://completion.amazon.com/api/2017/suggestions'</span>, params<span class="op">=</span>params, headers<span class="op">=</span>headers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="recycle-and-reuse" class="level3">
+<h3 class="anchored" data-anchor-id="recycle-and-reuse">8. Recycle and reuse</h3>
+<p>With the stripped down request, try to submit a few— let’s say 10 or 20, requests with new parameters set by you.</p>
+<p>Below, I converted the stripped down API call into a Python function that takes any <code>keyword</code> as input.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> search_suggestions(keyword):</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Get autocompleted search suggestions for a `keyword` search on Amazon.com.</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    headers <span class="op">=</span> {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'User-Agent'</span>: <span class="st">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:100.0) Gecko/20100101 Firefox/100.0'</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Accept'</span>: <span class="st">'application/json, text/javascript, */*; q=0.01'</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Accept-Language'</span>: <span class="st">'en-US,en;q=0.5'</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> {</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'prefix'</span>: keyword,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'suggestion-type'</span>: [</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            <span class="st">'WIDGET'</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">'KEYWORD'</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'alias'</span>: <span class="st">'aps'</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">'plain-mid'</span>: <span class="st">'1'</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(<span class="st">'https://completion.amazon.com/api/2017/suggestions'</span>, </span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>                            params<span class="op">=</span>params, headers<span class="op">=</span>headers)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> response.json()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we can set new input parameters in <code>keyword</code>, and make the an API call using each keyword.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>keywords <span class="op">=</span> [</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'cookie'</span>, <span class="st">'sock'</span>, <span class="st">'zelda'</span>, <span class="st">'12'</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> []</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> keyword <span class="kw">in</span> keywords:</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    suggestions <span class="op">=</span> search_suggestions(keyword)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    suggestions[<span class="st">'search_word'</span>] <span class="op">=</span> keyword <span class="co"># keep track of the seed keyword</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">1</span>) <span class="co"># best practice to put some time between API calls.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    data.extend(suggestions[<span class="st">'suggestions'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We save the API responses in a list called <code>data</code>, and put them into a <a href="https://pandas.pydata.org/">Pandas</a> DataFrame to analyze.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># show 5 random auto suggestions</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>df.sample(<span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">303</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>suggType</th>
+      <th>type</th>
+      <th>value</th>
+      <th>refTag</th>
+      <th>candidateSources</th>
+      <th>strategyId</th>
+      <th>prior</th>
+      <th>ghost</th>
+      <th>help</th>
+      <th>queryUnderstandingFeatures</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4</td>
+      <td>KeywordSuggestion</td>
+      <td>KEYWORD</td>
+      <td>asmanex twisthaler 30 inhaler</td>
+      <td>nb_sb_ss_i_5_1</td>
+      <td>local</td>
+      <td>organic</td>
+      <td>0.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>[{'source': 'QU_TOOL', 'annotations': []}]</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>KeywordSuggestion</td>
+      <td>KEYWORD</td>
+      <td>bathroom organizer</td>
+      <td>nb_sb_ss_i_4_1</td>
+      <td>local</td>
+      <td>organic</td>
+      <td>0.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>[{'source': 'QU_TOOL', 'annotations': []}]</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td>KeywordSuggestion</td>
+      <td>KEYWORD</td>
+      <td>baby wipes</td>
+      <td>nb_sb_ss_i_10_1</td>
+      <td>local</td>
+      <td>organic</td>
+      <td>0.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>[{'source': 'QU_TOOL', 'annotations': []}]</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>KeywordSuggestion</td>
+      <td>KEYWORD</td>
+      <td>baby registry search</td>
+      <td>nb_sb_ss_i_3_1</td>
+      <td>local</td>
+      <td>organic</td>
+      <td>0.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>[{'source': 'QU_TOOL', 'annotations': []}]</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>KeywordSuggestion</td>
+      <td>KEYWORD</td>
+      <td>b013xkha4m b08xzrxczm b07xxphqzk b09rwjblc7</td>
+      <td>nb_sb_ss_i_7_1</td>
+      <td>local</td>
+      <td>organic</td>
+      <td>0.0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>[{'source': 'QU_TOOL', 'annotations': []}]</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>If you look at the columns, you might be flooded with more questions:</p>
+<ul>
+<li>Some terms may be <code>blackListed</code>, what does that mean and what words, if any, are <code>blackListed = True</code>?<br></li>
+<li>Are some searches paid for, and not <code>organic</code>?<br></li>
+<li>What is <code>ghost</code>?<br></li>
+</ul>
+<p>This metadata is only visable from the API, and can lead to new story ideas and directions to pursue.</p>
+<p>Unfortunately, because this API is undocumented, asking these questions and figuring out what everything represents is difficult. Use your curiousity and look at many examples. The feature of the API is being able to make many queries at scale, which should help answer these questions. Reporting this out with sources is also essential in this process.</p>
+</section>
+</section>
+<section id="do-it-yourself" class="level2">
+<h2 class="anchored" data-anchor-id="do-it-yourself">Do it Yourself</h2>
+<p>Use this space below to find another undocumented API and reuse it for a few other input parameters.</p>
+<p>Revisit the steps we outlined above, and apply them to a new website.</p>
+<p>If you are not a coder, try to get steps 1-6.</p>
+<p>If you are a coder, try some of the advanced usage below.</p>
+<section id="for-advanced-usage" class="level3">
+<h3 class="anchored" data-anchor-id="for-advanced-usage">For advanced usage…</h3>
+<ul>
+<li>Handle errors for bad requests, rate limiting, and other issues that could arise.<br></li>
+<li>you can use <code>session</code> instead of pure requests. This is helpful if cookies and authentication are involved. Read more about that <a href="https://requests.readthedocs.io/en/latest/user/advanced/#session-objects">here</a>.<br></li>
+<li>you can make a request asyncronous to speed up data collection (without overloading the site’s servers, of course).<br></li>
+<li>Implement steps 6-onwards in another programming language.<br></li>
+</ul>
+</section>
+</section>
+<section id="homework-assignment" class="level2">
+<h2 class="anchored" data-anchor-id="homework-assignment">Homework Assignment</h2>
+<p>Dry-run: Think about the websites you frequent and topics that interest you. Find an API in the wild, isolate it, and analyze some of its results.</p>
+<p>Scoping: Determine how the API could be used to produce data to answer a reporting question or hypothesis.</p>
+<p>Reporting: Figure out the “sample”: how many inputs will you test and for what purpose. Determine the meaning and signifigance of hidden fields that are returned.</p>
+<p>Ultimately undocumented APIs are a tool and data is useless without a purpose. Hopefully this worksheet helps you in your time of need.</p>
+</section>
+<section id="contact" class="level2">
+<h2 class="anchored" data-anchor-id="contact">Contact</h2>
+<p>Suggestions, corrections, follow-ups, or cool work you want to share that uses undocumented APIs?</p>
+<p>email me at leon@leonyin.org</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./undocumented-apis.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Undocumeted APIs</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

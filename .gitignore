@@ -1,1 +1,4 @@
 /.quarto/
+/.DS_Store
+*.html
+*.pdf

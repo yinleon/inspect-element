@@ -12,9 +12,9 @@ The guide walks through in-depth case studies and hands-on tutorials to help you
 
 You will learn how to build your own datasets, [find hidden APIs](/undocumented-apis.html), analyze missing data, measure disparate outcomes, bullet-proof findings, and write with precision.
 
-As practitioners ourselves, we've had to learn on the job, hit dead ends, and seek external expertise across disparate disciplines and industries. Here, we distill these experiences and include tips for veterans and new-comers alike.
+As practitioners ourselves, we've had to learn on the job, hit dead ends, and seek external expertise across fields and industries. Here, we distill these experiences and include tips for veterans and new-comers alike.
 
-The disciplines we'll draw from include: investigative journalism, data science, computational social science, and various branches of computer and information science.
+The disciplines we'll draw from include: investigative journalism, data science, social science, and other branches of computer and information science.
 
 Don't code? No problem: the guide emphasizes underlying principles and uses plain-language ("pseudocode") explainations to accompany any code.
 

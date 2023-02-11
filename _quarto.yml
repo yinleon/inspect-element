@@ -5,6 +5,7 @@ project:
 execute:
   freeze: auto
 
+# organization
 book:
   title: "Inspect Element"
   subtitle: "A practitioner's guide to auditing algorithims and data-driven investigations"
@@ -13,7 +14,7 @@ book:
   cover-image: assets/ida.png
   cover-image-alt: |
     A Google Knowlege Panel of Ida Tarbell stained different colors from an audit. 
-  repo-url: https://github.com/
+  repo-url: https://github.com/yinleon/inspect-element
   repo-actions: [edit]
   site-url: https://inspectelement.org
   sidebar:
@@ -26,14 +27,28 @@ book:
       chapters: 
       - text: "Undocumeted APIs"
         file: undocumented-apis.ipynb
+      - text: "Best Practices"
+        file: best-practices-data-collection.ipynb
   appendices:
     - references.qmd
+
+# style choices
 format:
   html:
-    theme: 
+    theme:
       - cosmo
       - custom.scss
     callout-appearance: simple
     number-sections: false
 
+website:
+  twitter-card: true
+  open-graph:
+    title: Inspect Element
+    description: A practioner's guiide to auditing algorithims and data-driven investigations
+    locale: us_EN
+    site-name: Inspect Element
+
+
+# misc
 bibliography: references.bib

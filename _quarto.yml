@@ -2,13 +2,15 @@ project:
   type: book
   output-dir: docs
   resources: assets/
+execute:
+  freeze: auto
 
 book:
   title: "Inspect Element"
   subtitle: "A practitioner's guide to auditing algorithims and data-driven investigations"
   # date: "8 February 2023"
   search: true
-  cover-image: assets/inspect.png
+  cover-image: assets/ida.png
   cover-image-alt: |
     A Google Knowlege Panel of Ida Tarbell stained different colors from an audit. 
   repo-url: https://github.com/
@@ -24,36 +26,8 @@ book:
       chapters: 
       - text: "Undocumeted APIs"
         file: undocumented-apis.ipynb
-  # appendices:
-  #   - finding-apis.ipynb
-
-# project:
-#   type: website
-
-# website:
-#   title : "beeps"
-#   navbar:
-#     background: primary
-#     search: true
-#     left: 
-#       - text: "More"
-#         menu:
-#           - about.qmd
-#   sidebar:
-#     style: "floating"
-#     search: true
-#     contents:
-#       - section: "Basics"
-#         contents:
-#           - posts/2022-07-05-finding-apis.qmd
-#           - basics-knitr.qmd
-#           - basics-jupyter.qmd
-#       - section: "Layout"
-#         contents:
-#           - layout.qmd
-#           - layout-knitr.qmd
-#           - layout-jupyter.qmd
-
+  appendices:
+    - references.qmd
 format:
   html:
     theme: 
@@ -62,5 +36,4 @@ format:
     callout-appearance: simple
     number-sections: false
 
-
-
+bibliography: references.bib

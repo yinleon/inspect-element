@@ -84,6 +84,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -93,7 +112,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./best-practices-data-collection.html" rel="next">
 <link href="./build-your-own-datasets.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -151,7 +170,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Inspect Element</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/yinleon/inspect-element" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -178,6 +197,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./undocumented-apis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Undocumeted APIs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./best-practices-data-collection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Best Practices</span></a>
   </div>
 </li>
       </ul>
@@ -234,18 +258,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#strip-it-down" id="toc-strip-it-down" class="nav-link" data-scroll-target="#strip-it-down">7. Strip it down</a></li>
   <li><a href="#recycle-and-reuse" id="toc-recycle-and-reuse" class="nav-link" data-scroll-target="#recycle-and-reuse">8. Recycle and reuse</a></li>
   </ul></li>
-  <li><a href="#do-it-yourself" id="toc-do-it-yourself" class="nav-link" data-scroll-target="#do-it-yourself">Do it Yourself</a>
+  <li><a href="#do-it-yourself" id="toc-do-it-yourself" class="nav-link" data-scroll-target="#do-it-yourself">Do it yourself</a>
   <ul class="collapse">
   <li><a href="#for-advanced-usage" id="toc-for-advanced-usage" class="nav-link" data-scroll-target="#for-advanced-usage">For advanced usage…</a></li>
   </ul></li>
-  <li><a href="#homework-assignment" id="toc-homework-assignment" class="nav-link" data-scroll-target="#homework-assignment">Homework Assignment</a></li>
+  <li><a href="#homework-assignment" id="toc-homework-assignment" class="nav-link" data-scroll-target="#homework-assignment">Homework assignment</a></li>
   </ul></li>
   <li><a href="#related-readings" id="toc-related-readings" class="nav-link" data-scroll-target="#related-readings">Related readings</a>
   <ul class="collapse">
   <li><a href="#artifacts" id="toc-artifacts" class="nav-link" data-scroll-target="#artifacts">Artifacts</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/blob/main/undocumented-apis.ipynb" class="toc-action">Edit this page</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/yinleon/inspect-element/blob/main/undocumented-apis.ipynb" class="toc-action">Edit this page</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -279,9 +303,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p><a target="_blank" href="https://colab.research.google.com/github/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/model_monitoring/model_monitoring.ipynb"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"> </a></p>
-<p>Here it is <span class="citation" data-cites="pmlr-v81-buolamwini18a">(<a href="references.html#ref-pmlr-v81-buolamwini18a" role="doc-biblioref">Buolamwini and Gebru 2018</a>)</span></p>
-<p>Undocumented APIs provide a rich, reliable, and scalable method of building your own datasets. [^1]</p>
+<div class="cell" data-execution_count="27">
+<div class="cell-output cell-output-display">
+<button type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="www.inspectelement.com/undocumented-apis">
+📖 Read online
+</button>
+<button type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://colab.research.google.com/github/yinleon/inspect-element/blob/main/undocumented-apis.ipynb">
+🖥️ Interactive version
+</button>
+<button type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://github.com/yinleon/inspect-element/blob/main/undocumented-apis.ipynb">
+⚙️ GitHub
+</button>
+<p><br></p>
+</div>
+</div>
+<p>Undocumented APIs provide a rich, reliable, and scalable method of building your own datasets.</p>
 <p>Learn about undocumented APIs, how they’ve been used in past investigations, and how to find them in the wild.</p>
 <p>👉<a href="#tutorial">Click here to jump to the tutorial</a>.</p>
 <section id="intro" class="level1">
@@ -325,8 +361,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="how-have-documented-apis-been-used" class="level2">
 <h2 class="anchored" data-anchor-id="how-have-documented-apis-been-used">How have documented APIs been used?</h2>
 <ul>
-<li><p><a href="http://gendershades.org/">Gender Shades</a> <span class="citation" data-cites="pmlr-v81-buolamwini18a">(<a href="references.html#ref-pmlr-v81-buolamwini18a" role="doc-biblioref">Buolamwini and Gebru 2018</a>)</span> was an audit of three commercially-available facial recognition APIs (from Microsoft, IBM, and Face++) used to automate gender classification. The authors created a benchmark image dataset of faces, and tested each facial recognition models by sending the same images through each model’s API. The authors found that many models had high error rates for female and Black faces, with the worst performance on Black female faces.</p></li>
-<li><p>Google’s Perspective API was developed to filter out toxic comments for publishers such as <a href="https://www.nytimes.com/2017/06/13/insider/have-a-comment-leave-a-comment.htm">The New York Times</a>. Importantly, Perspective used “<a href="https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets">training data</a>” sourced from human-labelled <a href="https://en.wikipedia.org/wiki/Artificial_intelligence_in_Wikimedia_projects">Wikipedia</a> edits. <a href="https://maartensap.com/pdfs/sap2019risk.pdf">An academic study</a> <span class="citation" data-cites="sap-etal-2019-risk">(<a href="references.html#ref-sap-etal-2019-risk" role="doc-biblioref">Sap et al. 2019</a>)</span> found racially biased classifications of Tweets. For example, the use of certain identifiers for minority groups would flag a comment as toxic. Because the Google had released the API publicly, researchers could access and audit this API directly.</p></li>
+<li><p><a href="http://gendershades.org/">Gender Shades</a> was an audit of three commercially-available facial recognition APIs (from Microsoft, IBM, and Face++) used to automate gender classification. The authors created a benchmark image dataset of faces, and tested each facial recognition models by sending the same images through each model’s API <span class="citation" data-cites="pmlr-v81-buolamwini18a">(<a href="references.html#ref-pmlr-v81-buolamwini18a" role="doc-biblioref">Buolamwini and Gebru 2018</a>)</span>. The authors found that many models had high error rates for female and Black faces, with the worst performance on Black female faces.</p></li>
+<li><p>Google’s Perspective API was developed to filter out toxic comments for publishers such as <a href="https://www.nytimes.com/2017/06/13/insider/have-a-comment-leave-a-comment.htm">The New York Times</a>. Importantly, Perspective used “<a href="https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets">training data</a>” sourced from human-labelled <a href="https://en.wikipedia.org/wiki/Artificial_intelligence_in_Wikimedia_projects">Wikipedia</a> edits. <a href="https://maartensap.com/pdfs/sap2019risk.pdf">An academic study</a> found racially biased classifications of Tweets. For example, the use of certain identifiers for minority groups would flag a comment as “toxic” <span class="citation" data-cites="sap-etal-2019-risk">(<a href="references.html#ref-sap-etal-2019-risk" role="doc-biblioref">Sap et al. 2019</a>)</span>. Because the Google had released the API publicly, researchers could access and audit this API directly.</p></li>
 </ul>
 </section>
 <section id="how-have-undocumented-apis-been-used" class="level2">
@@ -732,7 +768,7 @@ Pro tip:
 </section>
 </section>
 <section id="do-it-yourself" class="level2">
-<h2 class="anchored" data-anchor-id="do-it-yourself">Do it Yourself</h2>
+<h2 class="anchored" data-anchor-id="do-it-yourself">Do it yourself</h2>
 <p>Use this space below to find another undocumented API and reuse it for a few other input parameters.</p>
 <p>Revisit the steps we outlined above, and apply them to a new website. If you aren’t a coder, try to get steps 1-6 (I believe in you!).</p>
 <p>If you are a coder, try some of the advanced usage below.</p>
@@ -747,7 +783,7 @@ Pro tip:
 </section>
 </section>
 <section id="homework-assignment" class="level2">
-<h2 class="anchored" data-anchor-id="homework-assignment">Homework Assignment</h2>
+<h2 class="anchored" data-anchor-id="homework-assignment">Homework assignment</h2>
 <p>Dry-run: Think about the websites you frequent and topics that interest you. Find an API in the wild, isolate it, and analyze some of its results.</p>
 <p>Scoping: Determine how the API could be used to produce data to answer a reporting question or hypothesis.</p>
 <p>Reporting: Figure out the “sample”. How many inputs will you test and for what purpose? Determine the meaning and signifigance of hidden fields that are returned.</p>
@@ -771,6 +807,14 @@ Pro tip:
 <p><a href="">2023-03-16 @ Tow Center Columbia</a></p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-pmlr-v81-buolamwini18a" class="csl-entry" role="doc-biblioentry">
+Buolamwini, Joy, and Timnit Gebru. 2018. <span>“Gender Shades: Intersectional Accuracy Disparities in Commercial Gender Classification.”</span> In <em>Proceedings of the 1st Conference on Fairness, Accountability and Transparency</em>, edited by Sorelle A. Friedler and Christo Wilson, 81:77–91. Proceedings of Machine Learning Research. PMLR. <a href="https://proceedings.mlr.press/v81/buolamwini18a.html">https://proceedings.mlr.press/v81/buolamwini18a.html</a>.
+</div>
+<div id="ref-sap-etal-2019-risk" class="csl-entry" role="doc-biblioentry">
+Sap, Maarten, Dallas Card, Saadia Gabriel, Yejin Choi, and Noah A. Smith. 2019. <span>“The Risk of Racial Bias in Hate Speech Detection.”</span> In <em>Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics</em>, 1668–78. Florence, Italy: Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/P19-1163">https://doi.org/10.18653/v1/P19-1163</a>.
+</div>
+</div>
 </section>
 </section>
 
@@ -915,8 +959,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./best-practices-data-collection.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-title">Best Practices</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -4,14 +4,14 @@
     "href": "index.html",
     "title": "Inspect Element",
     "section": "",
-    "text": "Inspect Element is a practitioner’s guide to hypothesis-driven accountability work.\nThe guide walks through in-depth case studies and hands-on tutorials to help you audit algorithims and investigate opaque systems, systematically.\nYou will learn how to build your own datasets, find hidden APIs, analyze missing data, measure disparate outcomes, bullet-proof findings, and write with precision.\nAs practitioners ourselves, we’ve had to learn on the job, hit dead ends, and seek external expertise across disparate disciplines and industries. Here, we distill these experiences and include tips for veterans and new-comers alike.\nThe disciplines we’ll draw from include: investigative journalism, data science, computational social science, and various branches of computer and information science.\nDon’t code? No problem: the guide emphasizes underlying principles and uses plain-language (“pseudocode”) explainations to accompany any code.\n\nWho wrote this?\nInspect Element is written and edited by investigative data journalist Leon Yin with contributions by TK, [REDACTED], and [REDACTED].\nI’ll frequently reference past investigations I’ve worked on in this guide. You can read those investigations plus new stores (when I make deadlines) at The Markup.\nThis site was generated using the Quarto open-source publishing system."
+    "text": "Inspect Element is a practitioner’s guide to hypothesis-driven accountability work.\nThe guide walks through in-depth case studies and hands-on tutorials to help you audit algorithims and investigate opaque systems, systematically.\nYou will learn how to build your own datasets, find hidden APIs, analyze missing data, measure disparate outcomes, bullet-proof findings, and write with precision.\nAs practitioners ourselves, we’ve had to learn on the job, hit dead ends, and seek external expertise across fields and industries. Here, we distill these experiences and include tips for veterans and new-comers alike.\nThe disciplines we’ll draw from include: investigative journalism, data science, social science, and other branches of computer and information science.\nDon’t code? No problem: the guide emphasizes underlying principles and uses plain-language (“pseudocode”) explainations to accompany any code.\n\nWho wrote this?\nInspect Element is written and edited by investigative data journalist Leon Yin with contributions by TK, [REDACTED], and [REDACTED].\nI’ll frequently reference past investigations I’ve worked on in this guide. You can read those investigations plus new stores (when I make deadlines) at The Markup.\nThis site was generated using the Quarto open-source publishing system."
   },
   {
     "objectID": "build-your-own-datasets.html",
     "href": "build-your-own-datasets.html",
     "title": "Build your own datasets",
     "section": "",
-    "text": "Building your own dataset will enable you to\nThis section of the guide will cover various strategies to collect datasets, as well as best-practices learned from data engineering– the professionalized version of data collection."
+    "text": "This section of the guide will cover programmatic data collection, and best-practices.\nWhether you’re doing a one-time “snapshot” collection for a small window of time, or a longer “persistent” collection effort, the methods of this section and housekeeping tips will help keep the data flowing into neat rows.\nWe’ll discuss various web scraping techniquies such as:\n\nFinding undocumented APIs\nHeadless browsing\nParsing HTML"
   },
   {
     "objectID": "undocumented-apis.html",
@@ -32,7 +32,7 @@
     "href": "undocumented-apis.html#how-have-documented-apis-been-used",
     "title": "Finding Undocumented APIs",
     "section": "How have documented APIs been used?",
-    "text": "How have documented APIs been used?\n\nGender Shades (Buolamwini and Gebru 2018) was an audit of three commercially-available facial recognition APIs (from Microsoft, IBM, and Face++) used to automate gender classification. The authors created a benchmark image dataset of faces, and tested each facial recognition models by sending the same images through each model’s API. The authors found that many models had high error rates for female and Black faces, with the worst performance on Black female faces.\nGoogle’s Perspective API was developed to filter out toxic comments for publishers such as The New York Times. Importantly, Perspective used “training data” sourced from human-labelled Wikipedia edits. An academic study (Sap et al. 2019) found racially biased classifications of Tweets. For example, the use of certain identifiers for minority groups would flag a comment as toxic. Because the Google had released the API publicly, researchers could access and audit this API directly."
+    "text": "How have documented APIs been used?\n\nGender Shades was an audit of three commercially-available facial recognition APIs (from Microsoft, IBM, and Face++) used to automate gender classification. The authors created a benchmark image dataset of faces, and tested each facial recognition models by sending the same images through each model’s API (Buolamwini and Gebru 2018). The authors found that many models had high error rates for female and Black faces, with the worst performance on Black female faces.\nGoogle’s Perspective API was developed to filter out toxic comments for publishers such as The New York Times. Importantly, Perspective used “training data” sourced from human-labelled Wikipedia edits. An academic study found racially biased classifications of Tweets. For example, the use of certain identifiers for minority groups would flag a comment as “toxic” (Sap et al. 2019). Because the Google had released the API publicly, researchers could access and audit this API directly."
   },
   {
     "objectID": "undocumented-apis.html#how-have-undocumented-apis-been-used",
@@ -52,22 +52,50 @@
     "objectID": "undocumented-apis.html#do-it-yourself",
     "href": "undocumented-apis.html#do-it-yourself",
     "title": "Finding Undocumented APIs",
-    "section": "Do it Yourself",
-    "text": "Do it Yourself\nUse this space below to find another undocumented API and reuse it for a few other input parameters.\nRevisit the steps we outlined above, and apply them to a new website. If you aren’t a coder, try to get steps 1-6 (I believe in you!).\nIf you are a coder, try some of the advanced usage below.\n\nFor advanced usage…\n\nHandle errors for bad requests, rate limiting, and other issues that could arise.\nyou can use session instead of pure requests. This is helpful if cookies and authentication are involved. Read more about that here.\nyou can make a request asyncronous to speed up data collection (without overloading the site’s servers, of course).\nImplement steps 6-onwards in another programming language."
+    "section": "Do it yourself",
+    "text": "Do it yourself\nUse this space below to find another undocumented API and reuse it for a few other input parameters.\nRevisit the steps we outlined above, and apply them to a new website. If you aren’t a coder, try to get steps 1-6 (I believe in you!).\nIf you are a coder, try some of the advanced usage below.\n\nFor advanced usage…\n\nHandle errors for bad requests, rate limiting, and other issues that could arise.\nyou can use session instead of pure requests. This is helpful if cookies and authentication are involved. Read more about that here.\nyou can make a request asyncronous to speed up data collection (without overloading the site’s servers, of course).\nImplement steps 6-onwards in another programming language."
   },
   {
     "objectID": "undocumented-apis.html#homework-assignment",
     "href": "undocumented-apis.html#homework-assignment",
     "title": "Finding Undocumented APIs",
-    "section": "Homework Assignment",
-    "text": "Homework Assignment\nDry-run: Think about the websites you frequent and topics that interest you. Find an API in the wild, isolate it, and analyze some of its results.\nScoping: Determine how the API could be used to produce data to answer a reporting question or hypothesis.\nReporting: Figure out the “sample”. How many inputs will you test and for what purpose? Determine the meaning and signifigance of hidden fields that are returned.\nUltimately undocumented APIs are a tool, and data is useless without a purpose. Hopefully this worksheet helps you in your time of need."
+    "section": "Homework assignment",
+    "text": "Homework assignment\nDry-run: Think about the websites you frequent and topics that interest you. Find an API in the wild, isolate it, and analyze some of its results.\nScoping: Determine how the API could be used to produce data to answer a reporting question or hypothesis.\nReporting: Figure out the “sample”. How many inputs will you test and for what purpose? Determine the meaning and signifigance of hidden fields that are returned.\nUltimately undocumented APIs are a tool, and data is useless without a purpose. Hopefully this worksheet helps you in your time of need."
   },
   {
     "objectID": "undocumented-apis.html#artifacts",
     "href": "undocumented-apis.html#artifacts",
     "title": "Finding Undocumented APIs",
     "section": "Artifacts",
-    "text": "Artifacts\nSlides from workshops can be found here:\n2023-03-16 @ Tow Center Columbia"
+    "text": "Artifacts\nSlides from workshops can be found here:\n2023-03-16 @ Tow Center Columbia\n\n\n\n\nBuolamwini, Joy, and Timnit Gebru. 2018. “Gender Shades: Intersectional Accuracy Disparities in Commercial Gender Classification.” In Proceedings of the 1st Conference on Fairness, Accountability and Transparency, edited by Sorelle A. Friedler and Christo Wilson, 81:77–91. Proceedings of Machine Learning Research. PMLR. https://proceedings.mlr.press/v81/buolamwini18a.html.\n\n\nSap, Maarten, Dallas Card, Saadia Gabriel, Yejin Choi, and Noah A. Smith. 2019. “The Risk of Racial Bias in Hate Speech Detection.” In Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics, 1668–78. Florence, Italy: Association for Computational Linguistics. https://doi.org/10.18653/v1/P19-1163."
+  },
+  {
+    "objectID": "best-practices-data-collection.html#dont-repeat-work",
+    "href": "best-practices-data-collection.html#dont-repeat-work",
+    "title": "Best practices for data collection",
+    "section": "Don’t repeat work",
+    "text": "Don’t repeat work\nBefore you collect data, check if you’ve already collected it.\nCreate a programmatic naming structure for a “target”– this could be a filename or a unique ID in a database, and check if it exists.\nIf it already exists, move on.\nBelow is a dummy example of a scraper for video metadata that checks if a file with the same video_id has already been saved.\n\nimport os\nimport time\n\ndef collect_video_metadata(video_id):\n    \"\"\"\n    This is an example of a data collection function\n    that checks if a video_id has already been collected.\n    \"\"\"\n    # consistently structure the target filename (fn_out)\n    fn_out = f\"video_metadata_{video_id}.csv\"\n    \n    # check if the file exists, if it does: move on\n    if os.path.exists(fn_out):\n        print(\"already collected\")\n        return\n        \n    # collect the data (not actually implemented)\n    print(\"time to do some work!\")\n    \n    # save the file. Instead of real data, we'll save text that says, \"Collected\".\n    with open(fn_out, 'w') as f:\n        f.write(\"Collected\")\n    return\n\nLet’s try to collect some video metadata for a video_id of our choosing.\n\nvideo_id = \"schfiftyfive\"\n\n\ncollect_video_metadata(video_id = video_id)\n\ntime to do some work!\n\n\nLet’s try to run the same exact function with the same input:\n\ncollect_video_metadata(video_id = video_id)\n\nalready collected\n\n\nThe second time you call it, the function ends early.\nWhen collecting a large dataset, these steps are essential to make the best use of time."
+  },
+  {
+    "objectID": "best-practices-data-collection.html#keep-receipts",
+    "href": "best-practices-data-collection.html#keep-receipts",
+    "title": "Best practices for data collection",
+    "section": "Keep receipts",
+    "text": "Keep receipts\nSave the output of every step, especially the earliest steps of collecting a JSON response from a server, or the HTML of a website.\nYou can always re-write parsers that turn that “raw” data into something neat and actionable.\nWebsites and API responses can change, so web parsers can break easily.\nIf you’re collecting a website through browser automation, save a screenshot. It’s helpful to have reference material of what a web page looked like when you captured it.\nThis is something we did when we did at the Markup when we collected Facebook data from a national panel over several months, and when I collected Google search results.\nThese receipts don’t just play a role in the underlying analysis, they can be used as powerful exhibits in your investigation.\n\n\n\nA screenshot of a Google search for “Ida Tarbell” that was saved, and stained automatically using a web parsing tool created especially for an investigation."
+  },
+  {
+    "objectID": "best-practices-data-collection.html#bigger-isnt-always-better",
+    "href": "best-practices-data-collection.html#bigger-isnt-always-better",
+    "title": "Best practices for data collection",
+    "section": "Bigger isn’t always better",
+    "text": "Bigger isn’t always better\nThis tip is more philisophical. Be smarter with how you use data, rather than depend on big numbers. Data isn’t in-itself valuable.\nIt’s better to start off smaller, with a trial analysis (we often call it a quick-sniff in the newsroom) to make sure you have a testable hypothesis that is answerable using data within reach.\nThis is always a step I use at my newsroom to plan longer data investigations, and see what kind of story we could write if we spent more time on the data collection and honing the methodology."
+  },
+  {
+    "objectID": "best-practices-data-collection.html#conclusion",
+    "href": "best-practices-data-collection.html#conclusion",
+    "title": "Best practices for data collection",
+    "section": "Conclusion",
+    "text": "Conclusion\nThis is non-definitive! If you want to share tips, please make a suggestion via email or GitHub."
   },
   {
     "objectID": "references.html",

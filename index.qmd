@@ -27,5 +27,6 @@ I'll frequently reference past investigations I've worked on in this guide. You 
 This site was generated using the [Quarto](https://quarto.org/) open-source publishing system.
 
 #### Corrections, comments, suggestions?
+
 Email: inspectelement@leonyin.org<br>
 File an issue: on [GitHub](https://github.com/yinleon/inspect-element/issues/new)

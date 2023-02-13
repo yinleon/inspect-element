@@ -25,3 +25,7 @@ Inspect Element is written and edited by investigative data journalist [Leon Yin
 I'll frequently reference past investigations I've worked on in this guide. You can read those investigations plus new stores (when I make deadlines) at [The Markup](https://www.themarkup.org).
 
 This site was generated using the [Quarto](https://quarto.org/) open-source publishing system.
+
+#### Corrections, comments, suggestions?
+Email: inspectelement@leonyin.org<br>
+File an issue: on [GitHub](https://github.com/yinleon/inspect-element/issues/new)

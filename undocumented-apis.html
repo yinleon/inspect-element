@@ -8,8 +8,9 @@
 
 <meta name="author" content="Leon Yin">
 <meta name="keywords" content="data collection, hidden api, undocumented api, web scraping">
+<meta name="description" content="Introduction, case studies, and exercises for finding and using undocumented APIs.">
 
-<title>Inspect Element - 2&nbsp; Finding Undocumented APIs</title>
+<title>Finding Undocumented APIs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -314,7 +315,7 @@ div.csl-indent {
 <p>👉<a href="#tutorial">Click here to jump to the tutorial</a>.</p>
 <section id="intro" class="level1">
 <h1>Intro</h1>
-<p>Where do autocomplete suggestions come from, and why do social media feeds just keeps going?</p>
+<p>Where do autocomplete suggestions come from, and why do social media feeds just keep going?</p>
 <p>The answer to both is that an API is running in the background and pulling new information to display on your screen.</p>
 <p>Learning how to find and use these hidden APIs will help you build your own datasets and bring receipts. It’s something I use often and early, ever since learning of this under-utilized data source while pitching and researching stories at The Markup.</p>
 <p>Well before joining the newsroom, I have been fascinated by YouTube. Not only is YouTube the <a href="https://www.statista.com/topics/2019/youtube/">largest video-hosting platform</a> in the world, it also plays a key role in the creator economy thanks to the YouTube Partner Program that shares ad revenue with eligable YouTubers.</p>
@@ -355,7 +356,7 @@ Video thumbnails of videos suggested for “white power”, but no thumbnails fo
 <h3 class="anchored" data-anchor-id="documented-apis">Documented APIs</h3>
 <p>Many businesses sell their services using APIs.</p>
 <p>The benefit of documented APIs is self-explanatory, you know what you’re going to get, and there’s notes and examples to help other developers use the tool as intended.</p>
-<p>Some documented APIs are also free to use, making them a great tool for teaching and research. Unfortunately, these free APIs can often disappear, or have their access severely limited – as we’ve seen with Twitter (no longer free), YouTube (severly restricted), and Facebook (depricated entirely).</p>
+<p>Some documented APIs are also free to use, making them a great tool for teaching and research. Unfortunately, these free APIs can often disappear, or have their access severely limited – as we’ve seen with Twitter (no longer free), YouTube (severely restricted), and Facebook (depricated entirely).</p>
 <p>Other APIs are undocumented.</p>
 </section>
 <section id="undocumented-apis" class="level3">
@@ -363,15 +364,15 @@ Video thumbnails of videos suggested for “white power”, but no thumbnails fo
 <p>These are the silent heroes making sure websites run, often times executing essential functions behind the scenes. Many of these essential functions are so mundane, you probably don’t even realize that something is happening.</p>
 <p>If you spend time on social media platforms, you’ll find that the good times keep rolling, and you’ll never reach the end of the page. That is because “infinite scroll” is powered by an API that is called upon as you approach the bottom of the page to load more fun things to eat up your day.</p>
 <p>Similarly, when you upload an image onto Instagram, an API will receive that image, run a series of machine-learning models to categorize it, assure it is “OK” (an oversimplification, I know), and store that image and its metadata into a database.</p>
-<p>Sometimes engineers find these API endpoints and build open source software to access publically accessible data programmatically. See <a href="https://github.com/dfreelon/pyktok">Pyktok</a> (for Tiktok) and <a href="https://instaloader.github.io/">Instaloader</a> (for Instagram) as two examples of this.</p>
+<p>Sometimes engineers find these API endpoints and build open source software to access publically accessible data programmatically. See <a href="https://github.com/dfreelon/pyktok">Pyktok</a> (for Tiktok) and <a href="https://instaloader.github.io/">Instaloader</a> (for Instagram) as examples.</p>
 <p>Learning how to find and use these hidden APIs can help you build evidence and test hypotheses that are otherwise unreachable due to lack of access.</p>
 </section>
 </section>
 <section id="how-have-documented-apis-been-used" class="level2">
 <h2 class="anchored" data-anchor-id="how-have-documented-apis-been-used">How have documented APIs been used?</h2>
 <ul>
-<li><p><a href="http://gendershades.org/">Gender Shades</a> was an audit of three commercially-available facial recognition APIs (from Microsoft, IBM, and Face++) used to automate gender classification. The authors created a benchmark image dataset of faces, and tested each facial recognition models by sending the same images through each model’s API <span class="citation" data-cites="pmlr-v81-buolamwini18a">(<a href="references.html#ref-pmlr-v81-buolamwini18a" role="doc-biblioref">Buolamwini and Gebru 2018</a>)</span>. The authors found that many models had high error rates for female and Black faces, with the worst performance on Black female faces.</p></li>
-<li><p>Google’s Perspective API was developed to filter out toxic comments for publishers such as <a href="https://www.nytimes.com/2017/06/13/insider/have-a-comment-leave-a-comment.htm">The New York Times</a>. Importantly, Perspective used “<a href="https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets">training data</a>” sourced from human-labeled <a href="https://en.wikipedia.org/wiki/Artificial_intelligence_in_Wikimedia_projects">Wikipedia</a> edits. <a href="https://maartensap.com/pdfs/sap2019risk.pdf">An academic study</a> found racially biased classifications of Tweets. For example, the use of certain identifiers for minority groups would flag a comment as “toxic” <span class="citation" data-cites="sap-etal-2019-risk">(<a href="references.html#ref-sap-etal-2019-risk" role="doc-biblioref">Sap et al. 2019</a>)</span>. Because the Google had released the API publicly, researchers could access and audit this API directly.</p></li>
+<li><p><a href="http://gendershades.org/">Gender Shades</a> was an audit of three commercially-available facial recognition APIs used to automate gender classification (from Microsoft, IBM, and Face++). The authors created a benchmark image dataset of faces hand-labeled by gender and skin tone, and tested each facial recognition models by sending each image through the respective model’s API <span class="citation" data-cites="pmlr-v81-buolamwini18a">(<a href="references.html#ref-pmlr-v81-buolamwini18a" role="doc-biblioref">Buolamwini and Gebru 2018</a>)</span>. The authors found that many models had high error rates for female and Black faces, with the worst performance on Black female faces.</p></li>
+<li><p>Google’s Perspective API was developed to filter out toxic comments for publishers such as <a href="https://www.nytimes.com/2017/06/13/insider/have-a-comment-leave-a-comment.htm">The New York Times</a>. Importantly, Perspective used “<a href="https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets">training data</a>” sourced from human-labeled <a href="https://en.wikipedia.org/wiki/Artificial_intelligence_in_Wikimedia_projects">Wikipedia</a> edits. <a href="https://maartensap.com/pdfs/sap2019risk.pdf">An academic study</a> found racially biased classifications of Tweets. For example, the use of certain identifiers for minority groups would flag a comment as “toxic” <span class="citation" data-cites="sap-etal-2019-risk">(<a href="references.html#ref-sap-etal-2019-risk" role="doc-biblioref">Sap et al. 2019</a>)</span>. Because Google had released the API publicly, researchers could access and audit this technology directly through the API.</p></li>
 </ul>
 </section>
 <section id="how-have-undocumented-apis-been-used" class="level2">
@@ -386,7 +387,7 @@ Video thumbnails of videos suggested for “white power”, but no thumbnails fo
 <p>We will cover three case studies, each of which is intended to highlight one of these benefits.</p>
 <section id="case-study-on-richness-googles-blocklist-for-youtube-advertisers" class="level3">
 <h3 class="anchored" data-anchor-id="case-study-on-richness-googles-blocklist-for-youtube-advertisers">Case study on richness: Google’s blocklist for YouTube advertisers</h3>
-<p>I’m not going to rehash this case study, since we led with it in the introduction, but…</p>
+<p>I’m not going to rehash this case study, since we led with it in the <a href="#intro">introduction</a>, but…</p>
 <p>Using undocumented APIs can reveal <strong>rich</strong> metadata. This includes hidden fields that are not displayed to everyday users of a website, as well as subtle changes to the structural in how data is returned.</p>
 <p>Using this metadata produces receipts you can follow by deciphering the meaning of these hidden fields, finding traces left by missing data, and identifying patterns that are otherwise hidden from the surface (front-end) world.</p>
 <p>Certainly this was the case with the YouTube investigation, and something that we’ll brush on again in the hands-on tutorial at the end of this section.</p>

@@ -235,15 +235,16 @@ div.csl-indent {
   <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a>
   <ul class="collapse">
   <li><a href="#what-is-an-a-p-i" id="toc-what-is-an-a-p-i" class="nav-link" data-scroll-target="#what-is-an-a-p-i">What is an A-P-I?</a></li>
-  <li><a href="#finding-and-using-hidden-apis-in-investigations" id="toc-finding-and-using-hidden-apis-in-investigations" class="nav-link" data-scroll-target="#finding-and-using-hidden-apis-in-investigations">Finding and using Hidden APIs in investigations</a></li>
+  <li><a href="#a-key-tool-for-investigations" id="toc-a-key-tool-for-investigations" class="nav-link" data-scroll-target="#a-key-tool-for-investigations">A key tool for investigations</a></li>
   <li><a href="#documented-apis" id="toc-documented-apis" class="nav-link" data-scroll-target="#documented-apis">Documented APIs</a>
   <ul class="collapse">
   <li><a href="#how-have-documented-apis-been-used" id="toc-how-have-documented-apis-been-used" class="nav-link" data-scroll-target="#how-have-documented-apis-been-used">How have Documented APIs been used?</a></li>
   </ul></li>
   <li><a href="#hidden-apis" id="toc-hidden-apis" class="nav-link" data-scroll-target="#hidden-apis">Hidden APIs</a></li>
   </ul></li>
-  <li><a href="#case-studies-how-have-hidden-apis-been-used" id="toc-case-studies-how-have-hidden-apis-been-used" class="nav-link" data-scroll-target="#case-studies-how-have-hidden-apis-been-used">Case Studies: How have Hidden APIs been used?</a>
+  <li><a href="#case-studies" id="toc-case-studies" class="nav-link" data-scroll-target="#case-studies">Case Studies</a>
   <ul class="collapse">
+  <li><a href="#how-have-hidden-apis-been-used" id="toc-how-have-hidden-apis-been-used" class="nav-link" data-scroll-target="#how-have-hidden-apis-been-used"><em>How have Hidden APIs been used?</em></a></li>
   <li><a href="#case-study-on-richness-googles-blocklist-for-youtube-advertisers" id="toc-case-study-on-richness-googles-blocklist-for-youtube-advertisers" class="nav-link" data-scroll-target="#case-study-on-richness-googles-blocklist-for-youtube-advertisers">Case study on richness: Google’s blocklist for YouTube advertisers</a></li>
   <li><a href="#case-study-on-reliability-amazon-branded-products" id="toc-case-study-on-reliability-amazon-branded-products" class="nav-link" data-scroll-target="#case-study-on-reliability-amazon-branded-products">Case study on reliability: Amazon branded products</a></li>
   <li><a href="#case-study-on-scalability-collecting-internet-plans" id="toc-case-study-on-scalability-collecting-internet-plans" class="nav-link" data-scroll-target="#case-study-on-scalability-collecting-internet-plans">Case Study on scalability: Collecting Internet Plans</a></li>
@@ -323,8 +324,8 @@ div.csl-indent {
 <p>Most APIs are undocumented, unofficial, and hidden in plain sight. For simplicity’s sake, we’ll refer to these as “hidden APIs”. Being able to find hidden APIs can provide a rich, reliable, and scalable method of building your own datasets.</p>
 <p>I learned about this under-utilized data source while pitching stories at The Markup, and I turn to it often-and-early.</p>
 </section>
-<section id="finding-and-using-hidden-apis-in-investigations" class="level2">
-<h2 class="anchored" data-anchor-id="finding-and-using-hidden-apis-in-investigations">Finding and using Hidden APIs in investigations</h2>
+<section id="a-key-tool-for-investigations" class="level2">
+<h2 class="anchored" data-anchor-id="a-key-tool-for-investigations">A key tool for investigations</h2>
 <p>Well before joining the newsroom, I have been fascinated by YouTube. Not only is YouTube the <a href="https://www.statista.com/topics/2019/youtube/">largest video-hosting platform</a> in the world, it also plays a key role in the creator economy thanks to the YouTube Partner Program that shares ad revenue with eligable YouTubers.</p>
 <p>Advertising is central to YouTube, and major companies have boycotted the platform in the past in response to their ads appearing alongside extremist content that could damage the companies’ reputations. My reporting partner Aaron Sankin and I wanted to better understand YouTube’s advertising system, especially how they treated hateful conspiracy theories, which at the time, seemed to thrive on the platform.</p>
 <p>To start investigating this topic, we got acquainted with the Google Ads portal. Anyone can sign-up, and see all the tools that marketers can use to reach users across the Google adverse. YouTube has a special section of the ad portal, where marketers can target their ads based on user demographics and the content of videos.</p>
@@ -348,7 +349,7 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 <img src="assets/blocked-terms.png" style="width:90%" aria-label="Video thumbnails of videos suggested for &quot;white power&quot;, but no thumbnails for the blocked &quot;black power&quot; phrase." class="figure-img">
 </figure>
 <p>This was my first time finding and using a hidden API for an investigation. Doing so revealed essential information that was not visable to everyday users, and allowed us to perform systematic tests and bring receipts.</p>
-<p>Before we dive deeper into how to find hidden APIs, it’s important to note that some APIs are “official APIs” that are well-documented to the public. These APIs can also be used to great effect.</p>
+<p>Before we dive deeper into how to find hidden APIs, it’s important to note that some APIs are “official” and well-documented to the public. These APIs can also be used to great effect.</p>
 </section>
 <section id="documented-apis" class="level2">
 <h2 class="anchored" data-anchor-id="documented-apis">Documented APIs</h2>
@@ -362,7 +363,7 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 <li><p><a href="http://gendershades.org/">Gender Shades</a> was an audit of three commercially-available facial recognition APIs used to automate gender classification (from Microsoft, IBM, and Face++). The authors created a benchmark image dataset of faces hand-labeled by gender and skin tone, and tested each facial recognition models by sending each image through the respective model’s API <span class="citation" data-cites="pmlr-v81-buolamwini18a">(<a href="references.html#ref-pmlr-v81-buolamwini18a" role="doc-biblioref">Buolamwini and Gebru 2018</a>)</span>. The authors found that many models had high error rates for female and Black faces, with the worst performance on Black female faces.</p></li>
 <li><p>Google’s Perspective API was developed to filter out toxic comments for publishers such as <a href="https://www.nytimes.com/2017/06/13/insider/have-a-comment-leave-a-comment.htm">The New York Times</a>. Importantly, Perspective used “<a href="https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets">training data</a>” sourced from human-labeled <a href="https://en.wikipedia.org/wiki/Artificial_intelligence_in_Wikimedia_projects">Wikipedia</a> edits. <a href="https://maartensap.com/pdfs/sap2019risk.pdf">An academic study</a> found racially biased classifications of Tweets. For example, the use of certain identifiers for minority groups would flag a comment as “toxic” <span class="citation" data-cites="sap-etal-2019-risk">(<a href="references.html#ref-sap-etal-2019-risk" role="doc-biblioref">Sap et al. 2019</a>)</span>. Because Google had released the API publicly, researchers could access and audit this technology directly through the API.</p></li>
 </ul>
-<p>Now, let’s get back to APIs that are undocumented and hidden in plain sight.</p>
+<p>Now, let’s get back to APIs that are undocumented and hidden.</p>
 </section>
 </section>
 <section id="hidden-apis" class="level2">
@@ -374,25 +375,28 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 <p>Learning how to find and use these hidden APIs can help you build evidence and test hypotheses that are otherwise unreachable due to lack of access.</p>
 </section>
 </section>
-<section id="case-studies-how-have-hidden-apis-been-used" class="level1">
-<h1>Case Studies: How have Hidden APIs been used?</h1>
+<section id="case-studies" class="level1">
+<h1>Case Studies</h1>
+<section id="how-have-hidden-apis-been-used" class="level2">
+<h2 class="anchored" data-anchor-id="how-have-hidden-apis-been-used"><em>How have Hidden APIs been used?</em></h2>
 <p>Finding hidden APIs have been instrumental to past investigations and audits ranging from uncovering keyword blocklists, to identifying unmarked private label products, to being able to collect massive of quantities data representative of residents across major American cities.</p>
 <p>Using hidden APIs has three key strengths:</p>
 <ol type="1">
-<li><strong>Richness</strong>: APIs often contain information that is not visable on web pages. This information is also stored in JSON, which makes web parsing a breeze.<br></li>
+<li><strong>Richness</strong>: APIs often contain information that is not visable on web pages. This information is also stored in JSON, which makes it much easier to parse than if that same information was scraped directly from the webpage.<br></li>
 <li><strong>Reliability</strong>: Often times these APIs execute essential functions. For that reason, they don’t change often. This makes them a reliable data source over time. Some companies routinely change class names and tags to break web scrapers that save HTML. This is less of a problem when you use an API.<br></li>
 <li><strong>Scalability</strong>: You can collect more information in less time using this method compared to <a href="https://en.wikipedia.org/wiki/Headless_browser">headless browsers</a>, such as Selenium, Puppeteer, and Playwright. (Not throwing shade–these tools have their purpose, which we’ll go over in a future section.)</li>
 </ol>
 <p>We will cover three case studies, each of which is intended to highlight one of these benefits.</p>
-<section id="case-study-on-richness-googles-blocklist-for-youtube-advertisers" class="level3">
-<h3 class="anchored" data-anchor-id="case-study-on-richness-googles-blocklist-for-youtube-advertisers">Case study on richness: Google’s blocklist for YouTube advertisers</h3>
+</section>
+<section id="case-study-on-richness-googles-blocklist-for-youtube-advertisers" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-on-richness-googles-blocklist-for-youtube-advertisers">Case study on richness: Google’s blocklist for YouTube advertisers</h2>
 <p>I’m not going to rehash this case study, since we led with it in the <a href="#intro">introduction</a>, but…</p>
 <p>Using hidden APIs can reveal <strong>rich</strong> metadata. This includes hidden fields that are not displayed to everyday users of a website, as well as subtle changes to the structural in how data is returned.</p>
 <p>Using this metadata produces receipts you can follow by deciphering the meaning of these hidden fields, finding traces left by missing data, and identifying patterns that are otherwise hidden from the surface (front-end) world.</p>
 <p>Certainly this was the case with the YouTube investigation, and something that we’ll brush on again in the hands-on tutorial at the end of this section.</p>
 </section>
-<section id="case-study-on-reliability-amazon-branded-products" class="level3">
-<h3 class="anchored" data-anchor-id="case-study-on-reliability-amazon-branded-products">Case study on reliability: Amazon branded products</h3>
+<section id="case-study-on-reliability-amazon-branded-products" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-on-reliability-amazon-branded-products">Case study on reliability: Amazon branded products</h2>
 <p>If you scrape HTML from a website over a long period of time, you’ll likely find yourself with a broken scraper.</p>
 <p>This occurs when class names, accessibility labels, text, or something else has changed and confused your scraper. In this sense, HTML scraping can be fragile and fickle, especially if your collecting data persistently.</p>
 <p>If you look at large platforms such as Facebook’s homepage, you’ll see elements are arbitrarily named, oddly-nested, and ever-changing.</p>
@@ -404,8 +408,8 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 <p>Because the API continued to work, we used it in a browser extension (<a href="https://themarkup.org/amazons-advantage/2021/11/29/introducing-amazon-brand-detector"><em>Amazon Brand Detector</em></a>) that we (including Ritu Ghiya and Jeff Crouse) built to highlight Amazon brands for Amazon shoppers around the globe. Eventually, Amazon added an orange disclaimer of “Amazon brand” (mirroring the orange stain from our extension) to their branded products, but the API and extension still work at the time of writing, more than a year later.</p>
 <p>This case study emphasizes the reliability of using hidden APIs, not only for collecting datasets, but for persistent accountability efforts.</p>
 </section>
-<section id="case-study-on-scalability-collecting-internet-plans" class="level3">
-<h3 class="anchored" data-anchor-id="case-study-on-scalability-collecting-internet-plans">Case Study on scalability: Collecting Internet Plans</h3>
+<section id="case-study-on-scalability-collecting-internet-plans" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-on-scalability-collecting-internet-plans">Case Study on scalability: Collecting Internet Plans</h2>
 <p>In the investigation, “<a href="https://themarkup.org/show-your-work/2022/10/19/how-we-uncovered-disparities-in-internet-deals">Still Loading</a>” my reporting partner Aaron Sankin and I collected and analyzed internet service plans across major cities in the United States.</p>
 <p>We learned a technique from a trio of researchers from Princeton, that used the lookup tools found on the internet service providers’ websites to retrieve internet plans for a specific address.</p>
 <p>However, doing this using a browser (as a real person would) is incredibly slow. Even with 10 automated browsers (see below) with unique IP addresses, it would have taken months to collect a representative sample of a single major American city.</p>

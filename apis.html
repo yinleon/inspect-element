@@ -232,20 +232,21 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-an-a-p-i" id="toc-what-is-an-a-p-i" class="nav-link active" data-scroll-target="#what-is-an-a-p-i">What is an A-P-I?</a></li>
-  <li><a href="#intro" id="toc-intro" class="nav-link" data-scroll-target="#intro">Intro</a>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a>
   <ul class="collapse">
+  <li><a href="#what-is-an-a-p-i" id="toc-what-is-an-a-p-i" class="nav-link" data-scroll-target="#what-is-an-a-p-i">What is an A-P-I?</a></li>
+  <li><a href="#finding-and-using-hidden-apis-in-investigations" id="toc-finding-and-using-hidden-apis-in-investigations" class="nav-link" data-scroll-target="#finding-and-using-hidden-apis-in-investigations">Finding and using Hidden APIs in investigations</a></li>
   <li><a href="#documented-apis" id="toc-documented-apis" class="nav-link" data-scroll-target="#documented-apis">Documented APIs</a>
   <ul class="collapse">
   <li><a href="#how-have-documented-apis-been-used" id="toc-how-have-documented-apis-been-used" class="nav-link" data-scroll-target="#how-have-documented-apis-been-used">How have Documented APIs been used?</a></li>
   </ul></li>
   <li><a href="#hidden-apis" id="toc-hidden-apis" class="nav-link" data-scroll-target="#hidden-apis">Hidden APIs</a></li>
-  <li><a href="#how-have-hidden-apis-been-used" id="toc-how-have-hidden-apis-been-used" class="nav-link" data-scroll-target="#how-have-hidden-apis-been-used">How have Hidden APIs been used?</a>
+  </ul></li>
+  <li><a href="#case-studies-how-have-hidden-apis-been-used" id="toc-case-studies-how-have-hidden-apis-been-used" class="nav-link" data-scroll-target="#case-studies-how-have-hidden-apis-been-used">Case Studies: How have Hidden APIs been used?</a>
   <ul class="collapse">
   <li><a href="#case-study-on-richness-googles-blocklist-for-youtube-advertisers" id="toc-case-study-on-richness-googles-blocklist-for-youtube-advertisers" class="nav-link" data-scroll-target="#case-study-on-richness-googles-blocklist-for-youtube-advertisers">Case study on richness: Google’s blocklist for YouTube advertisers</a></li>
   <li><a href="#case-study-on-reliability-amazon-branded-products" id="toc-case-study-on-reliability-amazon-branded-products" class="nav-link" data-scroll-target="#case-study-on-reliability-amazon-branded-products">Case study on reliability: Amazon branded products</a></li>
   <li><a href="#case-study-on-scalability-collecting-internet-plans" id="toc-case-study-on-scalability-collecting-internet-plans" class="nav-link" data-scroll-target="#case-study-on-scalability-collecting-internet-plans">Case Study on scalability: Collecting Internet Plans</a></li>
-  </ul></li>
   </ul></li>
   <li><a href="#tutorial" id="toc-tutorial" class="nav-link" data-scroll-target="#tutorial">Tutorial</a>
   <ul class="collapse">
@@ -313,15 +314,17 @@ div.csl-indent {
 <p>Most APIs are undocumented, unofficial, and hidden in plain sight.</p>
 <p>Learn how to find them in the wild, and how they’ve been used in past investigations.</p>
 <p>👉<a href="#tutorial">Click here to jump to the tutorial</a>.</p>
-<section id="what-is-an-a-p-i" class="level1">
-<h1>What is an A-P-I?</h1>
+<section id="intro" class="level1">
+<h1>Intro</h1>
+<section id="what-is-an-a-p-i" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-an-a-p-i">What is an A-P-I?</h2>
 <p>If you have tried to get a driver’s license or a travel visa, you have experienced bureaucracy at its finest– a series of lines, forms, credential-showing, and waiting.</p>
 <p>Application Program Interfaces, or APIs, are digitized bureaucracy. You make a request, and then wait in a queue to be served by a server. However, instead of leaving with a driver’s license or a custom plate, what you’re waiting for is well-formatted data. As for making mistakes… well, you’ll get an automated rejection and zero sympathy.</p>
 <p>Most APIs are undocumented, unofficial, and hidden in plain sight. For simplicity’s sake, we’ll refer to these as “hidden APIs”. Being able to find hidden APIs can provide a rich, reliable, and scalable method of building your own datasets.</p>
 <p>I learned about this under-utilized data source while pitching stories at The Markup, and I turn to it often-and-early.</p>
 </section>
-<section id="intro" class="level1">
-<h1>Intro</h1>
+<section id="finding-and-using-hidden-apis-in-investigations" class="level2">
+<h2 class="anchored" data-anchor-id="finding-and-using-hidden-apis-in-investigations">Finding and using Hidden APIs in investigations</h2>
 <p>Well before joining the newsroom, I have been fascinated by YouTube. Not only is YouTube the <a href="https://www.statista.com/topics/2019/youtube/">largest video-hosting platform</a> in the world, it also plays a key role in the creator economy thanks to the YouTube Partner Program that shares ad revenue with eligable YouTubers.</p>
 <p>Advertising is central to YouTube, and major companies have boycotted the platform in the past in response to their ads appearing alongside extremist content that could damage the companies’ reputations. My reporting partner Aaron Sankin and I wanted to better understand YouTube’s advertising system, especially how they treated hateful conspiracy theories, which at the time, seemed to thrive on the platform.</p>
 <p>To start investigating this topic, we got acquainted with the Google Ads portal. Anyone can sign-up, and see all the tools that marketers can use to reach users across the Google adverse. YouTube has a special section of the ad portal, where marketers can target their ads based on user demographics and the content of videos.</p>
@@ -346,6 +349,7 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 </figure>
 <p>This was my first time finding and using a hidden API for an investigation. Doing so revealed essential information that was not visable to everyday users, and allowed us to perform systematic tests and bring receipts.</p>
 <p>Before we dive deeper into how to find hidden APIs, it’s important to note that some APIs are “official APIs” that are well-documented to the public. These APIs can also be used to great effect.</p>
+</section>
 <section id="documented-apis" class="level2">
 <h2 class="anchored" data-anchor-id="documented-apis">Documented APIs</h2>
 <p>Many businesses sell their services using APIs.</p>
@@ -369,8 +373,9 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 <p>Sometimes engineers find these API endpoints and build open source software to access publicly accessible data programmatically. See <a href="https://instaloader.github.io/">Instaloader</a> (for Instagram) as an example.</p>
 <p>Learning how to find and use these hidden APIs can help you build evidence and test hypotheses that are otherwise unreachable due to lack of access.</p>
 </section>
-<section id="how-have-hidden-apis-been-used" class="level2">
-<h2 class="anchored" data-anchor-id="how-have-hidden-apis-been-used">How have Hidden APIs been used?</h2>
+</section>
+<section id="case-studies-how-have-hidden-apis-been-used" class="level1">
+<h1>Case Studies: How have Hidden APIs been used?</h1>
 <p>Finding hidden APIs have been instrumental to past investigations and audits ranging from uncovering keyword blocklists, to identifying unmarked private label products, to being able to collect massive of quantities data representative of residents across major American cities.</p>
 <p>Using hidden APIs has three key strengths:</p>
 <ol type="1">
@@ -420,12 +425,11 @@ Automating checking for internet plans from AT&amp;T using Selenium browser auto
 <p>When it comes to web scraping, hidden APIs offer unmatched <strong>scalability</strong> to collect massive amounts of data. This is especially true when you orchestrate them with asynchronous and multi-threaded programming (another topic we plan to cover in a future section).</p>
 </section>
 </section>
-</section>
 <section id="tutorial" class="level1">
 <h1>Tutorial</h1>
 <section id="how-to-find-and-use-hidden-apis" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-find-and-use-hidden-apis"><em>How to find and use hidden APIs</em></h2>
-<p>In this exercise, you’ll learn to sniff out hidden APIs using the web browser’s <code>developer tools</code> (shortened to dev tools), figure out how they work, test different inputs, and analyze hidden fields.</p>
+<p>In this exercise, you’ll learn to sniff out hidden APIs using the web browser’s <code>developer tools</code> (shortened to dev tools), figure out how they work, test different inputs, and analyze API responses.</p>
 <div class="callout-note callout callout-style-simple">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -778,6 +782,7 @@ Pro tip:
 <h3 class="anchored" data-anchor-id="for-advanced-usage">For advanced usage…</h3>
 <ul>
 <li>Handle errors for bad requests, rate limiting, and other issues that could arise.<br></li>
+<li>Restructure the API response to better analyze (called “parsing” the data).<br></li>
 <li>you can use <code>session</code> instead of pure requests. This is helpful if cookies and authentication are involved. Read more about that <a href="https://requests.readthedocs.io/en/latest/user/advanced/#session-objects">here</a>.<br></li>
 <li>you can make a request asynchronous to speed up data collection (without overloading the site’s servers, of course).<br></li>
 <li>Implement steps 6-onwards in another programming language.<br></li>
@@ -806,9 +811,10 @@ Pro tip:
 </ul>
 <p>Notable investigations and audits using hidden APIs:</p>
 <ul>
-<li><a href="https://www.pnas.org/doi/full/10.1073/pnas.1717781115">“Analyzing gender inequality through large-scale Facebook advertising data</a> - David Garcia, Yonas Mitike Kassa, Angel Cuevas, Manuel Cebrian, Esteban Moro, Iyad Rahwan, and Ruben Cuevas<br></li>
 <li><a href="https://gizmodo.com/ring-s-hidden-data-let-us-map-amazons-sprawling-home-su-1840312279">“Ring’s Hidden Data Let Us Map Amazon’s Sprawling Home Surveillance Network”</a> - Dell Cameron and Dhruv Mehrota</li>
+<li><a href="https://www.pnas.org/doi/full/10.1073/pnas.1717781115">“Analyzing gender inequality through large-scale Facebook advertising data</a> - David Garcia et al.<br></li>
 </ul>
+<p>Send me more to add!</p>
 <section id="artifacts" class="level2">
 <h2 class="anchored" data-anchor-id="artifacts">Artifacts</h2>
 <p>Slides from workshops can be found here:</p>

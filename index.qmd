@@ -10,7 +10,7 @@ Inspect Element is a practitioner's guide to hypothesis-driven accountability wo
 
 The guide walks through in-depth case studies and hands-on tutorials to help you audit algorithims and investigate opaque systems, systematically.
 
-You will learn how to build your own datasets, [find hidden APIs](/undocumented-apis.html), analyze missing data, measure disparate outcomes, bullet-proof findings, and write with precision.
+You will learn how to build your own datasets, [find hidden APIs](/apis.html), analyze missing data, measure disparate outcomes, bullet-proof findings, and write with precision.
 
 As practitioners ourselves, we've had to learn on the job, hit dead ends, and seek external expertise across fields and industries. Here, we distill these experiences and include tips for veterans and new-comers alike.
 
@@ -20,7 +20,7 @@ Don't code? No problem: the guide emphasizes underlying principles and uses plai
 
 ### Who wrote this?
 
-Inspect Element is written and edited by investigative data journalist [Leon Yin](https://leonyin.org) with contributions by TK, [REDACTED], and [REDACTED].
+Inspect Element is written and edited by investigative data journalist [Leon Yin](https://leonyin.org) with contributions by [REDACTED], and [REDACTED].
 
 I'll frequently reference past investigations I've worked on in this guide. You can read those investigations plus new stories (when I make deadlines) at [The Markup](https://www.themarkup.org).
 

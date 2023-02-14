@@ -157,7 +157,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Undocumented APIs</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Finding Hidden APIs</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -239,8 +239,8 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#how-have-documented-apis-been-used" id="toc-how-have-documented-apis-been-used" class="nav-link" data-scroll-target="#how-have-documented-apis-been-used">How have documented APIs been used?</a></li>
   </ul></li>
-  <li><a href="#undocumented-apis" id="toc-undocumented-apis" class="nav-link" data-scroll-target="#undocumented-apis">Undocumented APIs</a></li>
-  <li><a href="#how-have-undocumented-apis-been-used" id="toc-how-have-undocumented-apis-been-used" class="nav-link" data-scroll-target="#how-have-undocumented-apis-been-used">How have undocumented APIs been used?</a>
+  <li><a href="#hidden-and-undocumented-apis" id="toc-hidden-and-undocumented-apis" class="nav-link" data-scroll-target="#hidden-and-undocumented-apis">Hidden and Undocumented APIs</a></li>
+  <li><a href="#how-have-hidden-and-undocumented-apis-been-used" id="toc-how-have-hidden-and-undocumented-apis-been-used" class="nav-link" data-scroll-target="#how-have-hidden-and-undocumented-apis-been-used">How have Hidden and Undocumented APIs been used?</a>
   <ul class="collapse">
   <li><a href="#case-study-on-richness-googles-blocklist-for-youtube-advertisers" id="toc-case-study-on-richness-googles-blocklist-for-youtube-advertisers" class="nav-link" data-scroll-target="#case-study-on-richness-googles-blocklist-for-youtube-advertisers">Case study on richness: Google’s blocklist for YouTube advertisers</a></li>
   <li><a href="#case-study-on-reliability-amazon-branded-products" id="toc-case-study-on-reliability-amazon-branded-products" class="nav-link" data-scroll-target="#case-study-on-reliability-amazon-branded-products">Case study on reliability: Amazon branded products</a></li>
@@ -249,7 +249,7 @@ div.csl-indent {
   </ul></li>
   <li><a href="#tutorial" id="toc-tutorial" class="nav-link" data-scroll-target="#tutorial">Tutorial</a>
   <ul class="collapse">
-  <li><a href="#how-to-find-and-use-undocumeted-apis" id="toc-how-to-find-and-use-undocumeted-apis" class="nav-link" data-scroll-target="#how-to-find-and-use-undocumeted-apis"><em>How to find and use undocumeted APIs</em></a>
+  <li><a href="#how-to-find-and-use-hidden-apis" id="toc-how-to-find-and-use-hidden-apis" class="nav-link" data-scroll-target="#how-to-find-and-use-hidden-apis"><em>How to find and use hidden APIs</em></a>
   <ul class="collapse">
   <li><a href="#first-open-the-developer-console." id="toc-first-open-the-developer-console." class="nav-link" data-scroll-target="#first-open-the-developer-console.">1. First open the developer console.</a></li>
   <li><a href="#click-the-network-tab." id="toc-click-the-network-tab." class="nav-link" data-scroll-target="#click-the-network-tab.">2. Click the “Network” tab.</a></li>
@@ -278,7 +278,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-title">Undocumented APIs</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-title">Finding Hidden APIs</span></h1>
 </div>
 
 
@@ -310,14 +310,14 @@ div.csl-indent {
 <p><a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://inspectelement.org/undocumented-apis">📖 Read online</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://colab.research.google.com/github/yinleon/inspect-element/blob/main/undocumented-apis.ipynb">🖥️ Interactive version</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://github.com/yinleon/inspect-element/blob/main/undocumented-apis.ipynb">⚙️ GitHub</a> <br></p>
 </div>
 </div>
+<p>Learn about hidden and undocumented APIs, how they’ve been used in past investigations, and how to find them in the wild.</p>
+<p>👉<a href="#tutorial">Click here to jump to the tutorial</a>.</p>
 <section id="what-is-an-a-p-i" class="level1">
 <h1>What is an A-P-I?</h1>
 <p>If you have tried to get a driver’s license or a travel visa, you have experienced bureaucracy at its finest– a series of lines, forms, credential-showing, and waiting.</p>
 <p>Application Program Interfaces, or APIs, are digitized bureaucracy. You make a request, and then wait in a queue to be served by a server. However, instead of leaving with a driver’s license or a custom plate, what you’re waiting for is well-formatted data. As for making mistakes… well, you’ll get an automated rejection and zero sympathy.</p>
 <p>Most APIs are <em>undocumented</em>, hidden in plain sight. Being able to find them can provide a rich, reliable, and scalable method of building your own datasets.</p>
-<p>In this document, you will learn more about undocumented APIs, how they’ve been used in past investigations, and how to find them in the wild.</p>
 <p>I learned about this under-utilized data source while pitching stories at The Markup, and I turn to it often-and-early.</p>
-<p>👉<a href="#tutorial">Click here to jump to the tutorial</a>.</p>
 </section>
 <section id="intro" class="level1">
 <h1>Intro</h1>
@@ -338,13 +338,13 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 <p>My colleague Surya Mattu suggested using the web browser’s built-in <code>developer tools</code> to monitor <a href="https://doc.arcgis.com/en/appstudio/extend-apps/apinetworkrequest.htm">network requests</a> while we made searches in the portal. This proved to be a breakthrough that allowed us to isolate the API-endpoint being called during this process, reverse-engineer it to return results for any given keyword, and analyze the API’s response before its contents were displayed in the portal.</p>
 <p>By looking closely at the API responses, we were able to identify key structural differences based on Google’s verdict of the keyword. Blocked terms, returned an empty JSON packet of data <code>{}</code>, whereas obscure terms returned a JSON with labels but no results:</p>
 <p><code>{“videos”: [], “channels: []}</code></p>
-<p>With the categorization scheme established, we could <em>confirm</em> search terms were being blocked (read about this in detail in the <a href="https://themarkup.org/google-the-giant/2021/04/08/how-we-discovered-googles-hate-blocklist-for-ad-placements-on-youtube#data-collection">Show Your Work</a> article). Moreover, with the undocumented API at our service, we could test any set of keywords, so we tested well-known <a href="https://themarkup.org/google-the-giant/2021/04/08/how-we-discovered-googles-hate-blocklist-for-ad-placements-on-youtube#sourcing-hate-keywords">hate terms</a> and phrases related to “racial justice and representation” that we asked <a href="https://themarkup.org/google-the-giant/2021/04/09/how-we-discovered-googles-social-justice-blocklist-for-youtube-ad-placements#sourcing-social-justice-keywords">independent advocacy groups</a> to send us.</p>
+<p>With the categorization scheme established, we could <em>confirm</em> search terms were being blocked (read about this in detail in the <a href="https://themarkup.org/google-the-giant/2021/04/08/how-we-discovered-googles-hate-blocklist-for-ad-placements-on-youtube#data-collection">Show Your Work</a> article). Moreover, with the hidden API at our service, we could test any set of keywords, so we tested well-known <a href="https://themarkup.org/google-the-giant/2021/04/08/how-we-discovered-googles-hate-blocklist-for-ad-placements-on-youtube#sourcing-hate-keywords">hate terms</a> and phrases related to “racial justice and representation” that we asked <a href="https://themarkup.org/google-the-giant/2021/04/09/how-we-discovered-googles-social-justice-blocklist-for-youtube-ad-placements#sourcing-social-justice-keywords">independent advocacy groups</a> to send us.</p>
 <p>After testing the two keyword lists, we saw a pattern of Google blocking racial justice terms (like “Black power”), while showing advertisers results for well-known hate terms (like “White power”).</p>
 <figure class="figure">
 <img src="assets/blocked-terms.png" style="width:90%" aria-label="Video thumbnails of videos suggested for &quot;white power&quot;, but no thumbnails for the blocked &quot;black power&quot; phrase." class="figure-img">
 </figure>
-<p>This was my first time finding and using an undocumented API for an investigation. Doing so revealed essential information that was not visable to everyday users, and allowed us to perform systematic tests and bring receipts.</p>
-<p>Before we dive deeper into undocumented APIs, it’s important to note that some APIs are well-documented, and they can also be used to great effect.</p>
+<p>This was my first time finding and using an hidden API for an investigation. Doing so revealed essential information that was not visable to everyday users, and allowed us to perform systematic tests and bring receipts.</p>
+<p>Before we dive deeper into hidden APIs, it’s important to note that some APIs are well-documented, and they can also be used to great effect.</p>
 <section id="documented-apis" class="level2">
 <h2 class="anchored" data-anchor-id="documented-apis">Documented APIs</h2>
 <p>Many businesses sell their services using APIs.</p>
@@ -359,18 +359,18 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 <p>Other APIs are hidden and undocumented.</p>
 </section>
 </section>
-<section id="undocumented-apis" class="level2">
-<h2 class="anchored" data-anchor-id="undocumented-apis">Undocumented APIs</h2>
+<section id="hidden-and-undocumented-apis" class="level2">
+<h2 class="anchored" data-anchor-id="hidden-and-undocumented-apis">Hidden and Undocumented APIs</h2>
 <p>These are the unsung heroes making sure websites run, often times executing essential functions behind the scenes. Many of their functions are so mundane, you probably don’t even realize that something is happening.</p>
 <p>If you spend time on social media platforms, you’ll find that the good times keep rolling, and you’ll never reach the end of the page. That is because “infinite scroll” is powered by an API that is called upon as you approach the bottom of the page to load more fun things to eat up your day.</p>
 <p>Similarly, when you upload an image onto Instagram, an API will receive that image, run a series of machine-learning models to categorize it, assure it is “OK” (an oversimplification, asssured), and store that image and its metadata into a database.</p>
 <p>Sometimes engineers find these API endpoints and build open source software to access publicly accessible data programmatically. See <a href="https://github.com/dfreelon/pyktok">Pyktok</a> (for Tiktok) and <a href="https://instaloader.github.io/">Instaloader</a> (for Instagram) as examples.</p>
 <p>Learning how to find and use these hidden and undocumented APIs can help you build evidence and test hypotheses that are otherwise unreachable due to lack of access.</p>
 </section>
-<section id="how-have-undocumented-apis-been-used" class="level2">
-<h2 class="anchored" data-anchor-id="how-have-undocumented-apis-been-used">How have undocumented APIs been used?</h2>
-<p>Undocumented APIs are instrumental to investigations and audits ranging from uncovering keyword blocklists, to identifying unmarked private label products, to being able to collect massive of quantities data representative of residents across major American cities.</p>
-<p>Using undocumented APIs has three key strengths:</p>
+<section id="how-have-hidden-and-undocumented-apis-been-used" class="level2">
+<h2 class="anchored" data-anchor-id="how-have-hidden-and-undocumented-apis-been-used">How have Hidden and Undocumented APIs been used?</h2>
+<p>Finding hidden APIs have been instrumental to past investigations and audits ranging from uncovering keyword blocklists, to identifying unmarked private label products, to being able to collect massive of quantities data representative of residents across major American cities.</p>
+<p>Using hidden APIs has three key strengths:</p>
 <ol type="1">
 <li><strong>Richness</strong>: APIs often contain information that is not visable on web pages. This information is also stored in JSON, which makes web parsing a breeze.<br></li>
 <li><strong>Reliability</strong>: Often times these APIs execute essential functions. For that reason, they don’t change often. This makes them a reliable data source over time. Some companies routinely change class names and tags to break web scrapers that save HTML. This is less of a problem when you use an API.<br></li>
@@ -380,7 +380,7 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 <section id="case-study-on-richness-googles-blocklist-for-youtube-advertisers" class="level3">
 <h3 class="anchored" data-anchor-id="case-study-on-richness-googles-blocklist-for-youtube-advertisers">Case study on richness: Google’s blocklist for YouTube advertisers</h3>
 <p>I’m not going to rehash this case study, since we led with it in the <a href="#intro">introduction</a>, but…</p>
-<p>Using undocumented APIs can reveal <strong>rich</strong> metadata. This includes hidden fields that are not displayed to everyday users of a website, as well as subtle changes to the structural in how data is returned.</p>
+<p>Using hidden APIs can reveal <strong>rich</strong> metadata. This includes hidden fields that are not displayed to everyday users of a website, as well as subtle changes to the structural in how data is returned.</p>
 <p>Using this metadata produces receipts you can follow by deciphering the meaning of these hidden fields, finding traces left by missing data, and identifying patterns that are otherwise hidden from the surface (front-end) world.</p>
 <p>Certainly this was the case with the YouTube investigation, and something that we’ll brush on again in the hands-on tutorial at the end of this section.</p>
 </section>
@@ -389,13 +389,13 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 <p>If you scrape HTML from a website over a long period of time, you’ll likely find yourself with a broken scraper.</p>
 <p>This occurs when class names, accessibility labels, text, or something else has changed and confused your scraper. In this sense, HTML scraping can be fragile and fickle, especially if your collecting data persistently.</p>
 <p>If you look at large platforms such as Facebook’s homepage, you’ll see elements are arbitrarily named, oddly-nested, and ever-changing.</p>
-<p>Using undocumented APIs can often get you the same information with a higher success-rate. This is because these APIs interact with the same backend (fetching information before being rendered, named, and nestled neatly into a webpage), and are often essential to the operation of the website.</p>
+<p>Using hidden APIs can often get you the same information with a higher success-rate. This is because these APIs interact with the same backend (fetching information before being rendered, named, and nestled neatly into a webpage), and are often essential to the operation of the website.</p>
 <p>In the investigation “<a href="https://themarkup.org/amazons-advantage/2021/10/14/how-we-analyzed-amazons-treatment-of-its-brands-in-search-results">Amazon’s Advantage</a>”, Adrianne Jeffries and I found a <strong>reliable</strong> method of identifying Amazon brands and exclusive products. At the time, these products were not clearly labeled, most Americans we surveyed were unable to identify Amazon’s top brands, and no source of truth existed.</p>
-<p>We developed a approach to identify these products as Amazon private label using a filter found in the user interface of the Amazon site. The “Our brands” filter did a lot of heavy lifting in our investigation, and we found that it was powered by an undocumented API that listed all the Amazon branded products for a given search.</p>
+<p>We developed a approach to identify these products as Amazon private label using a filter found in the user interface of the Amazon site. The “Our brands” filter did a lot of heavy lifting in our investigation, and we found that it was powered by a hidden API that listed all the Amazon branded products for a given search.</p>
 <p>This method was essential to our investigation and analysis, especially while we collected data over a period of several months. To our surprise, the API continued to work even after we went to Amazon to comment on our detailed methodology, after we published our investigation, and even after Amazon executives were accused of perjury by the U.S. Senate.</p>
 <p>Usually the party gets shut down once you call the parents, but in this case it didn’t.</p>
 <p>Because the API continued to work, we used it in a browser extension (<a href="https://themarkup.org/amazons-advantage/2021/11/29/introducing-amazon-brand-detector"><em>Amazon Brand Detector</em></a>) that we (including Ritu Ghiya and Jeff Crouse) built to highlight Amazon brands for Amazon shoppers around the globe. Eventually, Amazon added an orange disclaimer of “Amazon brand” (mirroring the orange stain from our extension) to their branded products, but the API and extension still work at the time of writing, more than a year later.</p>
-<p>This case study emphasizes the reliability of using undocumented APIs, not only for collecting datasets, but for persistent accountability efforts.</p>
+<p>This case study emphasizes the reliability of using hidden APIs, not only for collecting datasets, but for persistent accountability efforts.</p>
 </section>
 <section id="case-study-on-scalability-collecting-internet-plans" class="level3">
 <h3 class="anchored" data-anchor-id="case-study-on-scalability-collecting-internet-plans">Case Study on scalability: Collecting Internet Plans</h3>
@@ -415,15 +415,15 @@ Automating checking for internet plans from AT&amp;T using Selenium browser auto
 <p>However, we were able to keep track of cookies using a <code>session</code> (read about this advanced topic <a href="https://requests.readthedocs.io/en/latest/user/advanced/#session-objects">here</a>), and speed things up by bundling the sequence of successive API calls into a function.</p>
 <p>Not only was this function easier to write, but it was able to be written and executed <a href="https://en.wikipedia.org/wiki/Asynchrony_(computer_programming)">asynchronously</a>. Meaning we could request internet plans from many addresses at the same time.</p>
 <p>This allowed us to collect AT&amp;T internet plans for a representative sample of 21 cities in two days, rather than two years. Timely data collection is key. We found our story looking at data for one city. If we were unable to collect that data we would never had published our investigation that revealed widespread inequities in internet plans across the country.</p>
-<p>When it comes to web scraping, undocumented APIs offer unmatched <strong>scalability</strong> to collect massive amounts of data. This is especially true when you orchestrate them with asynchronous and multi-threaded programming (another topic we plan to cover in a future section).</p>
+<p>When it comes to web scraping, hidden APIs offer unmatched <strong>scalability</strong> to collect massive amounts of data. This is especially true when you orchestrate them with asynchronous and multi-threaded programming (another topic we plan to cover in a future section).</p>
 </section>
 </section>
 </section>
 <section id="tutorial" class="level1">
 <h1>Tutorial</h1>
-<section id="how-to-find-and-use-undocumeted-apis" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-find-and-use-undocumeted-apis"><em>How to find and use undocumeted APIs</em></h2>
-<p>In this exercise, you’ll learn to sniff out undocumented APIs using the web browser’s <code>developer tools</code> (shortened to dev tools), figure out how they work, test different inputs, and analyze hidden fields.</p>
+<section id="how-to-find-and-use-hidden-apis" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-find-and-use-hidden-apis"><em>How to find and use hidden APIs</em></h2>
+<p>In this exercise, you’ll learn to sniff out hidden APIs using the web browser’s <code>developer tools</code> (shortened to dev tools), figure out how they work, test different inputs, and analyze hidden fields.</p>
 <div class="callout-note callout callout-style-simple">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -458,7 +458,7 @@ Example of inspecting an element on a page using a right-click
 <p>Everything on a page is retrieved from some outside source, likely a server. This includes things like images embedded on the page, JavaScript code running in the background, and all the bits of “content” that populate the page before us.</p>
 <p>Using the <code>Network</code> tab, we can find out how this information is requested from a server, and intercept the response before it is rendered on the page.</p>
 <p>These responses are information-rich, and contain fields that don’t end up in the source code <em>or</em> in the user interface that most people encounter when they visit a site.</p>
-<p>Further, we can reverse-engineer how this request is made, and use it to collect structured data at scale. This is the power of finding undocumented APIs.</p>
+<p>Further, we can reverse-engineer how this request is made, and use it to collect structured data at scale. This is the power of finding hidden APIs.</p>
 <p><em>Back to the console…</em></p>
 <p>The <code>Network</code> tab can look pretty hectic at first. It has many uses, and a lot of information. We’ll cover some of the basics.</p>
 <video width="100%" controls="" loop="">
@@ -769,7 +769,7 @@ Pro tip:
 </section>
 <section id="do-it-yourself" class="level2">
 <h2 class="anchored" data-anchor-id="do-it-yourself">Do it yourself</h2>
-<p>Use this space below to find another undocumented API and reuse it for a few other input parameters.</p>
+<p>Use this space below to find another hidden API and reuse it for a few other input parameters.</p>
 <p>Revisit the steps we outlined above, and apply them to a new website. If you aren’t a coder, try to get steps 1-6 (I believe in you!).</p>
 <p>If you are a coder, try some of the advanced usage below.</p>
 <section id="for-advanced-usage" class="level3">
@@ -787,7 +787,7 @@ Pro tip:
 <p>Dry-run: Think about the websites you frequent and topics that interest you. Find an API in the wild, isolate it, and analyze some of its results.</p>
 <p>Scoping: Determine how the API could be used to produce data to answer a reporting question or hypothesis.</p>
 <p>Reporting: Figure out the “sample”. How many inputs will you test and for what purpose? Determine the meaning and signifigance of hidden fields that are returned.</p>
-<p>Ultimately undocumented APIs are a tool, and data is useless without a purpose. Hopefully this worksheet helps you in your time of need.</p>
+<p>Ultimately APIs are a tool, and data is useless without a purpose. Hopefully this worksheet helps you in your time of need.</p>
 </section>
 </section>
 <section id="related-readings" class="level1">

@@ -330,7 +330,7 @@ div.csl-indent {
 <p>Advertising is central to YouTube, and major companies have boycotted the platform in the past in response to their ads appearing alongside extremist content that could damage the companies’ reputations. My reporting partner Aaron Sankin and I wanted to better understand YouTube’s advertising system, especially how they treated hateful conspiracy theories, which at the time, seemed to thrive on the platform.</p>
 <p>To start investigating this topic, we got acquainted with the Google Ads portal. Anyone can sign-up, and see all the tools that marketers can use to reach users across the Google adverse. YouTube has a special section of the ad portal, where marketers can target their ads based on user demographics and the content of videos.</p>
 <p>We investigated a specific targeting tool that allows ad-buyers to use keyword searches to find videos and channels to place their ads on. <i>You can read this investigation <a href="https://themarkup.org/google-the-giant/2021/04/08/google-youtube-hate-videos-ad-keywords-blocklist-failures">here</a></i>.</p>
-<p>In an inital test, we found that searching for the racist “White Genocide” conspiracy theory returned no videos, but by simply removing spaces, we were returned relevant results.</p>
+<p>In an inital test, we found that searching for the racist “<a href="https://www.adl.org/resources/glossary-term/white-genocide">White genocide</a>” conspiracy theory returned no videos, but by simply removing spaces, we were returned relevant results.</p>
 <figure class="figure">
 <video src="https://mrkp-static-production.themarkup.org/graphics/youtube-hate-video/1617820765826/assets/white-genocide--compressed.mp4" autoplay="true" loop="true" width="100%">
 </video>
@@ -340,7 +340,7 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 </figure>
 <p>This anecdotal test <em>suggested</em> that Google was using a keyword blocklist that hid results for certain search terms, but not others. We performed further tests and found that searching for swears and strings of gibberish also surfaced no results.</p>
 <p>We wanted to verify if Google did in fact have a keyword blocklist, and test how consistent that blocklist was with YouTube’s “advertiser friendly” <a href="https://support.google.com/youtube/answer/6162278?hl=en">guidelines</a>. Unfortunately, the portal did not make it possible to discern between a blocked keyword and one that may be too obscure to return any results.</p>
-<p>My colleague Surya Mattu suggested using the web browser’s built-in <code>developer tools</code> to monitor <a href="https://doc.arcgis.com/en/appstudio/extend-apps/apinetworkrequest.htm">network requests</a> while we made searches in the portal. This proved to be a breakthrough that allowed us to isolate the API-endpoint being called during this process, reverse-engineer it to return results for any given keyword, and analyze the API’s response before its contents were displayed in the portal.</p>
+<p>My colleague Surya Mattu suggested using the web browser’s built-in <code>developer tools</code> to monitor <a href="https://doc.arcgis.com/en/appstudio/extend-apps/apinetworkrequest.htm">network requests</a> while we made searches in the portal. This proved to be the breakthrough that allowed us to isolate the API-endpoint being called during this process, reverse-engineer it to return results for any given keyword, and analyze the API’s response before its contents were displayed in the portal.</p>
 <p>By looking closely at the API responses, we were able to identify key structural differences based on Google’s verdict of the keyword. Blocked terms, returned an empty JSON packet of data <code>{}</code>, whereas obscure terms returned a JSON with labels but no results:</p>
 <p><code>{“videos”: [], “channels: []}</code></p>
 <p>With the categorization scheme established, we could <em>confirm</em> search terms were being blocked (read about this in detail in the <a href="https://themarkup.org/google-the-giant/2021/04/08/how-we-discovered-googles-hate-blocklist-for-ad-placements-on-youtube#data-collection">Show Your Work</a> article). Moreover, with the API at our service, we could test any set of keywords, so we tested well-known <a href="https://themarkup.org/google-the-giant/2021/04/08/how-we-discovered-googles-hate-blocklist-for-ad-placements-on-youtube#sourcing-hate-keywords">hate terms</a> and phrases related to “racial justice and representation” that we asked <a href="https://themarkup.org/google-the-giant/2021/04/09/how-we-discovered-googles-social-justice-blocklist-for-youtube-ad-placements#sourcing-social-justice-keywords">independent advocacy groups</a> to send us.</p>
@@ -822,7 +822,7 @@ Pro tip:
 <section id="artifacts" class="level2">
 <h2 class="anchored" data-anchor-id="artifacts">Artifacts</h2>
 <p>Slides from workshops can be found here:</p>
-<p><a href="">2023-03-16 @ Tow Center Columbia</a></p>
+<p><a href="">2023-02-24 @ Tow Center Columbia</a><br> <a href="">2023-03-04 @ NICAR</a></p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">

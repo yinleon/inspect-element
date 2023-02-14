@@ -20,7 +20,7 @@ Don't code? No problem: the guide emphasizes underlying principles and uses plai
 
 ### Who wrote this?
 
-Inspect Element is written and edited by investigative data journalist [Leon Yin](https://leonyin.org) with contributions by [REDACTED], and [REDACTED].
+Inspect Element is written by investigative data journalist [Leon Yin](https://leonyin.org) with contributions by [REDACTED], and [REDACTED].
 
 I'll frequently reference past investigations I've worked on in this guide. You can read those investigations plus new stories (when I make deadlines) at [The Markup](https://www.themarkup.org).
 

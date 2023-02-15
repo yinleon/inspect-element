@@ -209,7 +209,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#dont-repeat-work" id="toc-dont-repeat-work" class="nav-link active" data-scroll-target="#dont-repeat-work">Don’t repeat work</a></li>
-  <li><a href="#keep-receipts" id="toc-keep-receipts" class="nav-link" data-scroll-target="#keep-receipts">Keep receipts</a></li>
+  <li><a href="#save-receipts" id="toc-save-receipts" class="nav-link" data-scroll-target="#save-receipts">Save receipts</a></li>
   <li><a href="#bigger-isnt-always-better" id="toc-bigger-isnt-always-better" class="nav-link" data-scroll-target="#bigger-isnt-always-better">Bigger isn’t always better</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
@@ -299,30 +299,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The second time you call it, the function ends early.</p>
 <p>When collecting a large dataset, these steps are essential to make the best use of time.</p>
 </section>
-<section id="keep-receipts" class="level2">
-<h2 class="anchored" data-anchor-id="keep-receipts">Keep receipts</h2>
+<section id="save-receipts" class="level2">
+<h2 class="anchored" data-anchor-id="save-receipts">Save receipts</h2>
 <p>Save the output of every step, especially the earliest steps of collecting a JSON response from a server, or the HTML of a website.</p>
 <p>You can always re-write parsers that turn that “raw” data into something neat and actionable.</p>
-<p>Websites and API responses <em>can</em> change, so web parsers can break easily.</p>
-<p>If you’re collecting a website through browser automation, save a screenshot. It’s helpful to have reference material of what a web page looked like when you captured it.</p>
-<p>This is something we did at the Markup when we collected Facebook data from a national panel over several months, and again, when I collected Google search results.</p>
+<p>Websites and API responses <em>can</em> change, so web parsers can break easily. It is safer to just save the data straight from the source, and process it later.</p>
+<p>If you’re collecting a web page through browser automation, save a screenshot. It’s helpful to have reference material of what the web page looked like when you captured it.</p>
+<p>This is something we did at the Markup when we collected Facebook data from a national panel over several months, and again, when we collected Google search results.</p>
 <p>These receipts don’t just play a role in the underlying analysis, they can be used as powerful exhibits in your investigation.</p>
 <figure class="figure">
 <img src="assets/ida.gif" style="width:50%" class="figure-img">
 <figcaption align="left" style="font-size:80%;" class="figure-caption">
-A screenshot of a Google Search for “Ida Tarbell” that was saved, and stained using a <a href="https://themarkup.org/google-the-giant/2020/07/28/how-we-analyzed-google-search-results-web-assay-parsing-tool#google-search-flow">web parsing</a> tool created for an <a href="https://themarkup.org/google-the-giant/2020/07/28/google-search-results-prioritize-google-products-over-competitors">investigation</a> that found Google gives its own properties 41% of the first page of results.
+A screenshot of a Google Search for “Ida Tarbell” that was saved, and stained using a <a href="https://themarkup.org/google-the-giant/2020/07/28/how-we-analyzed-google-search-results-web-assay-parsing-tool#google-search-flow">web parsing</a> tool created for an <a href="https://themarkup.org/google-the-giant/2020/07/28/google-search-results-prioritize-google-products-over-competitors">investigation</a> that found Google gives its own properties 41% of the first page of Search results.
 </figcaption>
 </figure>
 </section>
 <section id="bigger-isnt-always-better" class="level2">
 <h2 class="anchored" data-anchor-id="bigger-isnt-always-better">Bigger isn’t always better</h2>
-<p>This tip is more philisophical. Be smarter with how you use data, rather than depend on big numbers. Data isn’t in-itself valuable.</p>
-<p>It’s better to start off smaller, with a trial analysis (we often call it a quick-sniff in the newsroom) to make sure you have a testable hypothesis that is answerable using data within reach.</p>
+<p>Be smart with how you use data, rather than depend on big numbers. Data isn’t in-itself valuable.</p>
+<p>It’s better to start off smaller, with a trial analysis (we often call it a quick-sniff in the newsroom) to make sure you have a testable hypothesis.</p>
 <p>This is always a step I use at my newsroom to plan longer data investigations, and see what kind of story we could write if we spent more time on the data collection and honing the methodology.</p>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>This is non-definitive! If you want to share tips, please make a suggestion via email or GitHub.</p>
+<p>These tips are not definitive. If you want to share tips, please make a suggestion via email or GitHub.</p>
 
 
 </section>

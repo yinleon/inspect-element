@@ -9,7 +9,7 @@ Apologies for having everything unorganized in the top-level directory, once I f
 ## For contributors
 
 This site used Github pages and actions to publish the site.
-Do not push any changes or work on the `gh-pages` branch, as that is auto-populated using the `quanto publish gh-pages` command.
+Do not push any changes or work on the `gh-pages` branch, as that is auto-populated using the `quarto publish gh-pages` command.
 
 Read about how this works [here](https://quarto.org/docs/publishing/github-pages.html).
 

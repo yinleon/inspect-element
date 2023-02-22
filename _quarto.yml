@@ -2,6 +2,7 @@ project:
   type: book
   output-dir: docs
   resources: assets/
+
 execute:
   freeze: auto
 
@@ -45,7 +46,7 @@ website:
   twitter-card: true
   open-graph:
     title: Inspect Element
-    description: A practioner's guiide to auditing algorithims and data-driven investigations
+    description: A practioner's guide to auditing algorithims and data-driven investigations
     locale: us_EN
     site-name: Inspect Element
 

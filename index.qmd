@@ -6,6 +6,8 @@ format:
     toc: False
 ---
 
+<video controls autoplay="1" playsinline src="assets/ida.webm" title="Inspect Element" class="quarto-cover-image img-fluid" alt="A Google Knowlege Panel of Ida Tarbell stained different colors from an audit.  " controls=""><a href="http://localhost:4674/assets/ida.webm">Video</a></video>  
+
 Inspect Element is a practitioner's guide to hypothesis-driven accountability work.
 
 The guide walks through in-depth case studies and hands-on tutorials to help you audit algorithims and investigate opaque systems, systematically.
@@ -20,7 +22,7 @@ Don't code? No problem: the guide emphasizes underlying principles and uses plai
 
 ### Who wrote this?
 
-Inspect Element is written by investigative data journalist [Leon Yin](https://leonyin.org) with contributions by [REDACTED], and [REDACTED].
+Inspect Element is written by investigative data journalist [Leon Yin](https://leonyin.org) with contributions by others [TK](https://en.wikipedia.org/wiki/To_come_(publishing)).
 
 I'll frequently reference past investigations I've worked on in this guide. You can read those investigations plus new stories (when I make deadlines) at [The Markup](https://www.themarkup.org).
 

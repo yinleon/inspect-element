@@ -17,3 +17,6 @@ To preview the website locally, run:
 ```
 quarto preview
 ```
+
+Test the speed of the page here:
+https://pagespeed.web.dev/report?url=https%3A%2F%2Finspectelement.org%2F&form_factor=desktop

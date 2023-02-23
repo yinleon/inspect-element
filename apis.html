@@ -323,7 +323,6 @@ div.csl-indent {
 <p>If you have tried to get a driver’s license or a travel visa, you have experienced bureaucracy at its finest– a series of lines, forms, credential-showing, and waiting.</p>
 <p>Application Program Interfaces, or APIs, are digitized bureaucracy. You make a request, and then wait in a queue to be served by a server. However, instead of leaving with a driver’s license or a custom plate, what you’re waiting for is well-formatted data. As for making mistakes… well, you’ll get an automated rejection and zero sympathy.</p>
 <p>Most APIs are undocumented and hidden in plain sight. There is no set terminology for these APIs, so for simplicity’s sake we’ll refer to them as “hidden APIs”.</p>
-<p>Journalists and researchers have used hidden APIs to catalogue Amazon Ring’s sprawling surveillence network <span class="citation" data-cites="calacci-2022 gizmodo-ring-2019">(<a href="references.html#ref-calacci-2022" role="doc-biblioref">Calacci, Shen, and Pentland 2022</a>; <a href="references.html#ref-gizmodo-ring-2019" role="doc-biblioref">Cameron and Mehrota 2019</a>)</span>, identify gender inequity in Facebook’s advertising ecosystem <span class="citation" data-cites="garcia-2018">(<a href="references.html#ref-garcia-2018" role="doc-biblioref">Garcia et al. 2018</a>)</span>, and parse complex government documents listing presidential appointees <span class="citation" data-cites="willis-plum">(<a href="references.html#ref-willis-plum" role="doc-biblioref">Willis 2013</a>)</span>.</p>
 <p>Some investigations are only possible after finding and reverse-engineering hidden APIs. Our first case study illustrates this in detail, where my reporting partner Aaron Sankin and I discovered hidden APIs out of necessity while reporting on YouTube.</p>
 </section>
 <section id="a-key-tool-for-investigations" class="level2">
@@ -381,14 +380,14 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 <h1>Case Studies</h1>
 <section id="how-have-hidden-apis-been-used" class="level2">
 <h2 class="anchored" data-anchor-id="how-have-hidden-apis-been-used"><em>How have Hidden APIs been used?</em></h2>
-<p>Finding hidden APIs are instrumental to past investigations and audits ranging from uncovering keyword blocklists, to identifying unmarked private label products, to being able to collect massive of quantities data representative of major American cities.</p>
+<p>Journalists and researchers have used hidden APIs to catalogue Amazon Ring’s sprawling surveillence network <span class="citation" data-cites="calacci-2022 gizmodo-ring-2019">(<a href="references.html#ref-calacci-2022" role="doc-biblioref">Calacci, Shen, and Pentland 2022</a>; <a href="references.html#ref-gizmodo-ring-2019" role="doc-biblioref">Cameron and Mehrota 2019</a>)</span>, identify gender inequity in Facebook’s advertising ecosystem <span class="citation" data-cites="garcia-2018">(<a href="references.html#ref-garcia-2018" role="doc-biblioref">Garcia et al. 2018</a>)</span>, and parse complex government documents listing presidential appointees <span class="citation" data-cites="willis-plum">(<a href="references.html#ref-willis-plum" role="doc-biblioref">Willis 2013</a>)</span>.</p>
 <p>Using hidden APIs has three key strengths:</p>
 <ol type="1">
-<li><strong>Richness</strong>: APIs often contain information that is not visable on web pages. This information is also stored in JSON, which is a data format that is much easier to parse than if that same information was scraped directly from the webpage.<br></li>
-<li><strong>Reliability</strong>: Often times these APIs execute essential functions. For that reason, they don’t change often. This makes them a reliable data source over time. Some companies routinely change class names and tags to break web scrapers that save HTML. This is less of a problem when you use an API.<br></li>
-<li><strong>Scalability</strong>: You can collect more information in less time using this method compared to <a href="https://en.wikipedia.org/wiki/Headless_browser">headless browsers</a>, such as Selenium, Puppeteer, and Playwright. (Not throwing shade–these tools have their purpose, which we’ll go over in a future section.)</li>
+<li><strong>Richness</strong>: APIs often contain information that is not visable on web pages.<br></li>
+<li><strong>Reliability</strong>: APIs execute essential functions, so they don’t change often. This can make for a reliable data source over time.<br></li>
+<li><strong>Scalability</strong>: You can collect more information in less time using this method compared to <a href="https://en.wikipedia.org/wiki/Headless_browser">headless browsers</a>, such as Selenium, Puppeteer, and Playwright (Not throwing shade– these tools have their purpose).</li>
 </ol>
-<p>We will cover three case studies, each of which is intended to highlight one of these benefits.</p>
+<p>Next we will cover three case studies, each of which is intended to highlight one of these benefits.</p>
 </section>
 <section id="case-study-on-richness-googles-blocklist-for-youtube-advertisers" class="level2">
 <h2 class="anchored" data-anchor-id="case-study-on-richness-googles-blocklist-for-youtube-advertisers">Case study on richness: Google’s blocklist for YouTube advertisers</h2>

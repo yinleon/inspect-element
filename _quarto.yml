@@ -32,7 +32,7 @@ book:
         file: best-practices-data-collection.ipynb
   appendices:
     - references.qmd
-    - acknowledgements.qmd
+    # - acknowledgements.qmd
 
 # style choices
 format:

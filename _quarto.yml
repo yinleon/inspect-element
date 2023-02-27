@@ -26,12 +26,13 @@ book:
       file: index.qmd
     - part: build-your-own-datasets.ipynb
       chapters: 
-      - text: "Hidden APIs"
+      - text: "Undocumented APIs"
         file: apis.ipynb
       - text: "Best Practices"
         file: best-practices-data-collection.ipynb
   appendices:
     - references.qmd
+    - acknowledgements.qmd
 
 # style choices
 format:

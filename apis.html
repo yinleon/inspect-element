@@ -198,7 +198,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./apis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Hidden APIs</span></a>
+  <a href="./apis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Undocumented APIs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -219,6 +219,11 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acknowledgements.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Acknowledgements</span></a>
   </div>
 </li>
       </ul>
@@ -266,6 +271,7 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#for-advanced-usage" id="toc-for-advanced-usage" class="nav-link" data-scroll-target="#for-advanced-usage">For advanced usage…</a></li>
   </ul></li>
+  <li><a href="#predetermined-prompts" id="toc-predetermined-prompts" class="nav-link" data-scroll-target="#predetermined-prompts">Predetermined prompts</a></li>
   <li><a href="#homework-assignment" id="toc-homework-assignment" class="nav-link" data-scroll-target="#homework-assignment">Homework assignment</a></li>
   </ul></li>
   <li><a href="#related-readings" id="toc-related-readings" class="nav-link" data-scroll-target="#related-readings">Related readings</a>
@@ -298,7 +304,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">February 21, 2023</p>
+      <p class="date-modified">February 26, 2023</p>
     </div>
   </div>
     
@@ -428,6 +434,7 @@ Automating checking for internet plans from AT&amp;T using Selenium browser auto
 <p>This allowed us to collect AT&amp;T internet plans for a representative sample of 21 cities in two days, rather than two years.</p>
 <p>Timely data collection is key. Solving this issue allowed us to be ambitious in the scope of our investigation, which <a href="https://themarkup.org/still-loading/2022/10/19/dollars-to-megabits-you-may-be-paying-400-times-as-much-as-your-neighbor-for-internet-service">ultimately found</a> that Internet pricing disparities were common for lower-income, least-White, and historically redlined areas.</p>
 <p>When it comes to web scraping, undocumented APIs offer unmatched <strong>scalability</strong> to collect massive amounts of data. This is especially true when you orchestrate them with asynchronous and multi-threaded programming (another topic we plan to cover in a future section).</p>
+<p>Although the process of finding undocumented APIs is not too complicated (as you’ll see in the tutorial), the chances of finding one that is helpful for your investigation or research are still quite low. Don’t be deterred, that just makes finding a useful one more special.</p>
 </section>
 </section>
 <section id="tutorial" class="level1">
@@ -479,7 +486,7 @@ Example of inspecting an element on a page using a right-click
 </section>
 <section id="filter-requests-by-fetchxhr" class="level3">
 <h3 class="anchored" data-anchor-id="filter-requests-by-fetchxhr">3. Filter requests by fetch/XHR</h3>
-<p>This will reveal only API calls made to servers. This includes internal servers that are hosted by the folks who run the website we’re inspecting, as well as external servers. The latter often includes third-party trackers used in adtech, and verification services to authenticate user behavior.</p>
+<p>This will reveal only API calls made to servers. This includes internal servers that are hosted by the website we’re inspecting, as well as external servers. The latter often includes <a href="https://themarkup.org/blacklight">third-party trackers</a> used in adtech, and verification services to authenticate user behavior.</p>
 <video width="100%" controls="" loop="">
 <source src="assets/filter-network.mp4" type="video/mp4">
 </video>
@@ -497,7 +504,7 @@ Pro tip:
 <p>You can “Filter URLs” using different properties (see how to do this for <a href="https://developer.chrome.com/docs/devtools/network/reference/#filter-by-property">Chrome</a> and <a href="https://firefox-source-docs.mozilla.org/devtools-user/network_monitor/request_list/index.html#filtering-requests">Firefox</a>).</p>
 </div>
 </div>
-<p>In this example, notice that a request was sent to the “Domain” <code>completion.amazon.com</code>, using an API endpoint (in the “File” column) named <code>suggestions</code>. This is likely the API being called to populate autocompleted search suggestions on the Amazon marketplace.</p>
+<p>In this example, notice that a request was sent to the “Domain” <code>completion.amazon.com</code>, using an API endpoint (in the “File” column) named <code>suggestions</code>. This is likely the API being called to populate autocompleted search suggestions on the Amazon marketplace. Reading “File” names can help determine each API’s function.</p>
 <p>When clicking the network request, you’ll see “Headers”. Those are the <a href="https://developer.mozilla.org/en-US/docs/Glossary/Request_header">HTTP headers</a> that were sent along with the network request. This is not useful for us <em>just yet</em>, instead we want to see what data gets transferred as a result of the API call.</p>
 <p>To do this, we’ll look at the request’s “Response” attributes.</p>
 </section>
@@ -512,6 +519,7 @@ Pro tip:
 Amazon’s suggestions for “spicy”.
 </figcaption>
 </figure>
+<p>Another check you can perform <code>CTRL+F</code> the JSON response for a unique string. This could be a string of text on the page (or something else) that serves as a unique tracer. Verifying its presence will help pinpoint the right API call.</p>
 <p>Getting these steps down, is your one way ticket to spicy town, and you don’t need to code at all.</p>
 <p>However, some rudimentary coding can help you figure out how to use the API for vast inputs to collect your own dataset.</p>
 </section>
@@ -781,7 +789,8 @@ Pro tip:
 </section>
 <section id="do-it-yourself" class="level2">
 <h2 class="anchored" data-anchor-id="do-it-yourself">Do it yourself</h2>
-<p>Use this space below to find another undocumented API and reuse it for a few other input parameters.</p>
+<p>Find an API in the wild, isolate it, strip it down, reverse-engineer it and analyze some of its results.</p>
+<p>If a website has a search bar or a text box that queries a server or database, there’s a good chance that you can find an API.</p>
 <p>Revisit the steps we outlined above, and apply them to a new website. If you aren’t a coder, try to get steps 1-6 (I believe in you!).</p>
 <p>If you are a coder, try some of the advanced usage below.</p>
 <section id="for-advanced-usage" class="level3">
@@ -795,11 +804,20 @@ Pro tip:
 </ul>
 </section>
 </section>
+<section id="predetermined-prompts" class="level2">
+<h2 class="anchored" data-anchor-id="predetermined-prompts">Predetermined prompts</h2>
+<p>Don’t know where to look? Here are some ideas:</p>
+<ul>
+<li>YouTube recommendations.<br></li>
+<li><a href="https://themarkup.org/blacklight">Blacklight</a>’s API to find third-party trackers on a website.<br></li>
+<li>Amtrak’s train statuses.</li>
+</ul>
+</section>
 <section id="homework-assignment" class="level2">
 <h2 class="anchored" data-anchor-id="homework-assignment">Homework assignment</h2>
-<p>Dry-run: Think about the websites you frequent, and topics that interest you. Find an API in the wild, isolate it, and analyze some of its results.</p>
-<p>Scoping: Determine how the API could be used to produce data to answer a reporting question or hypothesis. What will be your sample for a quick test, i.e.&nbsp;how many data points are enough to know if you have something?</p>
-<p>Reporting: Determine the meaning and significance of hidden fields that are returned.</p>
+<p><strong>Practice</strong>: Keep trying to find APIs in the wild. Think about the websites you frequent, topics that interest you, or stories you’re currently working on. You won’t always find an API, and that’s OK.</p>
+<p><strong>Scoping</strong>: Determine how the API could be used to produce data to answer a reporting question or hypothesis. What will be your sample for a quick test, i.e.&nbsp;how many data points are enough to know if you have something?</p>
+<p><strong>Reporting</strong>: Determine the meaning and significance of hidden fields that are returned.</p>
 <p>Ultimately APIs are a tool, and data is useless without a purpose. Hopefully this worksheet helps you in your time of need.</p>
 </section>
 </section>

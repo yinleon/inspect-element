@@ -8,11 +8,11 @@ format:
 
 <video autoplay muted playsinline src="assets/ida.webm" title="Inspect Element" class="quarto-cover-image img-fluid" alt="A Google Knowlege Panel of Ida Tarbell stained different colors from an audit. "><a href="http://localhost:4674/assets/ida.webm">Video</a></video>  
 
-Inspect Element is a practitioner's guide to hypothesis-driven accountability work.
+Inspect Element is a practitioner's guide to auditing algorithms and hypothesis-driven investigations.
 
-The guide walks through in-depth case studies and hands-on tutorials to help you audit algorithims and investigate opaque systems, systematically.
+The guide walks through in-depth case studies and hands-on tutorials to help you investigate opaque systems, systematically.
 
-You will learn how to build your own datasets, [find hidden APIs](/apis.html), analyze missing data, measure disparate outcomes, bullet-proof findings, and write with precision.
+You will learn how to build your own datasets, [find hidden and undocumented APIs](/apis.html), analyze missing data, measure disparate outcomes, bullet-proof findings, and write with precision.
 
 As practitioners ourselves, we've had to learn on the job, hit dead ends, and seek external expertise across fields and industries. Here, we distill these experiences and include tips for veterans and new-comers alike.
 

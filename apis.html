@@ -299,7 +299,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">February 26, 2023</p>
+      <p class="date-modified">March 4, 2023</p>
     </div>
   </div>
     
@@ -345,7 +345,7 @@ Searching the Google Ads portal for YouTube videos related to a conspiracy theor
 <p>We wanted to verify if Google was using a keyword blocklist, and test how consistent that blocklist was with YouTube’s “advertiser friendly” <a href="https://support.google.com/youtube/answer/6162278?hl=en">guidelines</a>. Unfortunately, the portal did not make it possible to discern between a blocked keyword and one that may have been too obscure to return any results.</p>
 <p>Our colleague Surya Mattu suggested using the web browser’s built-in <code>developer tools</code> to monitor <a href="https://doc.arcgis.com/en/appstudio/extend-apps/apinetworkrequest.htm">network requests</a> while we made searches in the portal. This proved to be a breakthrough that allowed us to isolate the API-endpoint being called during this process, reverse-engineer it to return results for any given keyword, and analyze the API’s response before its contents were displayed in the portal.</p>
 <p>By looking closely at the API responses, we were able to identify clear structural differences based on Google’s verdict of the keyword. Blocked terms returned an empty JSON string <code>{}</code>, whereas obscure terms returned a JSON with labels but no results:</p>
-<p><code>{“videos”: [], “channels: []}</code></p>
+<p><code>{“videos”: [], “channels": []}</code></p>
 <p>With the categorization scheme established, we could confirm search terms were being blocked (read about this in detail <a href="https://themarkup.org/google-the-giant/2021/04/08/how-we-discovered-googles-hate-blocklist-for-ad-placements-on-youtube#data-collection">here</a> article). Moreover, with the API at our service, we could test any set of keywords, so we tested well-known <a href="https://themarkup.org/google-the-giant/2021/04/08/how-we-discovered-googles-hate-blocklist-for-ad-placements-on-youtube#sourcing-hate-keywords">hate terms</a> and phrases related to “racial justice and representation” that we asked <a href="https://themarkup.org/google-the-giant/2021/04/09/how-we-discovered-googles-social-justice-blocklist-for-youtube-ad-placements#sourcing-social-justice-keywords">independent advocacy groups</a> to send us.</p>
 <p>After testing the two keyword lists, we saw a pattern of Google blocking racial justice terms (like “Black power”), while showing advertisers results for well-known hate terms (like “White power”).</p>
 <figure class="figure">

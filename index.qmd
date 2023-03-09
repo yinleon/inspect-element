@@ -6,7 +6,7 @@ format:
     toc: False
 ---
 
-<video autoplay muted playsinline src="assets/ida.webm" title="Inspect Element" class="quarto-cover-image img-fluid" alt="A Google Knowlege Panel of Ida Tarbell stained different colors from an audit. "><a href="http://localhost:4674/assets/ida.webm">Video</a></video>  
+<video autoplay muted playsinline src="assets/ida.mp4" title="Inspect Element" class="quarto-cover-image img-fluid" alt="A Google Knowlege Panel of Ida Tarbell stained different colors from an audit. "><a href="http://localhost:4674/assets/ida.webm">Video</a></video>  
 
 This guide will walk through in-depth case studies and hands-on tutorials to help you investigate opaque systems, systematically.
 

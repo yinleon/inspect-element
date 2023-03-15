@@ -24,7 +24,7 @@ book:
     description: A practioner's guide to auditing algorithms and hypothesis-driven investigations
     locale: us_EN
     site-name: Inspect Element
-    image: assets/inspect-element.png
+    image: assets/inspect-element.jpg
   sidebar:
     collapse-level: 3
     pinned: true

@@ -11,7 +11,7 @@ book:
   title: "Inspect Element"
   subtitle: "A practitioner's guide to auditing algorithms and hypothesis-driven investigations"
   search: true
-  image: assets/inspect-element-v1.png
+  image: assets/inspect-element-logo.jpg
   favicon: assets/favicon/favicon.ico
   # cover-image: assets/ida.webm
   # cover-image-alt: |
@@ -22,10 +22,10 @@ book:
   twitter-card: true
   open-graph:
     title: Inspect Element
-    description: A practioner's guide to auditing algorithms and hypothesis-driven investigations
+    description: A guide to auditing algorithms and hypothesis-driven investigations
     locale: us_EN
     site-name: Inspect Element
-    image: assets/inspect-element-v1s.png
+    image: assets/inspect-element-logo.jpg
   sidebar:
     collapse-level: 3
     pinned: true

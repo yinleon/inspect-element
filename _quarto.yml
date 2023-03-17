@@ -20,6 +20,7 @@ book:
   repo-actions: [edit]
   site-url: https://inspectelement.org
   twitter-card:
+    image: assets/inspect-element-logo.jpg
     card-style: "summary_large_image"
     image-width: 1200
     image-height: 630

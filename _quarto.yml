@@ -19,8 +19,8 @@ book:
   repo-url: https://github.com/yinleon/inspect-element
   repo-actions: [edit]
   site-url: https://inspectelement.org
-  twitter-card:
-    image: assets/logo-twitter.png
+  # twitter-card:
+  #   image: assets/logo-twitter.png
   open-graph:
     title: Inspect Element
     description: A guide to auditing algorithms and hypothesis-driven investigations

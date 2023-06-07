@@ -47,6 +47,8 @@ book:
         file: apis.ipynb
       - text: "Best Practices"
         file: best-practices-data-collection.ipynb
+      - text: "Browser automation"
+        file: browser_automation.ipynb
   appendices:
     - references.qmd
     # - acknowledgements.qmd

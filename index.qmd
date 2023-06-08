@@ -8,7 +8,7 @@ format:
 
 <video autoplay muted playsinline src="assets/ida.mp4" title="Inspect Element" class="quarto-cover-image img-fluid" alt="A Google Knowlege Panel of Ida Tarbell stained different colors from an audit. "><a href="http://localhost:4674/assets/ida.webm">Video</a></video>  
 
-This guide will walk through in-depth case studies and hands-on tutorials to help you investigate opaque systems, systematically.
+This guide walks through in-depth case studies and hands-on tutorials to help you investigate opaque systems, systematically.
 
 You will learn how to build your own datasets, [find undocumented APIs](/apis.html), analyze missing data, measure disparate outcomes, bullet-proof findings, and write with precision.
 

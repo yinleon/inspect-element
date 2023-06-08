@@ -9,7 +9,7 @@ execute:
 # organization
 book:
   title: "Inspect Element"
-  subtitle: "A practitioner's guide to auditing algorithms and hypothesis-driven investigations"
+  subtitle: "A practitioner's guide to algorithm accountability and hypothesis-driven investigations"
   search: true
   image: assets/inspect-element-logo.jpg
   favicon: assets/favicon/favicon.ico
@@ -45,10 +45,10 @@ book:
       chapters: 
       - text: "Undocumented APIs"
         file: apis.ipynb
-      - text: "Best Practices"
-        file: best-practices-data-collection.ipynb
       - text: "Browser automation"
         file: browser_automation.ipynb
+      - text: "Best Practices"
+        file: best-practices-data-collection.ipynb
   appendices:
     - references.qmd
     # - acknowledgements.qmd

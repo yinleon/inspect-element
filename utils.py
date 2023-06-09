@@ -6,7 +6,7 @@ def build_buttons(link, github, citation=False):
     Used to generate github, collab, and website-linked buttons
     """
     if citation:
-        citation_str = f'<a type="button" class="btn btn-outline-primary btn-sm" target="_self" href="#citation">❞ Citation</a>'
+        citation_str = f'<a type="button" class="btn btn-outline-primary btn-sm" target="_self" href="#citation">🏛 Citation</a>'
     else:
         citation_str = ''
 

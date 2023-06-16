@@ -1,0 +1,33 @@
+---
+title: "Inspect Element"
+href: intro
+format:
+  html:
+    toc: False
+---
+
+<video autoplay muted playsinline src="assets/ida.mp4" title="Inspect Element" class="quarto-cover-image img-fluid" alt="A Google Knowlege Panel of Ida Tarbell stained different colors from an audit. "><a href="http://localhost:4674/assets/ida.webm">Video</a></video>  
+
+This guide walks through in-depth case studies and hands-on tutorials to help you investigate opaque systems, systematically.
+
+You will learn how to build your own datasets, [find undocumented APIs](/apis.html), analyze missing data, measure disparate outcomes, bullet-proof findings, and write with precision.
+
+As practitioners ourselves, we've had to learn on the job, hit dead ends, and seek external expertise across fields and industries. Here, we distill these experiences and include tips for veterans and new-comers alike.
+
+The disciplines we'll draw from include: investigative journalism, data science, social science, and other branches of computer and information science.
+
+Don't code? No problem: the guide emphasizes underlying principles and uses plain-language ("pseudocode") explainations to accompany any code.
+
+### Who wrote this?
+
+Inspect Element is written by investigative data journalist [Leon Yin](https://leonyin.org) with contributions by [Piotr Sapiezynski](https://www.sapiezynski.com), and others [TK](https://en.wikipedia.org/wiki/To_come_(publishing)).
+
+I'll frequently reference past investigations I've worked on in this guide. 
+You can read those investigations plus new stories at [The Markup](https://www.themarkup.org).
+
+This site was generated using the [Quarto](https://quarto.org/) open-source publishing system.
+
+#### Corrections, comments, suggestions?
+
+Email: inspectelement@leonyin.org<br>
+File an issue: on [GitHub](https://github.com/yinleon/inspect-element/issues/new)

@@ -1,0 +1,66 @@
+project:
+  type: book
+  output-dir: docs
+  resources: assets/
+
+execute:
+  freeze: auto
+
+# organization
+book:
+  title: "Inspect Element"
+  subtitle: "A practitioner's guide to auditing algorithms and hypothesis-driven investigations"
+  search: true
+  image: assets/inspect-element-logo.jpg
+  favicon: assets/favicon/favicon.ico
+  # cover-image: assets/ida.webm
+  # cover-image-alt: |
+  #   A Google Knowlege Panel of Ida Tarbell stained different colors from an audit. 
+  repo-url: https://github.com/yinleon/inspect-element
+  repo-actions: [edit]
+  site-url: https://inspectelement.org
+  twitter-card:
+    image: assets/inspect-element-logo.jpg
+    card-style: "summary_large_image"
+    image-width: 1200
+    image-height: 630
+    image-alt: "The inspect element logo"
+  open-graph:
+    title: Inspect Element
+    description: A guide to auditing algorithms and hypothesis-driven investigations
+    locale: us_EN
+    site-name: Inspect Element
+    image: assets/inspect-element-logo.jpg
+    image-width: 1200
+    image-height: 630
+    image-alt: "The inspect element logo"
+  sidebar:
+    # logo: assets/inspect-element-logo.jpg
+    collapse-level: 3
+    pinned: true
+  chapters:
+    - text: "Welcome"
+      file: index.qmd
+    - part: build-your-own-datasets.ipynb
+      chapters: 
+      - text: "Undocumented APIs"
+        file: apis.ipynb
+      - text: "Browser automation"
+        file: browser_automation.ipynb
+      - text: "Best practices"
+        file: best-practices-data-collection.ipynb
+  appendices:
+    - references.qmd
+    # - acknowledgements.qmd
+
+# style choices
+format:
+  html:
+    theme:
+      - cosmo
+      - custom.scss
+    callout-appearance: simple
+    number-sections: false
+
+# misc
+bibliography: references.bib

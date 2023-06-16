@@ -313,10 +313,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>👉<a href="#tutorial">Click here to jump to the Selenium tutorial</a>.</p>
 <section id="intro" class="level1">
 <h1>Intro</h1>
-<p>If you’ve tried to buy concert tickets to a popular act lately, you’ve probably watched in horror as the blue “available” seats evaporate before your eyes the instant tickets are released. Part of that may be pure star-power, but more than likely, it’s also because bots were programmed to buy tickets to be resold at a premium.</p>
+<p>If you’ve tried to buy concert tickets to a popular act lately, you’ve probably watched in horror as the blue “available” seats evaporate before your eyes the instant tickets are released. Part of that may be pure ✨star-power✨, but more than likely, it’s also because bots were programmed to buy tickets to be resold at a premium.</p>
 <p>These bots are programmed to act like an eager fan: waiting in the queue, selecting a seat, and paying for the show. These tasks can all be executed using browser automation.</p>
 <p><strong>Browser automation</strong> is used to programmatically interact with web applications.</p>
-<p>The most frequent use case for browser automation is to run tests on websites by simulating user behavior (mouse clicks, scrolling, etc). This is routine and invisible work that you wouldn’t remember, unlike seeing your dream of crowd surfing with your favorite musician disappear thanks to ticket-buying bots.</p>
+<p>The most frequent use case for browser automation is to run tests on websites by simulating user behavior (mouse clicks, scrolling, and filling out forms). This is routine and invisible work that you wouldn’t remember, unlike seeing your dream of crowd surfing with your favorite musician disappear thanks to ticket-buying bots.</p>
 <p>But browser automation has another use, one which <em>may</em> make your dreams come true: web scraping.</p>
 <p>Browser automation isn’t always the best situation for building a dataset, but it is necessary when you need to:</p>
 <ol type="1">
@@ -329,8 +329,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="headless-browsing" class="level2">
 <h2 class="anchored" data-anchor-id="headless-browsing">Headless Browsing</h2>
 <p>Browser automation can be executed in a “headless” state by some tools.</p>
-<p>This doesn’t mean that the browser is a ghost or anything like that, it just means that the <em>user interface</em> is not used. Instead, everything happens behind the scenes as if the user interface <em>was</em> used.</p>
-<p>One benefit of headless browsing is that it is less <a href="./apis.html#case-study-on-scalability-collecting-internet-plans">resource intensive</a>, however there is no visibility into what the browser is doing. This makes any web scraper you build more difficult to debug.</p>
+<p>This doesn’t mean that the browser is a ghost or anything like that, it just means that the <em>user interface</em> is not visible.</p>
+<p>One benefit of headless browsing is that it is less <a href="./apis.html#case-study-on-scalability-collecting-internet-plans">resource intensive</a>, however there is no visibility into what the browser is doing, making headless scrapers difficult to debug.</p>
 <p>Luckily, some browser automation tools (such as Selenium) allow you to <a href="https://www.selenium.dev/blog/2023/headless-is-going-away/">toggle headless browsing</a> on and off. Other tools, such as Puppeteer only allow you to use headless browsing.</p>
 <p>If you’re new to browser automation, we suggest not using headless browsing off the bat. We suggest you try Selenium, which is exactly what we’ll do in the <a href="#tutorial">tutorial</a> below.</p>
 <figure class="figure">
@@ -379,10 +379,10 @@ Source: <a href="https://themarkup.org/google-the-giant/2020/07/28/how-we-analyz
 <p>You can watch the WSJ’s video showing how they mimic user behavior to study the effects of personalization:</p>
 <figure class="figure">
 <video width="100%" controls="" loop="">
-<source src="assets/browser-automation.gif">
+<source src="assets/wsj_tiktok.mp4">
 </video>
 <figcaption align="left" style="font-size:80%;" class="figure-caption">
-Using Selenium to flip through TikTok
+Source: WSJ
 </figcaption>
 </figure>
 <p>This investigation was possible only after <strong>simulating user behavior</strong> and triggering personalization from TikTok’s “For You” recommendations.</p>
@@ -1045,7 +1045,7 @@ Pro tip: Be careful about keywords
 <li>“<a href="https://www.nrk.no/osloogviken/xl/tiktok-doesn_t-show-the-war-in-ukraine-to-russian-users-1.15921522">Worlds Apart</a>” - a TikTok investigation by Henrik Bøe and Christian Nicolai Bjørke<br></li>
 <li>“<a href="https://github.com/gitronald/WebSearcher">WebSearcher</a>” - A Python package by Ronald E. Robertson<br></li>
 <li>“<a href="https://journalqd.org/article/view/2752">Googling for Abortion</a>” - Yelena Mejova, Tatiana Gracyk, and Ronald E. Robertson<br></li>
-<li>“<a href="https://webxray.org/">webXray</a>” - An website forensics tool by Tim Liebert<br></li>
+<li>“<a href="https://webxray.org/">webXray</a>” - A website forensics tool by Tim Liebert<br></li>
 <li>“<a href="https://github.com/itdelatrisu/OpenWPM">OpenWPM</a>” - A privacy-measurement tool</li>
 </ul>
 <p>Please reach out with more examples to add.</p>

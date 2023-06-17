@@ -318,13 +318,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Browser automation</strong> is used to programmatically interact with web applications.</p>
 <p>The most frequent use case for browser automation is to run tests on websites by simulating user behavior (mouse clicks, scrolling, and filling out forms). This is routine and invisible work that you wouldn’t remember, unlike seeing your dream of crowd surfing with your favorite musician disappear thanks to ticket-buying bots.</p>
 <p>But browser automation has another use, one which <em>may</em> make your dreams come true: web scraping.</p>
-<p>Browser automation isn’t always the best situation for building a dataset, but it is necessary when you need to:</p>
+<p>Browser automation isn’t always the best solution for building a dataset, but it is necessary when you need to:</p>
 <ol type="1">
 <li><strong>Analyze rendered HTML</strong>: see what’s on a website as a user would.</li>
 <li><strong>Simulate user behavior</strong>: experiment with personalization and experience a website as a user would.</li>
 <li><strong>Trigger event execution</strong>: retrieve responses to JavaScript or <a href="./apis.html">network requests</a> following an action.</li>
 </ol>
-<p>These reasons are often interrelated, but we will highlight case studies (below) that demonstrate each strength and why browser automation was a necessary choice for past investigations.</p>
+<p>These reasons are often interrelated. We will walk through case studies (below) that highlight at least one of these strengths, as well as why browser automation was a necessary choice.</p>
 <p>Some popular browser automation tools are <a href="https://pptr.dev/">Puppeteer</a>, <a href="https://playwright.dev/">Playwright</a>, and <a href="https://www.selenium.dev/documentation/webdriver/elements/">Selenium</a>.</p>
 <section id="headless-browsing" class="level2">
 <h2 class="anchored" data-anchor-id="headless-browsing">Headless Browsing</h2>
@@ -332,7 +332,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This doesn’t mean that the browser is a ghost or anything like that, it just means that the <em>user interface</em> is not visible.</p>
 <p>One benefit of headless browsing is that it is less <a href="./apis.html#case-study-on-scalability-collecting-internet-plans">resource intensive</a>, however there is no visibility into what the browser is doing, making headless scrapers difficult to debug.</p>
 <p>Luckily, some browser automation tools (such as Selenium) allow you to <a href="https://www.selenium.dev/blog/2023/headless-is-going-away/">toggle headless browsing</a> on and off. Other tools, such as Puppeteer only allow you to use headless browsing.</p>
-<p>If you’re new to browser automation, we suggest not using headless browsing off the bat. We suggest you try Selenium, which is exactly what we’ll do in the <a href="#tutorial">tutorial</a> below.</p>
+<p>If you’re new to browser automation, we suggest not using headless browsing off the bat. Instead try Selenium (or Playwright), which is exactly what we’ll do in the <a href="#tutorial">tutorial</a> below.</p>
 <figure class="figure">
 <img src="assets/browser-automation.gif" width="100%" class="figure-img">
 <figcaption align="left" style="font-size:80%;" class="figure-caption">
@@ -360,7 +360,7 @@ Source: <a href="https://themarkup.org/google-the-giant/2020/07/28/how-we-analyz
 Source: <a href="https://themarkup.org/google-the-giant/2020/07/28/how-we-analyzed-google-search-results-web-assay-parsing-tool">The Markup</a>
 </figcaption>
 </figure>
-<p>Browser automation tools’ ability to collect and analyze <strong>rendered HTML pages</strong> can be essential. This is especially the case for search results, since most search results contain modules, carousels, as well as non-standardized rows and columns that are more complex than a list.</p>
+<p>Browser automation tools’ ability to collect and analyze <strong>rendered HTML pages</strong> can be essential. This is especially the case for search results, since most search results contain modules, carousels, and other non-standardized rows and columns that are more complex than lists.</p>
 <p>Rendered HTML can be used to analyze the allocation of real estate on a website, which can be a useful metric to gauge self-preferencing and <a href="https://themarkup.org/amazons-advantage/2021/10/14/amazon-puts-its-own-brands-first-above-better-rated-products">anti-competitive business practices</a> relevant to <a href="https://themarkup.org/google-the-giant/2020/07/29/congressman-says-the-markup-investigation-proves-google-has-created-a-walled-garden">antitrust</a>. Take for example this case study, which was placed above the others because one of this section’s co-authors happened to work on it.</p>
 </section>
 <section id="case-study-2-deanonymizing-googles-ad-network" class="level2">

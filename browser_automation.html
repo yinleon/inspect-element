@@ -249,7 +249,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#step-5-finding-tiktok-videos-on-the-page" id="toc-step-5-finding-tiktok-videos-on-the-page" class="nav-link" data-scroll-target="#step-5-finding-tiktok-videos-on-the-page">Step 5: Finding TikTok videos on the page</a></li>
   <li><a href="#step-6-parsing-tiktok-metadata" id="toc-step-6-parsing-tiktok-metadata" class="nav-link" data-scroll-target="#step-6-parsing-tiktok-metadata">Step 6: Parsing TikTok metadata</a></li>
   <li><a href="#step-7-finding-the-tiktok-video-thats-currently-playing" id="toc-step-7-finding-the-tiktok-video-thats-currently-playing" class="nav-link" data-scroll-target="#step-7-finding-the-tiktok-video-thats-currently-playing">Step 7: Finding the TikTok video that’s currently playing</a></li>
-  <li><a href="#step-8-taking-screenshots" id="toc-step-8-taking-screenshots" class="nav-link" data-scroll-target="#step-8-taking-screenshots">Step 8: Taking screenshots</a></li>
+  <li><a href="#step-8-taking-screenshots-and-saving-page-source" id="toc-step-8-taking-screenshots-and-saving-page-source" class="nav-link" data-scroll-target="#step-8-taking-screenshots-and-saving-page-source">Step 8: Taking screenshots and saving page source</a></li>
   <li><a href="#step-9-putting-it-all-together" id="toc-step-9-putting-it-all-together" class="nav-link" data-scroll-target="#step-9-putting-it-all-together">Step 9: Putting it all together</a>
   <ul class="collapse">
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
@@ -293,7 +293,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">June 15, 2023</p>
+      <p class="date-modified">June 17, 2023</p>
     </div>
   </div>
     
@@ -620,8 +620,12 @@ Herb-Crusted Rack of Lamb 😍 #lamb #easyrecipe #easyrecipes #asmrfood #foodtok
 </section>
 <section id="step-7-finding-the-tiktok-video-thats-currently-playing" class="level2">
 <h2 class="anchored" data-anchor-id="step-7-finding-the-tiktok-video-thats-currently-playing">Step 7: Finding the TikTok video that’s currently playing</h2>
-<p>We know how to scroll to the next video, and we know how to find all videos that are loaded. At this point we could either:<br> 1. Assume that at the beginning, the 0th video is playing, and then every time we press arrow down, the next video is being displayed<br> 2. Assume that the arrow down does not always work and each time verify which video is actually playing</p>
-<p>The problem with the first approach is that even if scrolling fails even just once, our experiment will be compromised - after it happens we will be watching and skipping different videos that our math tells us. This is why we will go with the second approach and verify which video is actually playing. Back to our favorite tool- inspect element!</p>
+<p>We know how to scroll to the next video, and we know how to find all videos that are loaded. At this point we could either:</p>
+<ol type="1">
+<li>Assume that at the beginning, the 0th video is playing, and then every time we press arrow down, the next video is being displayed<br></li>
+<li>Assume that the arrow down does not always work and each time verify which video is actually playing</li>
+</ol>
+<p>The problem with the first approach is that even if scrolling fails just once, our experiment will be compromised (after it happens we will be watching and skipping different videos that our script tells us). This is why we will go with the second approach and verify which video is actually playing. Back to our favorite tool- inspect element!</p>
 <p>When you right click on the playing video, you will see that instead of our familiar UI we get a custom TikTok menu, so that won’t work. Try right-clicking on the description of the video instead, then hovering over different elements in the inspector and expanding the one that highlights the video in the browser. Dig deep until you get to the <code>div</code> that only contains the video.</p>
 <p>Still in the inspector try looking at the video below. You will see that the <code>div</code> that contains the video is missing and there is no element with the tag name <code>video</code>. That’s how we can find if the video is currently playing - its <code>div</code> will contain the <code>video</code> element that we can find by <code>TAG_NAME</code>:</p>
 <div class="cell" data-execution_count="15">
@@ -645,8 +649,8 @@ not playing شو رأيكم كان فيها تكفي اللقمة اللي بت�
 </div>
 </div>
 </section>
-<section id="step-8-taking-screenshots" class="level2">
-<h2 class="anchored" data-anchor-id="step-8-taking-screenshots">Step 8: Taking screenshots</h2>
+<section id="step-8-taking-screenshots-and-saving-page-source" class="level2">
+<h2 class="anchored" data-anchor-id="step-8-taking-screenshots-and-saving-page-source">Step 8: Taking screenshots and saving page source</h2>
 <p>The presentation of your results might be more compelling, when its accompanied by screenshots, rather than just data. Selenium allows you to take screenshots of the whole screen, or just a particular element (though the latter is a bit cumbersome):</p>
 <div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># take a screenshot of the whole browser</span></span>
@@ -801,10 +805,17 @@ Pro tip: Use functions!
 <span id="cb25-98"><a href="#cb25-98" aria-hidden="true" tabindex="-1"></a>    screenshot <span class="op">=</span> video.screenshot_as_png</span>
 <span id="cb25-99"><a href="#cb25-99" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(filename, <span class="st">'wb'</span>) <span class="im">as</span> output:</span>
 <span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a>        output.write(screenshot)</span>
-<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a>    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-102"><a href="#cb25-102" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> save_source(driver, filename<span class="op">=</span><span class="st">"screenshot.html"</span>):</span>
+<span id="cb25-103"><a href="#cb25-103" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb25-104"><a href="#cb25-104" aria-hidden="true" tabindex="-1"></a><span class="co">    Saves the browser HTML to a file</span></span>
+<span id="cb25-105"><a href="#cb25-105" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-106"><a href="#cb25-106" aria-hidden="true" tabindex="-1"></a>    page_html <span class="op">=</span> driver.page_source</span>
+<span id="cb25-107"><a href="#cb25-107" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">'webpage.html'</span>, <span class="st">'w'</span>) <span class="im">as</span> output:</span>
+<span id="cb25-108"><a href="#cb25-108" aria-hidden="true" tabindex="-1"></a>        output.write(page_html)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Ok, with that out of the way, let’s set up our first data collection!</p>
-<p>First, let’s make a directory to save all of our screenshots. We will save screenshots here whenever we find a video related to food.</p>
+<p>Ok, with that out of the way, let’s set up our first data collection.</p>
+<p>First, let’s make a directory to save screenshots. We will save screenshots here whenever we find a video related to food.</p>
 <div class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -846,15 +857,19 @@ Pro tip: Use functions!
 <span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> contains_keyword:</span>
 <span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>        <span class="co"># we have a video of interest, let's take a screenshot</span></span>
-<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>        screenshot(current_video, <span class="ss">f"data/screenshots/screenshot_</span><span class="sc">{</span>tiktok_index<span class="sc">:05}</span><span class="ss">.png"</span>)</span>
-<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># and now watch it for 30 seconds</span></span>
-<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">30</span>)</span>
-<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># move to the next video</span></span>
-<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>    arrow_down(driver)</span>
-<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">2</span>)</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>        <span class="co">## here we declare the files we'll save. they're named according to their order.</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>        fn_screenshot <span class="op">=</span> <span class="ss">f"data/screenshots/screenshot_</span><span class="sc">{</span>tiktok_index<span class="sc">:05}</span><span class="ss">.png"</span></span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>        fn_page_soure <span class="op">=</span> fn_screenshot.replace(<span class="st">'.png'</span>, <span class="st">'.html'</span>)</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>        screenshot(current_video, fn_screenshot)</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>        save_source(driver, fn_page_source)</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># and now watch it for 30 seconds</span></span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">30</span>)</span>
 <span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>driver.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># move to the next video</span></span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>    arrow_down(driver)</span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">2</span>)</span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>driver.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0 False ДО КОНЦА😂 а какой у тебя рост?
 1 False • Reprodução: (SBT/Programa Raul Gil) 🇧🇷

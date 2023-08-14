@@ -41,6 +41,12 @@ book:
   chapters:
     - text: "Welcome"
       file: index.qmd
+    - text: "Planning investigations" 
+      part: start.ipynb
+      chapters: 
+      - text: "Checklist"
+        file: checklist.ipynb
+
     - part: build-your-own-datasets.ipynb
       chapters: 
       - text: "Undocumented APIs"
@@ -49,6 +55,10 @@ book:
         file: browser_automation.ipynb
       - text: "Best practices"
         file: best-practices-data-collection.ipynb
+#     - part: Designing experiments
+#       chapters:
+#       - text: "Classification"
+#         file: classification.ipynb
   appendices:
     - references.qmd
     # - acknowledgements.qmd

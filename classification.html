@@ -6,8 +6,12 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Leon Yin">
+<meta name="dcterms.date" content="2023-07-27">
+<meta name="keywords" content="classifications">
+<meta name="description" content="Introduction, case studies, and exercises for building classification systems.">
 
-<title>Inspect Element</title>
+<title>Classification</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -29,7 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./start.html" rel="next">
+<link href="./references.html" rel="next">
+<link href="./best-practices-data-collection.html" rel="prev">
 <link href="./assets/favicon/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -61,24 +66,24 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="Inspect Element">
-<meta property="og:description" content="A guide to auditing algorithms and hypothesis-driven investigations">
+<meta property="og:title" content="Classification">
+<meta property="og:description" content="Introduction, case studies, and exercises for classification.">
 <meta property="og:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
 <meta property="og:site-name" content="Inspect Element">
 <meta property="og:locale" content="us_EN">
-<meta name="twitter:title" content="Inspect Element">
-<meta name="twitter:description" content="A practitioner's guide to auditing algorithms and hypothesis-driven investigations">
+<meta name="twitter:title" content="Classification">
+<meta name="twitter:description" content="Introduction, case studies, and exercises for classification.">
 <meta name="twitter:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Inspect Element</h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Classification</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -106,32 +111,22 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Welcome</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./checklist.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Pitching and planning</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./start.html" class="sidebar-item-text sidebar-link">Planning investigations</a>
+            <a href="./build-your-own-datasets.html" class="sidebar-item-text sidebar-link">Build your own datasets</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./checklist.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Checklist</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="./build-your-own-datasets.html" class="sidebar-item-text sidebar-link">Build your own datasets</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./apis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Undocumented APIs</span></a>
@@ -145,6 +140,21 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./best-practices-data-collection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Best practices</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Designing experiments</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./classification.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Classification</span></a>
   </div>
 </li>
       </ul>
@@ -168,44 +178,127 @@ ul.task-list li input[type="checkbox"] {
     </div>
 </nav>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a>
+  <ul class="collapse">
+  <li><a href="#why-is-classification-necessary" id="toc-why-is-classification-necessary" class="nav-link" data-scroll-target="#why-is-classification-necessary">Why is classification necessary?</a></li>
+  <li><a href="#case-studies" id="toc-case-studies" class="nav-link" data-scroll-target="#case-studies">Case Studies</a>
+  <ul class="collapse">
+  <li><a href="#google-associates-black-girls-with-porn" id="toc-google-associates-black-girls-with-porn" class="nav-link" data-scroll-target="#google-associates-black-girls-with-porn">Google associates “Black girls” with porn</a></li>
+  </ul></li>
+  <li><a href="#check-your-work" id="toc-check-your-work" class="nav-link" data-scroll-target="#check-your-work">Check your work</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/yinleon/inspect-element/blob/main/classification.ipynb" class="toc-action">Edit this page</a></p></div></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Inspect Element</h1>
-<p class="subtitle lead">A practitioner’s guide to auditing algorithms and hypothesis-driven investigations</p>
+<h1 class="title d-none d-lg-block"><span class="chapter-title">Classification</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Leon Yin </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 27, 2023</p>
+    </div>
+  </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">July 27, 2023</p>
+    </div>
+  </div>
     
   </div>
   
 
 </header>
 
-<video autoplay="" muted="" playsinline="" src="assets/ida.mp4" title="Inspect Element" class="quarto-cover-image img-fluid" alt="A Google Knowlege Panel of Ida Tarbell stained different colors from an audit. ">
-<a href="http://localhost:4674/assets/ida.webm">Video</a>
-</video>
-<p>This guide walks through in-depth case studies and hands-on tutorials to help you investigate opaque systems, systematically.</p>
-<p>You will learn how to build your own datasets, <a href="./apis.html">find undocumented APIs</a>, analyze missing data, measure disparate outcomes, bullet-proof findings, and write with precision.</p>
-<p>As practitioners ourselves, we’ve had to learn on the job, hit dead ends, and seek external expertise across fields and industries. Here, we distill these experiences and include tips for veterans and new-comers alike.</p>
-<p>The disciplines we’ll draw from include: investigative journalism, data science, social science, and other branches of computer and information science.</p>
-<p>Don’t code? No problem: the guide emphasizes underlying principles and uses plain-language (“pseudocode”) explainations to accompany any code.</p>
-<section id="who-wrote-this" class="level3">
-<h3 class="anchored" data-anchor-id="who-wrote-this">Who wrote this?</h3>
-<p>Inspect Element is written by investigative data journalist <a href="https://leonyin.org">Leon Yin</a> with contributions by <a href="https://www.sapiezynski.com">Piotr Sapiezynski</a>, and others <a href="https://en.wikipedia.org/wiki/To_come_(publishing)">TK</a>.</p>
-<p>I’ll frequently reference past investigations I’ve worked on in this guide. You can read those investigations plus new stories at Bloomberg and <a href="https://www.themarkup.org">The Markup</a>.</p>
-<p>This site was generated using the <a href="https://quarto.org/">Quarto</a> open-source publishing system.</p>
-<section id="corrections-comments-suggestions" class="level4">
-<h4 class="anchored" data-anchor-id="corrections-comments-suggestions">Corrections, comments, suggestions?</h4>
-<p>Email: inspectelement@leonyin.org<br> File an issue: on <a href="https://github.com/yinleon/inspect-element/issues/new">GitHub</a></p>
+<section id="intro" class="level1">
+<h1>Intro</h1>
+<p>In Dante’s <em>Inferno</em>, the 14th century Italian poet portrays hell as nine unique layers (or circles). Dante builds on the concept of <a href="https://en.wikipedia.org/wiki/Contrapasso">contrapasso</a>– a punishment befitting the crime, for which damned souls are sent to a specific layer of hell based on their crimes.</p>
+<p>The eighth circle is designated for frauds, which included soothsayers and diviners. For spending their lives only looking ahead towards the future, they had their heads turned backwards so they could only look behind them.</p>
+<figure class="figure">
+<img src="assets/dante.jpg" style="width:75%" class="figure-img">
+<figcaption align="left" style="font-size:80%;" class="figure-caption">
+The Map of Hell painting by Sandro Botticelli.
+</figcaption>
+</figure>
+<p>By doing organizing the damned by their crimes, Dante produced a classification system.</p>
+<p>Although you probably won’t be producing a system to punish souls for eternety, you will inevitably encounter the need to produce your own categorization system for an investigation.</p>
+<p>If it’s not something you plan for, you too might find yourself in hell.</p>
+<section id="why-is-classification-necessary" class="level2">
+<h2 class="anchored" data-anchor-id="why-is-classification-necessary">Why is classification necessary?</h2>
+<p>Classification is more of an art or craft, than a science.</p>
+<p>In any case, you will need a combination of quantatative skills such as…</p>
+<ul>
+<li>inspecting source code</li>
+<li>reading documentation</li>
+<li>exploratory data analysis and</li>
+</ul>
+<p>qualatative skills such as…</p>
+<ul>
+<li>interviewing domain experts</li>
+<li>reading the literature</li>
+</ul>
+<p>Similarly, your classification can be based on quanatites that can be measured (think of naming ranges, or thresholds), or qualities (usually a “yes” or “no”).</p>
+<p>An example for quantative classification is how the atmosphere is organized into layers based thermal characteristics.</p>
+<figure class="figure">
+<img src="assets/lower layers of the atmosphere.jpg" style="width:50%" class="figure-img">
+<figcaption align="left" style="font-size:80%;" class="figure-caption">
+Layers of the atmosphere. Source: <a href="https://www.noaa.gov/jetstream/atmosphere/layers-of-atmosphere">NOAA</a>
+</figcaption>
+</figure>
+<p>Scientists discovered the lower atmospheric layers using weather baloons.</p>
+<p>A quantative example is whether or not a photo contains a Chihuahua or a Muffin.</p>
+</section>
+<section id="case-studies" class="level2">
+<h2 class="anchored" data-anchor-id="case-studies">Case Studies</h2>
+<section id="google-associates-black-girls-with-porn" class="level3">
+<h3 class="anchored" data-anchor-id="google-associates-black-girls-with-porn">Google associates “Black girls” with porn</h3>
+<p>In this investigation Aaron Sankin and I tried to reproduce Safiya Noble’s work on Google Search in Google Ads.</p>
+<p>To do this we queried a marketing tool called Keyword Manager with search terms to see related terms.</p>
+<p>We found that searches for “black girls”, “latina girls”, “asian girls” returned majority pornographic results. We determined this using a two-step categorization process.</p>
+<p>The first involved making the same search again with Google’s “adult ideas” filter turned off. By Google’s own admission, more than half of results were “adult ideas”. However, after reviewing the remaining search terms it was clear that the filter was not completely effective. To check, we ran the remaining terms through Google Search and confirmed that the majority of the searches returned results that mention “porn” in the description.</p>
+<figure class="figure">
+<img src="assets/google_ads_black_girls.png" style="width:75%" class="figure-img">
+<figcaption align="left" style="font-size:80%;" class="figure-caption">
+The results re-calcualted with different categorization systems to bucket race/ethnicity and income.
+</figcaption>
+</figure>
+<p>Build off your investigation target’s own definitions when possible, but find ways to supplement those with additional information. Ultimately, our supplement was another product from Google.</p>
+</section>
+</section>
+<section id="check-your-work" class="level2">
+<h2 class="anchored" data-anchor-id="check-your-work">Check your work</h2>
+<p>If you’re concerned that your classification system is biased and would skew your results, one thing you can do is re-calculate the same statistics with differing categorization systems. This is one way to bulletproof your work, especially if changes are negligable between classification systems.</p>
+<p>https://themarkup.org/show-your-work/2022/10/19/how-we-uncovered-disparities-in-internet-deals#different-categorization-systems</p>
+<p>https://themarkup.org/google-the-giant/2020/07/28/how-we-analyzed-google-search-results-web-assay-parsing-tool#google-search-interp</p>
+<figure class="figure">
+<img src="assets/categorization_delta.png" style="width:80%" class="figure-img">
+<figcaption align="left" style="font-size:80%;" class="figure-caption">
+The results re-calcualted with different categorization systems to bucket race/ethnicity and income.
+</figcaption>
+</figure>
 
 
 </section>
@@ -347,10 +440,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./best-practices-data-collection.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Best practices</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./start.html" class="pagination-link">
-        <span class="nav-page-text">Planning investigations</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

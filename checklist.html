@@ -6,8 +6,12 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Leon Yin">
+<meta name="dcterms.date" content="2023-07-27">
+<meta name="keywords" content="pitching stories, experiment planning">
+<meta name="description" content="Experiment checklist">
 
-<title>Inspect Element</title>
+<title>Pitching Investigations</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -29,7 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./start.html" rel="next">
+<link href="./build-your-own-datasets.html" rel="next">
+<link href="./start.html" rel="prev">
 <link href="./assets/favicon/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -61,24 +66,24 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="Inspect Element">
-<meta property="og:description" content="A guide to auditing algorithms and hypothesis-driven investigations">
+<meta property="og:title" content="Pitching Hypothesis-Driven Data Investigations">
+<meta property="og:description" content="NA">
 <meta property="og:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
 <meta property="og:site-name" content="Inspect Element">
 <meta property="og:locale" content="us_EN">
-<meta name="twitter:title" content="Inspect Element">
-<meta name="twitter:description" content="A practitioner's guide to auditing algorithms and hypothesis-driven investigations">
+<meta name="twitter:title" content="Pitching Hypothesis-Driven Data Investigations">
+<meta name="twitter:description" content="NA">
 <meta name="twitter:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Inspect Element</h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Pitching Hypothesis-Driven Data Investigations</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -106,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Welcome</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -119,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./checklist.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Checklist</span></a>
+  <a href="./checklist.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Checklist</span></a>
   </div>
 </li>
       </ul>
@@ -168,47 +173,87 @@ ul.task-list li input[type="checkbox"] {
     </div>
 </nav>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#checklist" id="toc-checklist" class="nav-link active" data-scroll-target="#checklist">Checklist</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/yinleon/inspect-element/blob/main/checklist.ipynb" class="toc-action">Edit this page</a></p></div></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Inspect Element</h1>
-<p class="subtitle lead">A practitioner’s guide to auditing algorithms and hypothesis-driven investigations</p>
+<h1 class="title d-none d-lg-block"><span class="chapter-title">Pitching Hypothesis-Driven Data Investigations</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Leon Yin </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 27, 2023</p>
+    </div>
+  </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">July 27, 2023</p>
+    </div>
+  </div>
     
   </div>
   
 
 </header>
 
-<video autoplay="" muted="" playsinline="" src="assets/ida.mp4" title="Inspect Element" class="quarto-cover-image img-fluid" alt="A Google Knowlege Panel of Ida Tarbell stained different colors from an audit. ">
-<a href="http://localhost:4674/assets/ida.webm">Video</a>
-</video>
-<p>This guide walks through in-depth case studies and hands-on tutorials to help you investigate opaque systems, systematically.</p>
-<p>You will learn how to build your own datasets, <a href="./apis.html">find undocumented APIs</a>, analyze missing data, measure disparate outcomes, bullet-proof findings, and write with precision.</p>
-<p>As practitioners ourselves, we’ve had to learn on the job, hit dead ends, and seek external expertise across fields and industries. Here, we distill these experiences and include tips for veterans and new-comers alike.</p>
-<p>The disciplines we’ll draw from include: investigative journalism, data science, social science, and other branches of computer and information science.</p>
-<p>Don’t code? No problem: the guide emphasizes underlying principles and uses plain-language (“pseudocode”) explainations to accompany any code.</p>
-<section id="who-wrote-this" class="level3">
-<h3 class="anchored" data-anchor-id="who-wrote-this">Who wrote this?</h3>
-<p>Inspect Element is written by investigative data journalist <a href="https://leonyin.org">Leon Yin</a> with contributions by <a href="https://www.sapiezynski.com">Piotr Sapiezynski</a>, and others <a href="https://en.wikipedia.org/wiki/To_come_(publishing)">TK</a>.</p>
-<p>I’ll frequently reference past investigations I’ve worked on in this guide. You can read those investigations plus new stories at Bloomberg and <a href="https://www.themarkup.org">The Markup</a>.</p>
-<p>This site was generated using the <a href="https://quarto.org/">Quarto</a> open-source publishing system.</p>
-<section id="corrections-comments-suggestions" class="level4">
-<h4 class="anchored" data-anchor-id="corrections-comments-suggestions">Corrections, comments, suggestions?</h4>
-<p>Email: inspectelement@leonyin.org<br> File an issue: on <a href="https://github.com/yinleon/inspect-element/issues/new">GitHub</a></p>
-
-
+<p>This document asks essential questions to plan data experiments. Revisit these questions throughout your reporting, and use them to communicate your intentions and limitations with your editor. It will help determine if a story is worth pursuing by giving an estimation of time, complexity, and impact.</p>
+<p>As a side benefit, these questions form the backbone of a methodology to get reviewed by experts, as well as the target of your investigation.</p>
+<div class="callout-note callout callout-style-simple">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Copy the checklist as text <a href="#checklist">below</a>, or as a public <a href="https://docs.google.com/document/d/19tft98L90zUq4tn6TBXgaFacdbaI3Kr_/">Google Doc</a>.</p>
+</div>
+</div>
+</div>
+<section id="checklist" class="level2">
+<h2 class="anchored" data-anchor-id="checklist">Checklist</h2>
+<p><strong>1. What is the hypothesis of the story?</strong> <br> <em>This is a testable claim that can be proven or disproven. The hypothesis is revised and honed in the early stages of an investigation.</em></p>
+<p><strong>2. Who is being harmed and at what scale?</strong> <br> <em>Give us a sense of who is being harmed, and whether outcomes are proportionate?</em></p>
+<p><strong>3. Who is causing the harm and what is the accountability angle?</strong> <br> <em>What frameworks exist– legal, company policies, sworn testimonies, to hold them accountable?</em></p>
+<p><strong>4. What is the evidence (anecdotal or otherwise) you’ve gathered that leads you to think you have a viable hypothesis?</strong> <br> <em>If there is existing work on this topic—journalistic, academic, lived experience? How will you build off that work?</em></p>
+<p><strong>5. What is a viability study you can perform?</strong> <br> <em>How can you begin to collect and analyze data as a proof of concept?</em></p>
+<p><strong>6. What data will you need to run an analysis? How will you gather the data?</strong> <br> <em>Web scraping, public records requests, using open data? How will you decide what makes up your sample? Specificity is your friend.</em></p>
+<p><strong>7. How complicated is the data collection?</strong> <br> <em>Will you be able to do this alone? Do you need to use proxies, cloud instances? Do you need to collect data over time?</em></p>
+<p><strong>8. Will you need to filter out records from that data?</strong> <br> <em>What records will you throw out and why?</em></p>
+<p><strong>9. What are the limitations of the dataset(s) you are proposing to use? How will you test its accuracy?</strong> <br> <em>Every dataset is imperfect and carries inherent assumptions. How will you assure what you’re writing is aligned with your dataset? How will you bulletproof that dataset?</em></p>
+<p><strong>10. Do you need to classify the data for your experiment? If so, please describe how you propose doing that. Are there outside classifications or experts you can lean on? What are the limitations of your classification method?</strong> <br> <em>Seldom is the outcome you want to measure already encoded in a column. Instead, you need to make that assessment.</em></p>
+<p><strong>11. How will you analyze the data? What statistical tests will run? Please list any limitations to your proposed method and any alternatives.</strong> <br> <em>Start with simplicity.</em></p>
+<p><strong>12. What specific sentences will you be able to write based on your findings? What’s the lede? What’s the nutgraph?</strong> <br> <em>Use this space to brainstorm how you’ll frame your findings. This helps make your findings tangible. I use TK’s at this step.</em></p>
+<p><strong>13. Can you imagine the charts or other visualizations this data will produce?</strong> <br> <em>How will you communicate your findings visually?</em></p>
 </section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>This checklist is adapted from a checklist used by my editors Julia Angwin and Evelyn Larrubia at The Markup. Jeremy Singer-Vine provided feedback on the adapted list.</p>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -347,10 +392,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./start.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Planning investigations</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./start.html" class="pagination-link">
-        <span class="nav-page-text">Planning investigations</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./build-your-own-datasets.html" class="pagination-link">
+        <span class="nav-page-text">Build your own datasets</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

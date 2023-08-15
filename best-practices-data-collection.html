@@ -132,7 +132,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <meta property="og:site-name" content="Inspect Element">
 <meta property="og:locale" content="us_EN">
 <meta name="twitter:title" content="Inspect Element - 5&nbsp; Best practices for data collection">
-<meta name="twitter:description" content="Here are some helpful tips for building datasets.">
+<meta name="twitter:description" content="In the previous chapters, we covered techniques and methods of data collection.">
 <meta name="twitter:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -239,8 +239,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#dont-repeat-work" id="toc-dont-repeat-work" class="nav-link active" data-scroll-target="#dont-repeat-work">Don’t repeat work</a></li>
+  <li><a href="#make-a-todo-list" id="toc-make-a-todo-list" class="nav-link" data-scroll-target="#make-a-todo-list">Make a todo list</a></li>
   <li><a href="#save-receipts" id="toc-save-receipts" class="nav-link" data-scroll-target="#save-receipts">Save receipts</a></li>
+  <li><a href="#break-up-the-work-and-make-it-as-small-as-possible" id="toc-break-up-the-work-and-make-it-as-small-as-possible" class="nav-link" data-scroll-target="#break-up-the-work-and-make-it-as-small-as-possible">Break up the work, and make it as small as possible</a></li>
   <li><a href="#bigger-isnt-always-better" id="toc-bigger-isnt-always-better" class="nav-link" data-scroll-target="#bigger-isnt-always-better">Bigger isn’t always better</a></li>
+  <li><a href="#spotcheck-everything" id="toc-spotcheck-everything" class="nav-link" data-scroll-target="#spotcheck-everything">Spotcheck everything</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/yinleon/inspect-element/blob/main/best-practices-data-collection.ipynb" class="toc-action">Edit this page</a></p></div></div></nav>
@@ -277,6 +280,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
+<p>In the previous chapters, we covered techniques and methods of data collection.</p>
+<p>A bonafide <em>data pipeline</em> orchestrates those discrete methods alongside infrastructure and careful organization to build a steady stream of data points.</p>
 <p>Here are some helpful tips for building datasets.</p>
 <section id="dont-repeat-work" class="level2">
 <h2 class="anchored" data-anchor-id="dont-repeat-work">Don’t repeat work</h2>
@@ -329,6 +334,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The second time you call it, the function ends early.</p>
 <p>When collecting a large dataset, these steps are essential to make the best use of time.</p>
 </section>
+<section id="make-a-todo-list" class="level2">
+<h2 class="anchored" data-anchor-id="make-a-todo-list">Make a todo list</h2>
+<p>In addition to not repeating yourself, keep tabs on what needs to be done. That could be a simple CSV file, or something more advanced like a queuing system such as AWS SQS. For queuing systems, you can clear tickets that have been finished, and re-do tickets that might have failed.</p>
+</section>
 <section id="save-receipts" class="level2">
 <h2 class="anchored" data-anchor-id="save-receipts">Save receipts</h2>
 <p>Save the output of every step, especially the earliest steps of collecting a JSON response from a server, or the HTML of a website.</p>
@@ -344,11 +353,22 @@ A screenshot of a Google Search for “Ida Tarbell” that was saved, and staine
 </figcaption>
 </video></figure>
 </section>
+<section id="break-up-the-work-and-make-it-as-small-as-possible" class="level2">
+<h2 class="anchored" data-anchor-id="break-up-the-work-and-make-it-as-small-as-possible">Break up the work, and make it as small as possible</h2>
+<p>Break scraping tasks into the smallest units of work. This makes scaling up easier, and it also prevents a single point of failure disrupting your entire workflow.</p>
+<p>Certain components of a scraper can be slower than others. By dividing the tasks, you can better identify bottlenecks to optimize the pipeline. Use to-do lists, and check for existing files to help communicate between tasks.</p>
+<p>Remember that big problems can be broken up into smaller problems. Being smart can help you get to the finish line faster and debug issues quicker.</p>
+</section>
 <section id="bigger-isnt-always-better" class="level2">
 <h2 class="anchored" data-anchor-id="bigger-isnt-always-better">Bigger isn’t always better</h2>
 <p>Be smart with how you use data, rather than depend on big numbers. Data isn’t in-itself valuable.</p>
 <p>It’s better to start off smaller, with a trial analysis (we often call it a quick-sniff in the newsroom) to make sure you have a testable hypothesis.</p>
 <p>This is always a step I use at my newsroom to plan longer data investigations, and see what kind of story we could write if we spent more time on the data collection and honing the methodology.</p>
+</section>
+<section id="spotcheck-everything" class="level2">
+<h2 class="anchored" data-anchor-id="spotcheck-everything">Spotcheck everything</h2>
+<p>Manually check your programmatically saved results with the live results. Small errors can be systematic errors if you don’t catch them manually. Choose a reasonable sample size (such as N=100), to assure what you’re analyzing is exactly what you think you are.</p>
+<p>This is something we did to <a href="https://themarkup.org/google-the-giant/2020/07/28/how-we-analyzed-google-search-results-web-assay-parsing-tool#appendix-3-error-analysis">bullet-proof</a> almost every investigation, even if we didn’t publish the results of that hand-check.</p>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>

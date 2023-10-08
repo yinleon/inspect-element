@@ -53,12 +53,14 @@ book:
         file: apis.ipynb
       - text: "Browser automation"
         file: browser_automation.ipynb
+      - text: "Advanced usage"
+        file: selenium_wire.ipynb
       - text: "Best practices"
         file: best-practices-data-collection.ipynb
-#     - part: Designing experiments
-#       chapters:
-#       - text: "Classification"
-#         file: classification.ipynb
+    - part: Designing experiments
+      chapters:
+      - text: "Classification"
+        file: classification.ipynb
   appendices:
     - references.qmd
     # - acknowledgements.qmd

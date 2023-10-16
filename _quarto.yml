@@ -57,10 +57,10 @@ book:
         file: selenium_wire.ipynb
       - text: "Best practices"
         file: best-practices-data-collection.ipynb
-    - part: Designing experiments
-      chapters:
-      - text: "Classification"
-        file: classification.ipynb
+#     - part: Designing experiments
+#       chapters:
+#       - text: "Classification"
+#         file: classification.ipynb
   appendices:
     - references.qmd
     # - acknowledgements.qmd

@@ -444,22 +444,27 @@ Pro tip: Minimizing harms
 <p>The <code>webdriver</code> is our interface between Python and the browser. It is specific to the browser (there are different webdrivers for Firefox [called Gecko], Safari, etc) and even to the particular version of the browser. It’s easier to ensure we are working with the correct version by installing a webdriver that automatically detects the current version of Chrome.</p>
 <p>Run the code in the cell below to download the Python package <a href="https://pypi.org/project/chromedriver-binary-auto/"><code>chromedriver-binary-auto</code></a>. Adding an exclamation mark before code in Jupyter notebook allows you to run commands as if you were in your computer terminal’s <a href="https://www.computerhope.com/jargon/c/commandi.htm">command line</a></p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install chromedriver<span class="op">-</span>binary<span class="op">-</span>auto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install chromedriver<span class="op">-</span>binary<span class="op">-</span>auto <span class="op">--</span>upgrade</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Collecting chromedriver-binary-auto
-  Downloading chromedriver-binary-auto-0.2.6.tar.gz (5.2 kB)
+<pre><code>Requirement already satisfied: chromedriver-binary-auto in /Users/leon/miniconda3/lib/python3.7/site-packages (0.2.6)
+Collecting chromedriver-binary-auto
+  Downloading chromedriver-binary-auto-0.3.1.tar.gz (5.6 kB)
   Preparing metadata (setup.py) ... done
 Building wheels for collected packages: chromedriver-binary-auto
   Building wheel for chromedriver-binary-auto (setup.py) ... done
-  Created wheel for chromedriver-binary-auto: filename=chromedriver_binary_auto-0.2.6-py3-none-any.whl size=8652851 sha256=1ccd18edd04cf5e1c63e0305676dc1c9c0c0532c8dc09842f6cf963a910e4f04
-  Stored in directory: /Users/leon/Library/Caches/pip/wheels/2a/4e/a6/e342ab457a4cd1642a94bbc8f132e56e90a7a320d08d6bfeb2
+  Created wheel for chromedriver-binary-auto: filename=chromedriver_binary_auto-0.3.1-py3-none-any.whl size=8766235 sha256=f391019058992cc819aa8f6b7feb58bf2ef7477951fdfc91c4ae9a8079531d04
+  Stored in directory: /Users/leon/Library/Caches/pip/wheels/59/5a/a1/80470a1f46c83d62550af8d40634bdb8bc5f034d910d80ff2b
 Successfully built chromedriver-binary-auto
 Installing collected packages: chromedriver-binary-auto
-Successfully installed chromedriver-binary-auto-0.2.6</code></pre>
+  Attempting uninstall: chromedriver-binary-auto
+    Found existing installation: chromedriver-binary-auto 0.2.6
+    Uninstalling chromedriver-binary-auto-0.2.6:
+      Successfully uninstalled chromedriver-binary-auto-0.2.6
+Successfully installed chromedriver-binary-auto-0.3.1</code></pre>
 </div>
 </div>
 <p>Let’s see if the installation worked correctly! Run the cell below to import the correct webdriver and open a new Chrome window.</p>
-<div class="cell" data-execution_count="1">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium <span class="im">import</span> webdriver</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> chromedriver_binary <span class="co"># adds the chromedriver binary to the path</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1088,7 +1093,7 @@ Pro tip: Be careful about keywords
   title     = {Browser Automation},
   booktitle = {Inspect Element: A practitioner's guide to auditing algorithms and hypothesis-driven investigations},
   year      = {2023},
-  editor    = {Yin, Leon and Sapiezynski, Piotr and Raji, Inioluwa Deborah},
+  editor    = {Yin, Leon and Sapiezynski, Piotr},
   note      = {\url{https://inspectelement.org}}
 }
 </pre>

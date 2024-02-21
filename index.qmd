@@ -20,10 +20,10 @@ Don't code? No problem: the guide emphasizes underlying principles and uses plai
 
 ### Who wrote this?
 
-Inspect Element is written by investigative data journalist [Leon Yin](https://leonyin.org) with contributions by [Piotr Sapiezynski](https://www.sapiezynski.com), and others [TK](https://en.wikipedia.org/wiki/To_come_(publishing)).
+Inspect Element is written by investigative data journalist [Leon Yin](https://leonyin.org) with contributions by [Piotr Sapiezynski](https://www.sapiezynski.com) and others [TK](https://en.wikipedia.org/wiki/To_come_(publishing)).
 
-I'll frequently reference past investigations I've worked on in this guide. 
-You can read those investigations plus new stories at Bloomberg and [The Markup](https://www.themarkup.org).
+Leon will frequently reference past investigations he's worked on in this guide. 
+You can read those investigations plus new stories at [Bloomberg](https://www.bloomberg.com/authors/AWeGYifVgnI/leon-yin) and [The Markup](https://themarkup.org/people/leon-yin).
 
 This site was generated using the [Quarto](https://quarto.org/) open-source publishing system.
 

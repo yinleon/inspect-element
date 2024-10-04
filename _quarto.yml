@@ -53,6 +53,8 @@ book:
         file: apis.ipynb
       - text: "Browser automation"
         file: browser_automation.ipynb
+      - text: "Live Scraping With R"
+        file: live_webscraping.ipynb
       - text: "Best practices"
         file: best-practices-data-collection.ipynb
 #     - part: Designing experiments

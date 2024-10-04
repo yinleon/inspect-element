@@ -1,1 +1,1 @@
-Sitemap: https://inspectelement.org/sitemap.xml
+Sitemap: https://declanrjb.github.io/inspect-element/sitemap.xml

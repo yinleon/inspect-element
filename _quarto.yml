@@ -16,9 +16,9 @@ book:
   # cover-image: assets/ida.webm
   # cover-image-alt: |
   #   A Google Knowlege Panel of Ida Tarbell stained different colors from an audit. 
-  repo-url: https://github.com/yinleon/inspect-element
+  repo-url: https://github.com/declanrjb/inspect-element
   repo-actions: [edit]
-  site-url: https://inspectelement.org
+  site-url: https://declanrjb.github.io/inspect-element/
   twitter-card:
     image: assets/inspect-element-logo.jpg
     card-style: "summary_large_image"

@@ -9,7 +9,7 @@ execute:
 # organization
 book:
   title: "Inspect Element"
-  subtitle: "The Practitioner's Guide to Hypothesis-driven Data Investigations"
+  subtitle: "The practitioner's guide to hypothesis-driven data investigations"
   search: true
   image: assets/inspect-element-logo.jpg
   favicon: assets/favicon/favicon.ico

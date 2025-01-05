@@ -9,7 +9,7 @@ execute:
 # organization
 book:
   title: "Inspect Element"
-  subtitle: "A practitioner's guide to auditing algorithms and hypothesis-driven investigations"
+  subtitle: "The Practitioner's Guide to Hypothesis-driven Data Investigations"
   search: true
   image: assets/inspect-element-logo.jpg
   favicon: assets/favicon/favicon.ico
@@ -27,7 +27,7 @@ book:
     image-alt: "The inspect element logo"
   open-graph:
     title: Inspect Element
-    description: A guide to auditing algorithms and hypothesis-driven investigations
+    description: A guide to hypothesis-driven investigations
     locale: us_EN
     site-name: Inspect Element
     image: assets/inspect-element-logo.jpg
@@ -55,6 +55,8 @@ book:
         file: browser_automation.ipynb
 #       - text: "Advanced usage"
 #         file: selenium_wire.ipynb
+#       - text: "Crowdsourcing"
+#         file: crowdsourcing.ipynb
       - text: "Best practices"
         file: best-practices-data-collection.ipynb
 #     - part: Designing experiments

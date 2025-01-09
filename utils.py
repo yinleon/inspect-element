@@ -11,7 +11,7 @@ def build_buttons(link, github, colab = True, citation=False):
         citation_str = ''
 
     if colab:
-        colab_str = '\n<a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://colab.research.google.com/github/{github.split(".com/")[-1]}">🖥️  Interactive version</a>'
+        colab_str = f'\n<a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://colab.research.google.com/github/{github.split(".com/")[-1]}">🖥️  Interactive version</a>'
     else:
         colab_str = ''
     display(Markdown(f"""

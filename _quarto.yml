@@ -57,6 +57,8 @@ book:
 #         file: selenium_wire.ipynb
 #       - text: "Crowdsourcing"
 #         file: crowdsourcing.ipynb
+      - text: "Parsing with Xpath"
+        file: xpath.ipynb
       - text: "Best practices"
         file: best-practices-data-collection.ipynb
 #     - part: Designing experiments

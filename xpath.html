@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Leon Yin">
+<meta name="dcterms.date" content="2025-01-04">
+<meta name="keywords" content="xpath, web parsing, web scraping, beautifulSoup">
+<meta name="description" content="How to parse HTML pages with the universal XPATH syntax. BeautifulSoup no more.">
+
+<title>Parsing the web with xpath</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./best-practices-data-collection.html" rel="next">
+<link href="./browser_automation.html" rel="prev">
+<link href="./assets/favicon/favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<meta property="og:title" content="Parsing webpages with Xpath">
+<meta property="og:description" content="The superior way to navigate the web">
+<meta property="og:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
+<meta property="og:site-name" content="Inspect Element">
+<meta property="og:locale" content="us_EN">
+<meta name="twitter:title" content="Parsing webpages with Xpath">
+<meta name="twitter:description" content="The superior way to navigate the web">
+<meta name="twitter:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Parsing the web with Xpath</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Inspect Element</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/yinleon/inspect-element" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./start.html" class="sidebar-item-text sidebar-link">Planning investigations</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./checklist.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Checklist</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./build-your-own-datasets.html" class="sidebar-item-text sidebar-link">Build your own datasets</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Undocumented APIs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./browser_automation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Browser automation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./xpath.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Parsing with Xpath</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./best-practices-data-collection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Best practices</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#parsing-static-websites-in-the-browser" id="toc-parsing-static-websites-in-the-browser" class="nav-link active" data-scroll-target="#parsing-static-websites-in-the-browser">Parsing Static Websites in the Browser</a>
+  <ul class="collapse">
+  <li><a href="#how-to-copy-the-xpath-of-an-element-in-dev-tools." id="toc-how-to-copy-the-xpath-of-an-element-in-dev-tools." class="nav-link" data-scroll-target="#how-to-copy-the-xpath-of-an-element-in-dev-tools.">How to copy the xpath of an element in Dev Tools.</a></li>
+  <li><a href="#what-is-xpath" id="toc-what-is-xpath" class="nav-link" data-scroll-target="#what-is-xpath">What is xpath?</a></li>
+  <li><a href="#identifying-the-optimal-xpath-in-the-browser" id="toc-identifying-the-optimal-xpath-in-the-browser" class="nav-link" data-scroll-target="#identifying-the-optimal-xpath-in-the-browser">Identifying the optimal xpath in the browser</a></li>
+  <li><a href="#selecting-specific-attributes" id="toc-selecting-specific-attributes" class="nav-link" data-scroll-target="#selecting-specific-attributes">Selecting specific attributes</a></li>
+  <li><a href="#xpath-practice" id="toc-xpath-practice" class="nav-link" data-scroll-target="#xpath-practice">Xpath practice</a></li>
+  <li><a href="#text-matching" id="toc-text-matching" class="nav-link" data-scroll-target="#text-matching">Text Matching</a></li>
+  </ul></li>
+  <li><a href="#parsing-xpath-from-html-pages-in-python" id="toc-parsing-xpath-from-html-pages-in-python" class="nav-link" data-scroll-target="#parsing-xpath-from-html-pages-in-python">Parsing Xpath from HTML pages in Python</a>
+  <ul class="collapse">
+  <li><a href="#visit-the-page" id="toc-visit-the-page" class="nav-link" data-scroll-target="#visit-the-page">1. Visit the page</a></li>
+  <li><a href="#convert-the-html-string-into-a-etree" id="toc-convert-the-html-string-into-a-etree" class="nav-link" data-scroll-target="#convert-the-html-string-into-a-etree">2. Convert the HTML string into a <code>etree</code></a></li>
+  <li><a href="#select-all-the-links" id="toc-select-all-the-links" class="nav-link" data-scroll-target="#select-all-the-links">3. Select all the links</a></li>
+  <li><a href="#parse-each-link" id="toc-parse-each-link" class="nav-link" data-scroll-target="#parse-each-link">4. Parse each link</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/yinleon/inspect-element/blob/main/xpath.ipynb" class="toc-action">Edit this page</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-title">Parsing the web with Xpath</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Leon Yin </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 4, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<p><a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://inspectelement.org/xpath">📖 Read online</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://colab.research.google.com/github/yinleon/inspect-element/blob/main/xpath.ipynb">🖥️ Interactive version</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://github.com/yinleon/inspect-element/blob/main/xpath.ipynb">⚙️ GitHub</a></p>
+<p><br></p>
+</div>
+</div>
+<p>Xpath is a language used to query and navigate XML-formatted documents, such as HTML.</p>
+<p>It is a useful tool for web scraping, as the syntax is standardized across browsers and web parsing software packages.</p>
+<p>For this reason, xpath is a seamless workflow between live websites in a browser and custom software to parse out fields (from static HTML) or interact with elements (using browser automation).</p>
+<p>Although it’s a unique language on its own, it can generate simple, precise, and generalizable expressions to parse web pages.</p>
+<section id="parsing-static-websites-in-the-browser" class="level2">
+<h2 class="anchored" data-anchor-id="parsing-static-websites-in-the-browser">Parsing Static Websites in the Browser</h2>
+<p>Xpath can be used on a live web pages that you encounter on your browser. That makes it a convenient tool that can change how to navigate the web.</p>
+<p>We’re going to identify all the recent article titles and links from NPR. In your browser and go to our example website: <a href="https://text.npr.org/">https://text.npr.org/</a></p>
+<figure class="figure">
+<img src="assets/npr_site.png" style="width:90%" aria-label="A screenshot of the NPR static website" class="figure-img">
+</figure>
+<p>Next, open the dev tools by right-clicking anywhere and selecting “Inspect” (or however else).</p>
+<section id="how-to-copy-the-xpath-of-an-element-in-dev-tools." class="level3">
+<h3 class="anchored" data-anchor-id="how-to-copy-the-xpath-of-an-element-in-dev-tools.">How to copy the xpath of an element in Dev Tools.</h3>
+<p>Select any element in the “Elements” (or “Inspector”) tab and copy the xpath</p>
+<figure class="figure">
+<img src="assets/xpath_devtools.png" style="width:90%" aria-label="A screenshot of the NPR static website" class="figure-img">
+</figure>
+<p>The element we selected is an <code>&lt;a&gt;</code> tag with a link and a title that looks like this (note the text will differ for you):</p>
+<pre class="{html}"><code>&lt;a class="topic-title" href="/nx-s1-5035272"&gt;What is in Project 2025? &lt;/a&gt;</code></pre>
+<p>The resulting xpath that we copied looks like this:</p>
+<pre><code>/html/body/main/div/ul/li[1]/a
+</code></pre>
+</section>
+<section id="what-is-xpath" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-xpath">What is xpath?</h3>
+<p>Xpath records hierarchy across a branch of HTML tags. The first tag denotes the starting place and the last tag denoting the destination.</p>
+<p>It designates where an element lives in an HTML document (as if you were honing in on a street address from the center of the Earth).</p>
+<p>The example above is long and specific to one element on the page.</p>
+<p>At it’s worst, xpath provides is directions to a specifc destination (for example the Shake Shack in Madison Square). At best, xpath provides directions that lead to every Shake Shack.</p>
+<p>With a little practice xpath can be both precise and generalizable, providing an elegant way to locate and select elements from web pages.</p>
+<p>Here is the other extreme: short and generic.</p>
+<pre><code>.//a</code></pre>
+<p>This syntax yields the target element mixed with every other element on the page with an <code>&lt;a&gt;</code> tag. Following the Shake Shack analogy, this xpath represents directions to every restaurant on Earth.</p>
+<p>You’ll notice the “.//” before the <code>&lt;a&gt;</code> tag, which denotes a search <em>anywhere</em> on the page.</p>
+<p>My favorite part about xpath is that you can identify and refine them <strong>in browser</strong>, and use the same xpath in different frameworks to make web parsing a breeze.</p>
+<p>The Goldie Locks approach is not about specifying the exact route, biut rather the destinguishing attributes of the destination.</p>
+</section>
+<section id="identifying-the-optimal-xpath-in-the-browser" class="level3">
+<h3 class="anchored" data-anchor-id="identifying-the-optimal-xpath-in-the-browser">Identifying the optimal xpath in the browser</h3>
+<p>Let’s jump into the live website. We’ll try to print the title of each headline of the day.</p>
+<p>In Dev Tools, switch over to the “console” tab. This allows us to execute JavaScript on the page.</p>
+<p>We’ll use the <code>$x()</code> function to select elements on the page by xpath (“x” for <strong>x</strong>path). As a start, type a HTML tag such as an <code>&lt;a&gt;</code> tag: <code>$x('.//a')</code></p>
+<video width="100%" controls="" loop="">
+<source src="assets/xpath_simple.mp4" type="video/mp4">
+</video>
+<p>The results for just any <code>&lt;a&gt;</code> tag is too general, returning elements that we don’t want. xpath offers an easy way specify attributes and other distinguishable features.</p>
+</section>
+<section id="selecting-specific-attributes" class="level3">
+<h3 class="anchored" data-anchor-id="selecting-specific-attributes">Selecting specific attributes</h3>
+<p>You can use the “@” sign before an attribute name. This allows you to denote specific attribute values <code>.//a[@href="/nx-s1-5035272"]</code> will look for an <code>&lt;a&gt;</code> tag with an <code>href</code> attribute of “/nx-s1-5035272”.</p>
+<p>Better yet, you can simply the presence of an attribute without a specific value <code>.//a[@href]</code>.</p>
+<p>Similar to any other attribute, you can also select elements based on class <code>'.//a[@class="topic-title"]')</code></p>
+</section>
+<section id="xpath-practice" class="level3">
+<h3 class="anchored" data-anchor-id="xpath-practice">Xpath practice</h3>
+<p>If you want to get better at writing xpath, here’s a simple workflow you can use for an element you want to parse.</p>
+<pre><code>&lt;a class="topic-title" href="/nx-s1-5248297"&gt;</code></pre>
+<ul>
+<li>Remove the delimiter brackets <code>&lt;</code> and <code>&gt;</code> and closing tag. <code>a class="topic-title" href="/nx-s1-5248297"</code><br></li>
+<li>Add the leading path indicators <code>.//</code>. <code>.//a class="topic-title" href="/nx-s1-5248297"</code><br></li>
+<li>Start a xpath with a HTML tag with closed brackets: <code>.//a[ ... ]</code> for example <code>.//a[ class="topic-title" href="/nx-s1-5248297"]</code>.<br></li>
+<li>Add <code>@</code> before each attribute, and <code>and</code> between each attribute ending up with: <code>.//a[@class="topic-title" and @href="/nx-s1-5248297"]</code>. <br></li>
+<li>From here, you can remove overly-specific attributes. In the case above, the class is unique enough to isolate news articles.</li>
+</ul>
+<pre><code>$x('.//a[@class="topic-title"]')</code></pre>
+</section>
+<section id="text-matching" class="level3">
+<h3 class="anchored" data-anchor-id="text-matching">Text Matching</h3>
+<p>xpath also allows for text-matching.</p>
+<p>Here’s how you can match for a link on the page with text mentioning “2025”</p>
+<pre><code>$x('.//a[contains(text(),"2025")]')</code></pre>
+<p>To sanity check your results, you can expand the resulting list and click any of the elements. This will highlight the element on the page and shoot you back to the Dev Tools “Elements” tab to view the element.</p>
+</section>
+</section>
+<section id="parsing-xpath-from-html-pages-in-python" class="level2">
+<h2 class="anchored" data-anchor-id="parsing-xpath-from-html-pages-in-python">Parsing Xpath from HTML pages in Python</h2>
+<p>With the correct xpath in hand, we can automate this parsing in Python using the <a href="https://lxml.de/">lxml</a> package.</p>
+<pre><code>!pip install lxml</code></pre>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lxml <span class="im">import</span> etree</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="visit-the-page" class="level3">
+<h3 class="anchored" data-anchor-id="visit-the-page">1. Visit the page</h3>
+<p>Let’s visit the website and retrieve the static HTML from the page.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://text.npr.org/"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>resp <span class="op">=</span> requests.get(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="convert-the-html-string-into-a-etree" class="level3">
+<h3 class="anchored" data-anchor-id="convert-the-html-string-into-a-etree">2. Convert the HTML string into a <code>etree</code></h3>
+<p>This allows us to parse the text using xpath</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tree <span class="op">=</span> etree.HTML(resp.text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-all-the-links" class="level3">
+<h3 class="anchored" data-anchor-id="select-all-the-links">3. Select all the links</h3>
+<p>Use an xpath to identify all the links on the page that are the same class <code>topic-title</code>.</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>elements <span class="op">=</span> tree.findall(<span class="st">'.//a[@class="topic-title"]'</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(elements)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>20</code></pre>
+</div>
+</div>
+</section>
+<section id="parse-each-link" class="level3">
+<h3 class="anchored" data-anchor-id="parse-each-link">4. Parse each link</h3>
+<p>Now we can iterate through each headline and grab the title and link of each story:</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> []</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> elm <span class="kw">in</span> elements:</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get the link for each link card</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    link <span class="op">=</span> elm.get(<span class="st">'href'</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    link <span class="op">=</span> <span class="ss">f"https://npr.org</span><span class="sc">{</span>link<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> elm.text</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> {<span class="st">'link'</span> : link, <span class="st">'title'</span>: title}</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    data.append(row)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>[{'link': 'https://npr.org/nx-s1-5248297',
+  'title': 'A storm will bring heavy snow and dangerous ice from the Plains to the East Coast'},
+ {'link': 'https://npr.org/nx-s1-5248299',
+  'title': "A Pulitzer winner quits 'Washington Post' after a cartoon on Bezos is killed"},
+ {'link': 'https://npr.org/g-s1-41101',
+  'title': "The Golden Globes are Sunday night. Here's five things to look for"},
+ {'link': 'https://npr.org/nx-s1-5248310',
+  'title': 'Film director and screenwriter Jeff Baena, husband of Aubrey Plaza, dead at 47'},
+ {'link': 'https://npr.org/nx-s1-5248283',
+  'title': "Jurassic footprints are discovered on a 'dinosaur highway' in southern England"}]</code></pre>
+</div>
+</div>
+<p>That’s all!</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./browser_automation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Browser automation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./best-practices-data-collection.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-title">Best practices</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

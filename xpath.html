@@ -318,7 +318,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Next, open the dev tools by right-clicking anywhere and selecting “Inspect” (or however else).</p>
 <p>Select any element in the “Elements” tab and copy the XPath:</p>
 <figure class="figure">
-<img src="assets/xpath_devtools.png" width="75%" class="figure-img">
+<img src="assets/xpath_console.png" width="75%" class="figure-img">
 <figcaption align="left" style="font-size:80%;" class="figure-caption">
 How to copy the xpath of an element in Dev Tools.
 </figcaption>
@@ -350,6 +350,9 @@ How to copy the xpath of an element in Dev Tools.
 </ol>
 <p>As a start, type a HTML tag such as a “header”, “a”, “div”:</p>
 <pre><code>$x('//a')</code></pre>
+<video width="100%" controls="" loop="">
+<source src="assets/xpath_simple.mp4" type="video/mp4">
+</video>
 <p>XPath offers an easy way specify attributes and other distinguishable features.</p>
 <p>You just add an “@” sign before the attribute name. This allows you to denote specific attribute values <code>//a[@href="/nx-s1-5035272"]</code> or simply the presence of an attribute <code>//a[@href]</code>.</p>
 <p>Here’s a workflow for honing in to the optimal XPath:</p>
@@ -369,7 +372,7 @@ How to copy the xpath of an element in Dev Tools.
 <pre><code>$x('//a[@href and contains(text(),"2025")]')</code></pre>
 <p>To sanity check your results, you can expand the resulting list and click any of the elements. This will highlight the element on the page and shoot you back to the Dev Tools “Elements” tab to view the element.</p>
 <video width="100%" controls="" loop="">
-<source src="assets/xpath_simple.mp4" type="video/mp4">
+<source src="assets/click_xpath.mp4" type="video/mp4">
 </video>
 </section>
 </section>

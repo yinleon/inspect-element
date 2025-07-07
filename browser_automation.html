@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,7 +11,7 @@
 <meta name="keywords" content="data collection, web scraping, browser automation, algorithm audits, personalization">
 <meta name="description" content="Introduction, case studies, and exercises for automating browsers.">
 
-<title>Browser Automation – Inspect Element</title>
+<title>Browser Automation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,12 +21,11 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -37,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -51,13 +50,43 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
+    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -67,7 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./best-practices-data-collection.html" rel="next">
+<link href="./xpath.html" rel="next">
 <link href="./apis.html" rel="prev">
 <link href="./assets/favicon/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -85,13 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
+  "limit": 20,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -100,10 +123,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
-    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-submit-button-title": "Submit"
   }
 }</script>
 
@@ -111,13 +132,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta property="og:title" content="Browser Automation">
 <meta property="og:description" content="Introduction, case studies, and exercises for automating browsers.">
 <meta property="og:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
-<meta property="og:site_name" content="Inspect Element">
-<meta property="og:image:alt" content="The inspect element logo">
+<meta property="og:site-name" content="Inspect Element">
 <meta property="og:locale" content="us_EN">
 <meta name="twitter:title" content="Browser Automation">
 <meta name="twitter:description" content="Introduction, case studies, and exercises for automating browsers.">
 <meta name="twitter:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
-<meta name="twitter:image:alt" content="The inspect element logo">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -125,16 +144,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./build-your-own-datasets.html">Build your own datasets</a></li><li class="breadcrumb-item"><a href="./browser_automation.html"><span class="chapter-title">Browser automation</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Browser Automation</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
       </button>
     </div>
   </nav>
@@ -142,20 +156,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Inspect Element</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/yinleon/inspect-element" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/yinleon/inspect-element" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
+      <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-        </div>
+      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -165,9 +179,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./start.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Planning investigations</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <a href="./start.html" class="sidebar-item-text sidebar-link">Planning investigations</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -181,9 +194,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./build-your-own-datasets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Build your own datasets</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <a href="./build-your-own-datasets.html" class="sidebar-item-text sidebar-link">Build your own datasets</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -200,6 +212,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./xpath.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parsing with Xpath</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./best-practices-data-collection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Best practices</span></a>
   </div>
 </li>
@@ -207,17 +224,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
       </ul>
@@ -225,7 +240,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -244,13 +258,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#tutorial" id="toc-tutorial" class="nav-link" data-scroll-target="#tutorial">Tutorial</a>
   <ul class="collapse">
-  <li><a href="#step-1-installing-playwright" id="toc-step-1-installing-playwright" class="nav-link" data-scroll-target="#step-1-installing-playwright">Step 1: Installing playwright</a></li>
-  <li><a href="#step-2-finding-elements-on-page-and-interacting-with-them" id="toc-step-2-finding-elements-on-page-and-interacting-with-them" class="nav-link" data-scroll-target="#step-2-finding-elements-on-page-and-interacting-with-them">Step 2: Finding elements on page and interacting with them</a></li>
+  <li><a href="#step-1-setting-up-the-browser" id="toc-step-1-setting-up-the-browser" class="nav-link" data-scroll-target="#step-1-setting-up-the-browser">Step 1: Setting up the browser</a>
+  <ul class="collapse">
+  <li><a href="#installing-google-chrome" id="toc-installing-google-chrome" class="nav-link" data-scroll-target="#installing-google-chrome">1.1 Installing Google Chrome</a></li>
+  <li><a href="#installing-the-webdriver" id="toc-installing-the-webdriver" class="nav-link" data-scroll-target="#installing-the-webdriver">1.2 Installing the webdriver</a></li>
+  </ul></li>
+  <li><a href="#step-2-hiding-typical-tells-of-an-automated-browser" id="toc-step-2-hiding-typical-tells-of-an-automated-browser" class="nav-link" data-scroll-target="#step-2-hiding-typical-tells-of-an-automated-browser">Step 2: Hiding typical tells of an automated browser</a></li>
+  <li><a href="#step-3-finding-elements-on-page-and-interacting-with-them" id="toc-step-3-finding-elements-on-page-and-interacting-with-them" class="nav-link" data-scroll-target="#step-3-finding-elements-on-page-and-interacting-with-them">Step 3: Finding elements on page and interacting with them</a></li>
   <li><a href="#step-4-scrolling" id="toc-step-4-scrolling" class="nav-link" data-scroll-target="#step-4-scrolling">Step 4: Scrolling</a></li>
   <li><a href="#step-5-finding-tiktok-videos-on-the-page" id="toc-step-5-finding-tiktok-videos-on-the-page" class="nav-link" data-scroll-target="#step-5-finding-tiktok-videos-on-the-page">Step 5: Finding TikTok videos on the page</a></li>
   <li><a href="#step-6-parsing-tiktok-metadata" id="toc-step-6-parsing-tiktok-metadata" class="nav-link" data-scroll-target="#step-6-parsing-tiktok-metadata">Step 6: Parsing TikTok metadata</a></li>
   <li><a href="#step-7-finding-the-tiktok-video-thats-currently-playing" id="toc-step-7-finding-the-tiktok-video-thats-currently-playing" class="nav-link" data-scroll-target="#step-7-finding-the-tiktok-video-thats-currently-playing">Step 7: Finding the TikTok video that’s currently playing</a></li>
-  <li><a href="#step-8-taking-screenshots-and-saving-page-sources" id="toc-step-8-taking-screenshots-and-saving-page-sources" class="nav-link" data-scroll-target="#step-8-taking-screenshots-and-saving-page-sources">Step 8: Taking screenshots and saving page sources</a></li>
+  <li><a href="#step-8-taking-screenshots-and-saving-page-source" id="toc-step-8-taking-screenshots-and-saving-page-source" class="nav-link" data-scroll-target="#step-8-taking-screenshots-and-saving-page-source">Step 8: Taking screenshots and saving page source</a></li>
   <li><a href="#step-9-putting-it-all-together" id="toc-step-9-putting-it-all-together" class="nav-link" data-scroll-target="#step-9-putting-it-all-together">Step 9: Putting it all together</a>
   <ul class="collapse">
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
@@ -263,14 +282,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/yinleon/inspect-element/blob/main/browser_automation.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/yinleon/inspect-element/blob/main/browser_automation.ipynb" class="toc-action">Edit this page</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./build-your-own-datasets.html">Build your own datasets</a></li><li class="breadcrumb-item"><a href="./browser_automation.html"><span class="chapter-title">Browser automation</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Browser Automation</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-title">Browser Automation</span></h1>
 </div>
 
 
@@ -294,32 +313,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 9, 2024</p>
+      <p class="date-modified">June 17, 2023</p>
     </div>
   </div>
     
   </div>
   
 
-<div>
-  <div class="keywords">
-    <div class="block-title">Keywords</div>
-    <p>data collection, web scraping, browser automation, algorithm audits, personalization</p>
-  </div>
-</div>
-
 </header>
 
-
-<div id="0b1cac78" class="cell" data-execution_count="1">
-<div class="cell-output cell-output-display cell-output-markdown">
+<div class="cell" data-execution_count="40">
+<div class="cell-output cell-output-display">
 <p><a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://inspectelement.org/browser_automation">📖 Read online</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://github.com/yinleon/inspect-element/blob/main/browser_automation.ipynb">⚙️ GitHub</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_self" href="#citation">🏛 Citation</a> <br></p>
 </div>
 </div>
 <p>Browser automation is a fundamental web scraping technique for building your own dataset.</p>
 <p>It is essential for investigating personalization, working with rendered elements, and waiting for scripts and code to execute on a web page.</p>
 <p>However, browser automation can be resource intensive and slow compared to other data collection approaches.</p>
-<p>👉<a href="#tutorial">Click here to jump to the Playwright tutorial</a>.</p>
+<p>👉<a href="#tutorial">Click here to jump to the Selenium tutorial</a>.</p>
 <section id="intro" class="level1">
 <h1>Intro</h1>
 <p>If you’ve tried to buy concert tickets to a popular act lately, you’ve probably watched in horror as the blue “available” seats evaporate before your eyes the instant tickets are released. Part of that may be pure ✨star power✨, but more than likely, bots were programmed to buy tickets to be resold at a premium.</p>
@@ -340,12 +351,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Browser automation can be executed in a “headless” state by some tools.</p>
 <p>This doesn’t mean that the browser is a ghost or anything like that, it just means that the <em>user interface</em> is not visible.</p>
 <p>One benefit of headless browsing is that it is less <a href="./apis.html#case-study-on-scalability-collecting-internet-plans">resource intensive</a>, however there is no visibility into what the browser is doing, making headless scrapers difficult to debug.</p>
-<p>Luckily, some browser automation tools (such as Playwright) allow you to <a href="https://playwright.dev/python/docs/api/class-browsertype#browser-type-launch">toggle headless browsing</a> on and off. Other tools, such as Puppeteer only allow you to use headless browsing.</p>
-<p>If you’re new to browser automation, we suggest not using headless browsing off the bat. Instead try headed Playwright, which is exactly what we’ll do in the <a href="#tutorial">tutorial</a> below (see the same tutorial in Selenium <a href="./browser_automation_selenium">here</a>).</p>
+<p>Luckily, some browser automation tools (such as Selenium) allow you to <a href="https://www.selenium.dev/blog/2023/headless-is-going-away/">toggle headless browsing</a> on and off. Other tools, such as Puppeteer only allow you to use headless browsing.</p>
+<p>If you’re new to browser automation, we suggest not using headless browsing off the bat. Instead try Selenium (or Playwright), which is exactly what we’ll do in the <a href="#tutorial">tutorial</a> below.</p>
 <figure class="figure">
 <img src="assets/browser-automation.gif" width="100%" class="figure-img">
-<figcaption align="left" style="font-size:80%;">
-Using Playwright to automate browsing TikTok’s “For You” page for food videos.
+<figcaption align="left" style="font-size:80%;" class="figure-caption">
+Using Selenium to automate browsing TikTok’s “For You” page for food videos.
 </figcaption>
 </figure>
 </section>
@@ -358,39 +369,39 @@ Using Playwright to automate browsing TikTok’s “For You” page for food vid
 <p>The team developed a <a href="https://themarkup.org/google-the-giant/2020/07/28/how-we-analyzed-google-search-results-web-assay-parsing-tool">targeted staining technique</a> inspired by the life sciences, originally used to highlight the presence of chemicals, compounds, or cancers.</p>
 <figure class="figure">
 <img src="assets/browser0_01_threestep1.png" alt="https://themarkup.org/google-the-giant/2020/07/28/how-we-analyzed-google-search-results-web-assay-parsing-tool#google-search-flow" style="width:90%" class="figure-img">
-<figcaption align="left" style="font-size:80%;">
+<figcaption align="left" style="font-size:80%;" class="figure-caption">
 Source: <a href="https://themarkup.org/google-the-giant/2020/07/28/how-we-analyzed-google-search-results-web-assay-parsing-tool">The Markup</a>
 </figcaption>
 </figure>
 <p>The reporters wrote over <a href="https://github.com/the-markup/investigation-google-search-audit/blob/master/utils/parsers.py">68 web parsers</a> to identify elements on trending Google Search results as “Google,” or three other categories. Once an element was identified, they could find the <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/rect">coordinates</a> of each element along with its corresponding bounding box. Using the categorization and bounding box, The Markup were able to measure how many pixels were allocated to Google properties, as well as where they were placed on a down the page for a mobile phone.</p>
 <figure class="figure">
 <img src="assets/browser0_02_soup1.png" alt="https://themarkup.org/google-the-giant/2020/07/28/how-we-analyzed-google-search-results-web-assay-parsing-tool#google-search-flow" style="width:90%" class="figure-img">
-<figcaption align="left" style="font-size:80%;">
+<figcaption align="left" style="font-size:80%;" class="figure-caption">
 Source: <a href="https://themarkup.org/google-the-giant/2020/07/28/how-we-analyzed-google-search-results-web-assay-parsing-tool">The Markup</a>
 </figcaption>
 </figure>
 <p>Browser automation tools’ ability to collect and analyze <strong>rendered HTML pages</strong> can be essential. This is especially the case for search results, since most search results contain modules, carousels, and other non-standardized rows and columns that are more complex than lists.</p>
-<p>Rendered HTML can be used to analyze the allocation of real estate on a website, which can be a useful metric to gauge self-preferencing and <a href="https://themarkup.org/amazons-advantage/2021/10/14/amazon-puts-its-own-brands-first-above-better-rated-products">anti-competitive business practices</a> relevant to <a href="https://themarkup.org/google-the-giant/2020/07/29/congressman-says-the-markup-investigation-proves-google-has-created-a-walled-garden">antitrust</a>.</p>
+<p>Rendered HTML can be used to analyze the allocation of real estate on a website, which can be a useful metric to gauge self-preferencing and <a href="https://themarkup.org/amazons-advantage/2021/10/14/amazon-puts-its-own-brands-first-above-better-rated-products">anti-competitive business practices</a> relevant to <a href="https://themarkup.org/google-the-giant/2020/07/29/congressman-says-the-markup-investigation-proves-google-has-created-a-walled-garden">antitrust</a>. Take for example this case study, which was placed above the others because one of this section’s co-authors happened to work on it.</p>
 </section>
 <section id="case-study-2-deanonymizing-googles-ad-network" class="level2">
 <h2 class="anchored" data-anchor-id="case-study-2-deanonymizing-googles-ad-network">Case Study 2: Deanonymizing Google’s Ad Network</h2>
 <p>Google ad sellers offer space on websites like virtual billboards, and are compensated by Google after an ad is shown. However, unlike physical ad sellers, almost all of the ~1.3 million ad sellers on Google are anonymous. To limit transparency further, multiple websites and apps can be monetized by the same seller, and it’s not clear which websites are part of Google’s ad network in the first place.</p>
 <p>As a result, <a href="https://checkmyads.org/branded/google-ads-has-become-a-massive-dark-money-operation/">advertisers</a> and the public do not know who is making money from Google ads. Fortunately, watchdog groups, industry analysts, and reporters have developed methods to hold Google accountable for this oversight.</p>
 <p>The methods boil down to triggering a JavaScript function that sends a request to Google to show an ad on a loaded web page. Importantly, the request reveals the seller ID used to monetize the website displaying the ad, and in doing so, links the seller ID to the website.</p>
-<p>In 2022, reporters from ProPublica used Playwright to <a href="https://www.propublica.org/article/google-display-ads-piracy-porn-fraud">automate this process</a> to visit 7 million websites and deanonymize over 900,000 Google ad sellers. Their investigation found some websites were able to monetize advertisements, despite breaking Google’s policies.</p>
+<p>In 2022, reporters from ProPublica used Playwrite to <a href="https://www.propublica.org/article/google-display-ads-piracy-porn-fraud">automated this process</a> to visit 7 million websites and deanonymize over 900,000 Google ad sellers. Their investigation found some websites were able to monetize advertisements, despite breaking Google’s policies.</p>
 <p>ProPublica’s investigation used browser automation tools to <strong>trigger event execution</strong> to successfully load ads. Often, this required waiting a page to fully render, scrolling down to potential ad space, and browsing multiple pages. The reporters used a combination of network requests, rendered HTML, and cross-referencing screenshots to confirm that each website monetized ads from Google’s ad network.</p>
 <p>Browser automation can help you trawl for clues, especially when it comes to looking for specific network requests sent to a central player by many different websites.</p>
 </section>
 <section id="case-study-3-tiktok-personalization" class="level2">
 <h2 class="anchored" data-anchor-id="case-study-3-tiktok-personalization">Case Study 3: TikTok Personalization</h2>
-<p>An investigation conducted by the Wall Street Journal, “<a href="https://www.wsj.com/articles/tiktok-algorithm-video-investigation-11626877477">Inside TikTok’s Algorithm</a>” found that even when a user does not like, share, or follow any creators, TikTok still personalizes the “For You” page based on how long they watch the recommended videos.</p>
+<p>An investigation conducted by the Wall Street Journal, “<a href="https://www.wsj.com/articles/tiktok-algorithm-video-investigation-11626877477">Inside TikTok’s Algorithm</a>” found that even when a user does not like, share, or follow any creators, TikTok still personalizes their “For You” page based on how long they watch the recommended videos.</p>
 <p>In particular, the WSJ investigation found that users who watch content related to depression and skip other content are soon presented with mental health content and little else. Importantly, this effect happened even when the users did not explicitly like or share any videos, nor did they follow any creators.</p>
 <p>You can watch the WSJ’s video showing how they mimic user behavior to study the effects of personalization:</p>
 <figure class="figure">
 <video width="100%" controls="" loop="">
 <source src="assets/wsj_tiktok.mp4">
 </video>
-<figcaption align="left" style="font-size:80%;">
+<figcaption align="left" style="font-size:80%;" class="figure-caption">
 Source: WSJ
 </figcaption>
 </figure>
@@ -400,184 +411,234 @@ Source: WSJ
 <section id="tutorial" class="level1">
 <h1>Tutorial</h1>
 <p>In the hands-on tutorial we will attempt to study personalization on TikTok with a mock experiment.</p>
-<p>We’re going to teach you the basics of browser automation in Playwright, but the techniques we’ll discuss could be used to study any other website using any other automation tool.</p>
+<p>We’re going to teach you the basics of browser automation in Selenium, but the techniques we’ll discuss could be used to study any other website using any other automation tool.</p>
 <p>We will try to replicate elements of the WSJ investigation and see if we can trigger a personalized “For You” page. Although the WSJ ran their investigation using an Android on a Raspberry Pi, we will try our luck with something you can run locally on a personal computer using browser automation.</p>
-<p>In this tutorial we’ll use Playwright to watch TikTok videos where the description mentions keywords of our choosing, while skipping all others. In doing so, you will learn practical skills such as:</p>
+<p>In this tutorial we’ll use Selenium to watch TikTok videos where the description mentions keywords of our choosing, while skipping all others. In doing so, you will learn practical skills such as:</p>
 <ul>
 <li>Setting up the automated browser in Python</li>
+<li>Hiding signs that are easy tells of an automated browser</li>
 <li>Finding particular elements on the screen, extracting their content, and interacting with them</li>
 <li>Scrolling</li>
 <li>Taking screenshots</li>
 </ul>
 <p>Importantly, we’ll be watching videos with lighter topics than depression (the example chosen in the WSJ investigation.).</p>
-<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-tip callout callout-style-simple callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
+<div class="callout-caption-container flex-fill">
 Pro tip: Minimizing harms
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>When developing the data collection methodology for an audit or investigation, start with low-stakes themes. This minimizes your exposure to harmful content and avoids boosting their popularity, unnecessarily.</p>
+<p>When developing an audit or investigation, start with low-stakes themes: both to minimize your exposure to harmful content and to avoid boosting their popularity, unnecessarily.</p>
 </div>
 </div>
-<section id="step-1-installing-playwright" class="level2">
-<h2 class="anchored" data-anchor-id="step-1-installing-playwright">Step 1: Installing playwright</h2>
-<p>Playwright will take care of finding and installing the browser binary that’s suitable for your operating system. Such setup is much more straightforward than <a href="https://selenium-python.readthedocs.io/">Selenium</a>, which requires the user to manage each browser version.</p>
-<p>The first line below installs the Python library, the second line installs the browser binaries.</p>
-<div id="90f9e0f6" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:true}" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install playwright</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>playwright install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="step-1-setting-up-the-browser" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-setting-up-the-browser">Step 1: Setting up the browser</h2>
+<p>Our setup will consist of a real browser and an interface that will allow us to control that browser using Python. We chose Google Chrome because it’s the most popular browser and easy enough (famous last words) to set up.</p>
+<section id="installing-google-chrome" class="level3">
+<h3 class="anchored" data-anchor-id="installing-google-chrome">1.1 Installing Google Chrome</h3>
+<p>Please download the most recent version <a href="https://www.google.com/chrome/">here</a>.</p>
+<p>If you already have Google Chrome installed, make sure it’s a latest version by opening Chrome and pasting this address in the address bar: <a href="chrome://settings/help">chrome://settings/help</a>. Now verify that there are no pending updates.</p>
+<p><img src="assets/browser1_01_version1.png" title="Google Chrome window showing the current version" class="img-fluid"></p>
+</section>
+<section id="installing-the-webdriver" class="level3">
+<h3 class="anchored" data-anchor-id="installing-the-webdriver">1.2 Installing the webdriver</h3>
+<p>The <code>webdriver</code> is our interface between Python and the browser. It is specific to the browser (there are different webdrivers for Firefox [called Gecko], Safari, etc) and even to the particular version of the browser. It’s easier to ensure we are working with the correct version by installing a webdriver that automatically detects the current version of Chrome.</p>
+<p>Run the code in the cell below to download the Python package <a href="https://pypi.org/project/chromedriver-binary-auto/"><code>chromedriver-binary-auto</code></a>. Adding an exclamation mark before code in Jupyter notebook allows you to run commands as if you were in your computer terminal’s <a href="https://www.computerhope.com/jargon/c/commandi.htm">command line</a></p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install chromedriver<span class="op">-</span>binary<span class="op">-</span>auto <span class="op">--</span>upgrade</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Requirement already satisfied: playwright in /Users/lyin72/miniconda3/lib/python3.11/site-packages (1.44.0)
-Requirement already satisfied: greenlet==3.0.3 in /Users/lyin72/miniconda3/lib/python3.11/site-packages (from playwright) (3.0.3)
-Requirement already satisfied: pyee==11.1.0 in /Users/lyin72/miniconda3/lib/python3.11/site-packages (from playwright) (11.1.0)
-Requirement already satisfied: typing-extensions in /Users/lyin72/miniconda3/lib/python3.11/site-packages (from pyee==11.1.0-&gt;playwright) (4.7.1)</code></pre>
+<pre><code>Requirement already satisfied: chromedriver-binary-auto in /Users/leon/miniconda3/lib/python3.7/site-packages (0.2.6)
+Collecting chromedriver-binary-auto
+  Downloading chromedriver-binary-auto-0.3.1.tar.gz (5.6 kB)
+  Preparing metadata (setup.py) ... done
+Building wheels for collected packages: chromedriver-binary-auto
+  Building wheel for chromedriver-binary-auto (setup.py) ... done
+  Created wheel for chromedriver-binary-auto: filename=chromedriver_binary_auto-0.3.1-py3-none-any.whl size=8766235 sha256=f391019058992cc819aa8f6b7feb58bf2ef7477951fdfc91c4ae9a8079531d04
+  Stored in directory: /Users/leon/Library/Caches/pip/wheels/59/5a/a1/80470a1f46c83d62550af8d40634bdb8bc5f034d910d80ff2b
+Successfully built chromedriver-binary-auto
+Installing collected packages: chromedriver-binary-auto
+  Attempting uninstall: chromedriver-binary-auto
+    Found existing installation: chromedriver-binary-auto 0.2.6
+    Uninstalling chromedriver-binary-auto-0.2.6:
+      Successfully uninstalled chromedriver-binary-auto-0.2.6
+Successfully installed chromedriver-binary-auto-0.3.1</code></pre>
 </div>
 </div>
-<p>Let’s see if the installation worked correctly! Run the cell below to open a new Firefox window. We’re going to use Firefox in this tutorial because Playwright’s default browser (Chromium) does not support video playback in TikTok’s format.</p>
-<div id="6dab81f5-25ea-4c60-b006-ee0db507682f" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> playwright.async_api <span class="im">import</span> async_playwright</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Start the browser</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>playwright <span class="op">=</span> <span class="cf">await</span> async_playwright().start()</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>browser <span class="op">=</span> <span class="cf">await</span> playwright.firefox.launch(headless<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new browser window</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>page <span class="op">=</span> <span class="cf">await</span> browser.new_page()</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Open the default tiktok For You page</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> page.goto(<span class="st">"https://www.tiktok.com/foryou"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="25">
-<pre><code>&lt;Response url='https://www.tiktok.com/foryou' request=&lt;Request url='https://www.tiktok.com/foryou' method='GET'&gt;&gt;</code></pre>
+<p>Let’s see if the installation worked correctly! Run the cell below to import the correct webdriver and open a new Chrome window.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium <span class="im">import</span> webdriver</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> chromedriver_binary <span class="co"># adds the chromedriver binary to the path</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>driver <span class="op">=</span> webdriver.Chrome()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>chrome-driver-auto</code> package should have installed a driver that’s suitable for your current Chrome version running the line of code above should have opened a new Chrome window.</p>
+<p>This step is notoriously hard, and you might get a version mismatch error:</p>
+<pre><code>SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version 112
+Current browser version is 113 with binary path /Applications/Google Chrome.app/Contents/MacOS/Google Chrome</code></pre>
+<p>It means that you probably updated your Chrome in the meantime. To fix it, reinstall the Python package:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">--</span>upgrade <span class="op">--</span>force<span class="op">-</span>reinstall chromedriver<span class="op">-</span>binary<span class="op">-</span>auto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Collecting chromedriver-binary-auto
+  Using cached chromedriver_binary_auto-0.2.6-py3-none-any.whl
+Installing collected packages: chromedriver-binary-auto
+  Attempting uninstall: chromedriver-binary-auto
+    Found existing installation: chromedriver-binary-auto 0.2.6
+    Uninstalling chromedriver-binary-auto-0.2.6:
+      Successfully uninstalled chromedriver-binary-auto-0.2.6
+Successfully installed chromedriver-binary-auto-0.2.6</code></pre>
 </div>
 </div>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>What is <code>await</code>? We’re running Playwright in <a href="https://realpython.com/python-async-features/#understanding-asynchronous-programming">asynchronous</a> mode, which is compatible with Jupyter Notebooks. You can run Playwright synchronously as a <strong>script</strong>, but not as a notebook. In practice you’ll want to twinkler and iterate, so a notebook is preferred.</p>
-<p>We explicitly call <code>await</code> after each line of code so that each command is run sequentially. Otherwise, every line of code runs at the same time.</p>
-</div>
-</div>
-</div>
-<p>If everything works fine and you have the browser with TikTok open, our setup is complete!</p>
-<p>Unfortunately, depending on your system this setup might not work: * It will not work at all in Google Colab - you need to run this on your own machine * It might not work on a Windows machine. If you’re using Windows, you will need to downgrade your <code>ipykernel</code> to a version that supports Playwright. Uncomment the next code cell and run it, then restart this notebook:</p>
-<div id="d55631d7" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Only uncomment and run the next line if you're using windows and the cell above did not give you an open browser window.</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#!pip install ipykernel==6.28.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If everything works fine and you have the window open, our setup is complete and you can now close the Chrome window:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>driver.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-2-finding-elements-on-page-and-interacting-with-them" class="level2">
-<h2 class="anchored" data-anchor-id="step-2-finding-elements-on-page-and-interacting-with-them">Step 2: Finding elements on page and interacting with them</h2>
-<p>We will perform our mock experiment without logging in (but we will also learn how to create multiple accounts and how to log in later).</p>
-<p>Press the arrow down button on your keyboard a few times until a dialog pops up asking you do log in:</p>
-<p><img src="assets/browser1_02_tiktok1.png" title="tiktok main page" class="img-fluid"></p>
-<p>Instead of logging in, our first interaction will be to click the “Continue as guest” button.</p>
-<p>Playwright has built-in tools called <a href="https://playwright.dev/python/docs/locators">Locators</a> to find and interact with elements on the page. One helpful locator is <a href="(https://playwright.dev/python/docs/api/class-page#page-get-by-text)">based on the text</a> of a button you want to press. We can use the <code>get_by_text</code> locator to find the button that says “Continue as guest” on the <code>page</code> and click it:</p>
-<div id="16502655" class="cell" data-scrolled="true" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> page.get_by_text(<span class="st">"Continue as guest"</span>).click()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-2-hiding-typical-tells-of-an-automated-browser" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-hiding-typical-tells-of-an-automated-browser">Step 2: Hiding typical tells of an automated browser</h2>
+<p>When you open Chrome with Selenium you’ll notice that the window displays a warning about being an “automated session”. Even though the warning is only displayed to you, the webdriver leaves behind other red flags that inform website administrators that you are using browser automation.</p>
+<p>The website admins will use these red flags to refuse service to your browser.</p>
+<p>Let’s remove those.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>options <span class="op">=</span> webdriver.ChromeOptions()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>options.add_argument(<span class="st">"start-maximized"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># remove all signs of this being an automated browser</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>options.add_argument(<span class="st">'--disable-blink-features=AutomationControlled'</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>options.add_experimental_option(<span class="st">"excludeSwitches"</span>, [<span class="st">"enable-automation"</span>])</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>options.add_experimental_option(<span class="st">'useAutomationExtension'</span>, <span class="va">False</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># open the browser with the new options</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>driver <span class="op">=</span> webdriver.Chrome(options<span class="op">=</span>options)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>driver.get(<span class="st">'https://tiktok.com/foryou'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>If Playwright successfully finds the button with the text you specified, it will be clicked. However, if Playwright <strong>does not</strong> find the element – because the element hasn’t loaded yet or you misspelled the text, you will get a <code>TimeoutError</code>.</p>
-<p>This error is thrown because Playwright waits a short period of time for an element to appear on screen. The default is 30,000 milliseconds (30 seconds). You can specify a different timeout as an argument to <code>click()</code>, for example 1,000 milliseconds (1 second):</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> page.get_by_text(<span class="st">"Continue as guest"</span>).click(timeout <span class="op">=</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This should open a new window without those warnings and navigate to tiktok.com:</p>
+<p><img src="assets/browser1_02_tiktok1.png" title="tiktok main page" class="img-fluid"></p>
+</section>
+<section id="step-3-finding-elements-on-page-and-interacting-with-them" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-finding-elements-on-page-and-interacting-with-them">Step 3: Finding elements on page and interacting with them</h2>
+<p>We will perform our mock experiment without logging in (but we will also learn how to create multiple accounts and how to log in later).</p>
+<p>Instead of logging in, our first interaction will be dismissing this login window. Doing this programmatically has two steps:</p>
+<ol type="1">
+<li>We need to identify that [X] button in the page source</li>
+<li>And then click it</li>
+</ol>
+<p>Let’s inspect the button element: <img src="assets/browser1_03_dismiss1.png" title="Inspecting the Dismiss button" class="img-fluid"></p>
+<p>In my case, the particular element that the Developer Tools navigated to is just the graphic on the button, not the button itself, but you can still find the actual button by hovering your mouse over different elements in the source and seeing what elements on page are highlighted:</p>
+<p><img src="assets/browser1_04_inspect1.png" title="Inspecting the Dismiss button" class="img-fluid"></p>
+<p>Our close button is a <code>&lt;div&gt;</code> element, whose <code>data-e2e</code> attribute is <code>"modal-close-inner-button"</code>.</p>
+<p>There are many ways to fish for the exact element you want, and <a href="https://www.selenium.dev/documentation/webdriver/elements/locators/">many of those methods</a> are built into Selenium. One way to find it would be using a <code>CSS_SELECTOR</code>, like so:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.by <span class="im">import</span> By</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>close_button <span class="op">=</span> driver.find_element(By.CSS_SELECTOR, <span class="st">'[data-e2e="modal-close-inner-button"]'</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>close_button</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>&lt;selenium.webdriver.remote.webelement.WebElement (session="710ad56950f0c245bc25a21b57ccf110", element="CD049116A9F70D8AA3FE1F0BC1BBEB15_element_298")&gt;</code></pre>
+</div>
+</div>
+<p>If Selenium successfully finds an element, you’ll get a <code>WebElement</code> object of the first match. However, if Selenium <strong>does not</strong> find the element– for example because the element hasn’t loaded yet, you will get an empty object in return. This will crash your script if you try to interact with the empty element.</p>
+<p>One thing you can do is to tell Selenium to wait up to <code>X_seconds</code> for that particular element before trying to click on it, like this:</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.support.ui <span class="im">import</span> WebDriverWait</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.support <span class="im">import</span> expected_conditions <span class="im">as</span> EC</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># let's wait up to 20 seconds</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>X_seconds <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>wait <span class="op">=</span> WebDriverWait(driver, timeout <span class="op">=</span> X_seconds)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, <span class="st">'[data-e2e="modal-close-inner-button"]'</span>)))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># this line will only execute whenever the element was found (or after 20 seconds it it wasn't)</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>close_button <span class="op">=</span> driver.find_element(By.CSS_SELECTOR, <span class="st">'[data-e2e="modal-close-inner-button"]'</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>close_button</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>&lt;selenium.webdriver.remote.webelement.WebElement (session="64b92d16043e500c3630742e6fa746d2", element="7B4533C51CF631265A8665122C637150_element_45")&gt;</code></pre>
+</div>
+</div>
+<p>We seem to have found something, let’s click it! <code>WebElement</code>s come equipped with special functions you can use to <a href="https://www.selenium.dev/documentation/webdriver/elements/interactions/">interact</a> with them:</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>close_button.click()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Did you notice a change on the page? Congratulations! You just automated the browser to click something.</p>
 </section>
 <section id="step-4-scrolling" class="level2">
 <h2 class="anchored" data-anchor-id="step-4-scrolling">Step 4: Scrolling</h2>
 <p>We now have a browser instance open and displaying the For You page. Let’s scroll through the videos.</p>
-<p>If you are a <em>real person</em> who (for whatever reason) visits TikTok on their computer, you could press the down key the keyboard to see new videos. We will do that programmatically using a <a href="https://playwright.dev/docs/api/class-keyboard">virtual keyboard</a> instead:</p>
-<div id="abe85668" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> page.keyboard.press(<span class="st">"ArrowDown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you are a <em>real person</em> who (for whatever reason) visits TikTok on their computer, you could press the down key the keyboard to see new videos. We will do that programmatically instead:</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.action_chains <span class="im">import</span> ActionChains</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.keys <span class="im">import</span> Keys</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>actions <span class="op">=</span> ActionChains(driver)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>actions.send_keys(Keys.ARROW_DOWN)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>actions.perform()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>When you run the cell above you will see that your browser scrolls down to the next video.</p>
+<p>When you run the cell above you will see that your browser scrolls down to the next video. You just automated scrolling!</p>
 </section>
 <section id="step-5-finding-tiktok-videos-on-the-page" class="level2">
 <h2 class="anchored" data-anchor-id="step-5-finding-tiktok-videos-on-the-page">Step 5: Finding TikTok videos on the page</h2>
-<p>Now that we have the building blocks for swiping through the For You page, let’s view the recommended TikTok videos and parse out information (called metadata) for each video.</p>
-<p>When we asked Playwright to search for the “Continue as guest” button (Step 3), we used a locator function based on text. Playwright had other <a href="https://playwright.dev/python/docs/locators">locator</a> functions to find what you’re looking for:</p>
-<ul>
-<li>get_by_role() to locate by explicit and implicit accessibility attributes.</li>
-<li>get_by_text() to locate by text content.</li>
-<li>get_by_label() to locate by the associated label’s text.</li>
-<li>get_by_placeholder() to locate an input by placeholder.</li>
-<li>get_by_alt_text() to locate an element, usually image, by its text alternative.</li>
-<li>get_by_title() to locate an element by its title attribute.</li>
-</ul>
-<p>The developers suggest using these recommended locators. This will make your code more legible and reliable. Other browser automation tools have comparable functions.</p>
-<p>Unfortunately for us, none of these will work for our task. If you look at the source code for TikTok videos, you won’t find any of these locators useful. However, there are fields that we can use to identify videos another way.</p>
+<p>Now that the site loaded and you can browse it, let’s find all the TikTok videos that are displayed and extract the information (called metadata) from each of them.</p>
 <ol type="1">
 <li>Right click on the white space around a TikTok video and choose “Inspect”. <img src="assets/browser1_05_inspect_tiktok_a1.png" class="img-fluid" alt="Inspect Element"></li>
 <li>Hover your mouse over the surrounding <code>&lt;div&gt;</code> elements and observe the highlighted elements on the page to see which ones correspond to each TikTok video. <img src="assets/browser1_05_inspect_tiktok_b1.png" class="img-fluid" alt="Inspect Element"></li>
-<li>You will see that each video is in a separate <code>&lt;div&gt;</code> container but each of these containers has the same <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-*">data attribute</a> (<code>data-e2e</code>) with the value of <code>recommend-list-item-container</code>.</li>
-<li>We can now use this to find all videos on page (you can search by attribute value using square brackets):</li>
+<li>You will see that each video is in a separate <code>&lt;div&gt;</code> container but each of these containers has the same <code>data-e2e</code> attribute with the value of <code>recommend-list-item-container</code>.</li>
+<li>Similarly to how we found the close button, we can now use this to find all videos on page:</li>
 </ol>
-<p>Playwright has a generic <code>locator</code> function that accepts both xpath and CSS <a href="https://playwright.dev/python/docs/locators#locate-by-css-or-xpath">selectors</a>.</p>
-<p>The same <code>&lt;div&gt;</code> can be identified in xpath as <code>//div[@data-e2e="recommend-list-item-container"]</code> or as a CSS selector as <code>[data-e2e="recommend-list-item-container"]</code>.</p>
-<div id="f6e19d63" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>videos <span class="op">=</span> <span class="cf">await</span> page.locator(<span class="st">'//div[@data-e2e="recommend-list-item-container"]'</span>).<span class="bu">all</span>()</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>videos</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="31">
-<pre><code>[&lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=0'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=1'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=2'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=3'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=4'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=5'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=6'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=7'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=8'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=9'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=10'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=11'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=12'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=13'&gt;,
- &lt;Locator frame=&lt;Frame name= url='https://www.tiktok.com/foryou'&gt; selector='//div[@data-e2e="recommend-list-item-container"] &gt;&gt; nth=14'&gt;]</code></pre>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>videos <span class="op">=</span> driver.find_elements(By.CSS_SELECTOR, <span class="st">'[data-e2e="recommend-list-item-container"]'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When we searched for the “dismiss” button we used the <code>driver.find_element()</code> function because we were only interested in the first element that matched our CSS selector.</p>
+<p>Now we’re trying to find all videos on page, so we use the <code>driver.find_elements()</code> function instead - it returns the complete list of elements that match the selector.</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>videos</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>[&lt;selenium.webdriver.remote.webelement.WebElement (session="64b92d16043e500c3630742e6fa746d2", element="7B4533C51CF631265A8665122C637150_element_73")&gt;,
+ &lt;selenium.webdriver.remote.webelement.WebElement (session="64b92d16043e500c3630742e6fa746d2", element="7B4533C51CF631265A8665122C637150_element_78")&gt;,
+ &lt;selenium.webdriver.remote.webelement.WebElement (session="64b92d16043e500c3630742e6fa746d2", element="7B4533C51CF631265A8665122C637150_element_101")&gt;,
+ &lt;selenium.webdriver.remote.webelement.WebElement (session="64b92d16043e500c3630742e6fa746d2", element="7B4533C51CF631265A8665122C637150_element_160")&gt;,
+ &lt;selenium.webdriver.remote.webelement.WebElement (session="64b92d16043e500c3630742e6fa746d2", element="7B4533C51CF631265A8665122C637150_element_161")&gt;,
+ &lt;selenium.webdriver.remote.webelement.WebElement (session="64b92d16043e500c3630742e6fa746d2", element="7B4533C51CF631265A8665122C637150_element_162")&gt;,
+ &lt;selenium.webdriver.remote.webelement.WebElement (session="64b92d16043e500c3630742e6fa746d2", element="7B4533C51CF631265A8665122C637150_element_163")&gt;,
+ &lt;selenium.webdriver.remote.webelement.WebElement (session="64b92d16043e500c3630742e6fa746d2", element="7B4533C51CF631265A8665122C637150_element_164")&gt;,
+ &lt;selenium.webdriver.remote.webelement.WebElement (session="64b92d16043e500c3630742e6fa746d2", element="7B4533C51CF631265A8665122C637150_element_165")&gt;]</code></pre>
 </div>
 </div>
-<p>When we searched for the “Continue as guest” button we didn’t need to use the <code>all</code> method because we were only expecting one element to match our locator.</p>
-<p>Now we’re trying to find <strong>all</strong> videos on page, so we will chain the <code>locator</code> and <code>all</code> functions to return a full list of elements that match the locator.</p>
 </section>
 <section id="step-6-parsing-tiktok-metadata" class="level2">
 <h2 class="anchored" data-anchor-id="step-6-parsing-tiktok-metadata">Step 6: Parsing TikTok metadata</h2>
-<p>With all the TikTok <code>videos</code> on the page, let’s extract the description from each. Later, we’ll use this metadata to decide whether to watch a video, or to skip it. The process of extracting a specific field from a webpage is “parsing”.</p>
+<p>Now that we found all the TikTok videos on the page, let’s extract the description from each - this is how we will decide whether to watch the video, or to skip it. The process of extracting a specific field from a webpage is “parsing”.</p>
 <ol type="1">
 <li>Pick any description, right click, “Inspect”.</li>
-<li>Let’s locate the <code>&lt;div&gt;</code> that contains the whole description (including any hashtags) and make note of its <code>data</code> attribute.</li>
-<li>Now let’s write the code that extracts the description from a single video. You can get the text of any located element by calling the <code>inner_text</code> function.</li>
+<li>Let’s locate the <code>&lt;div&gt;</code> that contains the whole description (including any hashtags) and make note of its <code>data-e2s</code> attribute.</li>
+<li>Now let’s write the code that, extracts the description from a single video (note that you can get the text content of any element by calling <code>element.text</code>)</li>
 </ol>
-<div id="9a0b7e79" class="cell" data-execution_count="34">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> video <span class="kw">in</span> videos:</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="cf">await</span> video.locator(<span class="st">'//div[@data-e2e="video-desc"]'</span>).inner_text())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> video <span class="kw">in</span> videos:</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(video.find_element(By.CSS_SELECTOR, <span class="st">'[data-e2e="video-desc"]'</span>).text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Unbelievable fish trap technique #fish  #fishing  #fishinglife  #wild  #wildlife  #nature  #asmr  #river  #fyp   
-Super winner! Whoever clears the board first wins👌Sling Puck Game #viral  #viralvideo  #2024 #satisfying 
-Head on to your nearest retail store and spot the 900g promo pack! Prepare your child for all school age challenges with NIDO!*Applicable on select retail stores nationwide.
-#india  #streetfood  #food  #fpy  #foryou  #longervideos  
-Jajaja YO NO SOY LA QUE REACCIONA, es una nena que se muere por el juhador  #richardRios  #colombia  
-Every car needs this!🤯 #lifehack  #cars  #diy  #sports  
-This was insane 🫣🤣
-How North Korea is Now Impossible to Escape 🇰🇵🇰🇷 #northkorea  #korea  #southkorea  #northkoreafact  #northkorealife  #border  #maps  #geography  #learn  #history  #geotok  #historytok  #funfacts  #fyp 
-Geeze im tired of hurting 
-#momsoftiktok  #baseketball  #nba  #tiktok  #fyp  #foryou  
-should dweeb count? 🤣 #trivia  
-Apple watch hidden camera
-
-Nah fam. I’m not for this. I had to get back into line so I could record this. #ai  #artificialintelligence  #wendys  
-Part 1#foryou  #viral  </code></pre>
+<pre><code>
+The last one 😂😂 #pet #cat #dog #cute #animals #funny #foryou #fyp
+الرد على @hadeelalsamare #اكسبلور #fyp #fypシ
+BEST MAGIC TRICKS REVEALED 😱😳 #magician #learnfromme #foru #popular
+The most Useful Toy ever! 2 😂 #fun #play #fyp
+Iphone 13 pro max #repair #tamarshabi🥰 תיקון
+Herb-Crusted Rack of Lamb 😍 #lamb #easyrecipe #easyrecipes #asmrfood #foodtok #cooktok #dinnerwithme #homecook #homecooking #dinnerideas #dinnerparty
+#fyp #halsey #geazy #scandal
+شو رأيكم كان فيها تكفي اللقمة اللي بتمها؟ 😐#hasanandhawraa #ramdan2023 #رمضان_يجمعنا #رمضان</code></pre>
 </div>
 </div>
-<div class="callout callout-style-simple callout-note">
+<div class="callout-note callout callout-style-simple">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>Note: We previously searched for elements using <code>page.locator()</code>. That allowed us to search the whole page. Here we’re using a locator within a previously located element: <code>video.locator()</code>. This allows us to access attributes and elements <strong>within an element on the page</strong>, rather than on the whole page.</p>
+<p>Note: We previously searched for elements using <code>driver.find_element()</code> and <code>driver.find_elements()</code>. That allowed us to search the whole page. Notice that here, instead of <code>driver</code>, we’re using a particular element which we called <code>video</code>: this way we can search for elements <strong>within an element</strong>, rather than on the whole page.</p>
 </div>
 </div>
 </div>
@@ -585,56 +646,59 @@ Part 1#foryou  #viral  </code></pre>
 <section id="step-7-finding-the-tiktok-video-thats-currently-playing" class="level2">
 <h2 class="anchored" data-anchor-id="step-7-finding-the-tiktok-video-thats-currently-playing">Step 7: Finding the TikTok video that’s currently playing</h2>
 <p>We know how to scroll to the next video, and we know how to find all videos that are loaded. At this point we could either:</p>
-<ol type="a">
+<ol type="1">
 <li>Assume that at the beginning, the 0th video is playing, and then every time we press arrow down, the next video is being displayed<br></li>
-<li>Or, assume that the arrow down does not always work and each time verify which video is actually playing</li>
+<li>Assume that the arrow down does not always work and each time verify which video is actually playing</li>
 </ol>
 <p>The problem with the first approach is that even if scrolling fails just once, our experiment will be compromised (after it happens we will be watching and skipping different videos that our script tells us). This is why we will go with the second approach and verify which video is actually playing. Back to our favorite tool- inspect element!</p>
 <p>When you right click on the playing video, you will see that instead of our familiar UI we get a custom TikTok menu, so that won’t work. Try right-clicking on the description of the video instead, then hovering over different elements in the inspector and expanding the one that highlights the video in the browser. Dig deep until you get to the <code>div</code> that only contains the video.</p>
-<p>Still in the inspector try looking at the video below. You will see that the <code>div</code> that contains the video is missing and there is no element with the tag name <code>video</code>. That’s how we can find if the video is currently playing - its <code>div</code> will contain the <code>video</code> element that we can find by <code>TAG_NAME</code> &lt;- ???:</p>
-<div id="9d1e3cd6" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> video <span class="kw">in</span> videos:</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># let's get the description of each video using the method we already know</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    description <span class="op">=</span> <span class="cf">await</span> video.locator(<span class="st">'//div[@data-e2e="video-desc"]'</span>).inner_text()</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># now let's count all the &lt;video&gt; elements within. If there is one, that's the one that's playing!</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="cf">await</span> video.locator(<span class="st">'video'</span>).count() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        playing <span class="op">=</span> <span class="st">'playing'</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        playing <span class="op">=</span> <span class="st">'not playing'</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(playing, description)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Still in the inspector try looking at the video below. You will see that the <code>div</code> that contains the video is missing and there is no element with the tag name <code>video</code>. That’s how we can find if the video is currently playing - its <code>div</code> will contain the <code>video</code> element that we can find by <code>TAG_NAME</code>:</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> video <span class="kw">in</span> videos:</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    description <span class="op">=</span> video.find_element(By.CSS_SELECTOR, <span class="st">'[data-e2e="video-desc"]'</span>).text</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> video.find_elements(By.TAG_NAME, <span class="st">'video'</span>):</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        playing <span class="op">=</span> <span class="st">'playing'</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>        playing <span class="op">=</span> <span class="st">'not playing'</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(playing, description)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>not playing Unbelievable fish trap technique #fish  #fishing  #fishinglife  #wild  #wildlife  #nature  #asmr  #river  #fyp   
-not playing Super winner! Whoever clears the board first wins👌Sling Puck Game #viral  #viralvideo  #2024 #satisfying 
-playing Head on to your nearest retail store and spot the 900g promo pack! Prepare your child for all school age challenges with NIDO!*Applicable on select retail stores nationwide.
-not playing #india  #streetfood  #food  #fpy  #foryou  #longervideos  
-not playing Jajaja YO NO SOY LA QUE REACCIONA, es una nena que se muere por el juhador  #richardRios  #colombia  </code></pre>
+<pre><code>playing 
+not playing The last one 😂😂 #pet #cat #dog #cute #animals #funny #foryou #fyp
+not playing الرد على @hadeelalsamare #اكسبلور #fyp #fypシ
+not playing BEST MAGIC TRICKS REVEALED 😱😳 #magician #learnfromme #foru #popular
+not playing The most Useful Toy ever! 2 😂 #fun #play #fyp
+not playing Iphone 13 pro max #repair #tamarshabi🥰 תיקון
+not playing Herb-Crusted Rack of Lamb 😍 #lamb #easyrecipe #easyrecipes #asmrfood #foodtok #cooktok #dinnerwithme #homecook #homecooking #dinnerideas #dinnerparty
+not playing #fyp #halsey #geazy #scandal
+not playing شو رأيكم كان فيها تكفي اللقمة اللي بتمها؟ 😐#hasanandhawraa #ramdan2023 #رمضان_يجمعنا #رمضان</code></pre>
 </div>
 </div>
 </section>
-<section id="step-8-taking-screenshots-and-saving-page-sources" class="level2">
-<h2 class="anchored" data-anchor-id="step-8-taking-screenshots-and-saving-page-sources">Step 8: Taking screenshots and saving page sources</h2>
-<p>You might want to save a screenshot to help debug your scraper or provide artifacts you can present alongside your findings. Playwright allows you to take screenshots of the whole screen, or just a particular element:</p>
-<div id="07951510" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># take a screenshot of the whole browser</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> page.screenshot(path<span class="op">=</span><span class="st">"screenshot.png"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># take a screenshot of just one video</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>screenshot <span class="op">=</span> <span class="cf">await</span> video.screenshot(path<span class="op">=</span><span class="st">"video_screenshot.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="step-8-taking-screenshots-and-saving-page-source" class="level2">
+<h2 class="anchored" data-anchor-id="step-8-taking-screenshots-and-saving-page-source">Step 8: Taking screenshots and saving page source</h2>
+<p>The presentation of your results might be more compelling, when its accompanied by screenshots, rather than just data. Selenium allows you to take screenshots of the whole screen, or just a particular element (though the latter is a bit cumbersome):</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># take a screenshot of the whole browser</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>driver.save_screenshot(<span class="st">'full_screenshot.png'</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># take a screenshot of just one video</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>screenshot <span class="op">=</span> video.screenshot_as_png</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'element_screenshot.png'</span>, <span class="st">'wb'</span>) <span class="im">as</span> output:</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    output.write(screenshot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In the spirit of <em>bringing receipts</em>, you can also save the entire webpage as an HTML file to parse it later.</p>
-<div id="dc37d600" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save the source of the entire page</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>page_html <span class="op">=</span> <span class="cf">await</span> page.content()</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'webpage.html'</span>, <span class="st">'w'</span>) <span class="im">as</span> output:</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    output.write(page_html)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the spirit of <em>bringing receipts</em>, you can also save the entire webpage to parse it later.</p>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save the source of the entire page</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>page_html <span class="op">=</span> driver.page_source</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'webpage.html'</span>, <span class="st">'w'</span>) <span class="im">as</span> output:</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    output.write(page_html)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-tip callout callout-style-simple callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
+<div class="callout-caption-container flex-fill">
 Pro tip: Keep these records to sanity check your results
 </div>
 </div>
@@ -643,8 +707,8 @@ Pro tip: Keep these records to sanity check your results
 </div>
 </div>
 <p>Let’s close the browser for now, and kick this workflow up a notch.</p>
-<div id="bd1f4675" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> browser.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>driver.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-9-putting-it-all-together" class="level2">
@@ -652,288 +716,316 @@ Pro tip: Keep these records to sanity check your results
 <p>At this point, we can read the description of TikTok videos and navigate the “For You” page.</p>
 <p>That’s most of the setup we need to try our mock experiment:<br> let’s watch all TikTok videos that mention food in the description and skip videos that do not mention food.</p>
 <p>After one hundred videos, we will see whether we are served videos from FoodTok more frequently than other topics.</p>
-<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-tip callout callout-style-simple callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
+<div class="callout-caption-container flex-fill">
 Pro tip: Use functions!
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>So far we wrote code to open the browser, close the dialog, and find videos as separate cells in the notebook. We <em>could</em> copy that code over here to use it, but it will be much easier to read and maintain the code if we write clean, well-documented functions with descriptive names.</p>
-<p>Note: because we’re running asynchronous Playwight we are using <code>async def</code> to <a href="https://stackoverflow.com/a/53420574">define functions</a>.</p>
+<p>So far we wrote code to open the browser, close the dialog, and find videos as separate cells in the notebook. We <em>could</em> copy that code over here to use it, but it will be much easier to understand and maintain the code if we write clean, well-documented functions with descriptive names.</p>
 </div>
 </div>
-<div id="9405d23e" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> playwright.async_api <span class="im">import</span> async_playwright, expect</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> open_browser():</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Starts the automated browser and opens a new window</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Start the browser</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    playwright <span class="op">=</span> <span class="cf">await</span> async_playwright().start()</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    browser <span class="op">=</span> <span class="cf">await</span> playwright.firefox.launch(headless<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a new browser window</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    page <span class="op">=</span> <span class="cf">await</span> browser.new_page()</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> browser, page</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> close_login_dialog(page):</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">    Checks if the login dialog is present. If so, it "Continues as guest"</span></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># how many elements with "Continue as guest" do we see?</span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="cf">await</span> page.get_by_text(<span class="st">'Continue as guest'</span>).count() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># there is one, let's click it!</span></span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> page.get_by_text(<span class="st">'Continue as guest'</span>).click()</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># there is none, we can continue scrolling</span></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> find_videos(page):</span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co">    Finds all tiktoks loaded in the browser</span></span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    videos <span class="op">=</span> <span class="cf">await</span> page.locator(<span class="st">'//div[@data-e2e="recommend-list-item-container"]'</span>).<span class="bu">all</span>()</span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> videos</span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> get_description(video):</span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="co">    Extracts the video description along with any hashtags</span></span>
-<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>        description <span class="op">=</span> <span class="cf">await</span> video.locator(<span class="st">'//div[@data-e2e="video-desc"]'</span>).inner_text()</span>
-<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
-<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># if the description is missing, just get any text from the video</span></span>
-<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>        description <span class="op">=</span> <span class="cf">await</span> video.inner_text()</span>
-<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> description</span>
-<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> get_current(videos):</span>
-<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a><span class="co">    Given the list of videos it returns the one that's currently playing</span></span>
-<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> video <span class="kw">in</span> videos:</span>
-<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="cf">await</span> video.locator(<span class="st">'video'</span>).count() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>            <span class="co"># this one has the video, we can return it and that ends the function.</span></span>
-<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> video</span>
-<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_target_video(description, keywords):</span>
-<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a><span class="co">    Looks for keywords in the given description. </span></span>
-<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="al">NOTE</span><span class="co">: only looks for the substring IE partial match is enough.</span></span>
-<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns `True` if there are any or `False` when there are none.</span></span>
-<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># check in any of the keywords is in the description</span></span>
-<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> keyword <span class="kw">in</span> keywords:</span>
-<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> keyword <span class="kw">in</span> description:</span>
-<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>            <span class="co"># we have a video of interest, let's watch it </span></span>
-<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
-<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if we're still here it means no keywords were found</span></span>
-<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">False</span></span>
-<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> screenshot(video, filename<span class="op">=</span><span class="st">"screenshot.png"</span>):</span>
-<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a><span class="co">    Saves a screenshot of a given video to a specified file</span></span>
-<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a>    screenshot <span class="op">=</span> <span class="cf">await</span> video.screenshot(path <span class="op">=</span> filename)</span>
-<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> save_source(page, filename<span class="op">=</span><span class="st">'webpage.html'</span>):</span>
-<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a><span class="co">    Saves the browser HTML to a file</span></span>
-<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a>    page_html <span class="op">=</span> <span class="cf">await</span> page.content()</span>
-<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(filename, <span class="st">'w'</span>) <span class="im">as</span> output:</span>
-<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a>        output.write(page_html)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium <span class="im">import</span> webdriver</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.by <span class="im">import</span> By</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.action_chains <span class="im">import</span> ActionChains</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.keys <span class="im">import</span> Keys</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.support.ui <span class="im">import</span> WebDriverWait</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.support <span class="im">import</span> expected_conditions <span class="im">as</span> EC</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> chromedriver_binary</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> open_browser():</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co">    Opens a new automated browser window with all tell-tales of automated browser disabled</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    options <span class="op">=</span> webdriver.ChromeOptions()</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    options.add_argument(<span class="st">"start-maximized"</span>)</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># remove all signs of this being an automated browser</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    options.add_argument(<span class="st">'--disable-blink-features=AutomationControlled'</span>)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    options.add_experimental_option(<span class="st">"excludeSwitches"</span>, [<span class="st">"enable-automation"</span>])</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    options.add_experimental_option(<span class="st">'useAutomationExtension'</span>, <span class="va">False</span>)</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># open the browser with the new options</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>    driver <span class="op">=</span> webdriver.Chrome(options<span class="op">=</span>options)</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> driver</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> close_login_dialog(driver):</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a><span class="co">    Waits for the login dialog to appear, then closes it</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># rather than trying to click a button that might have not loaded yet, we will </span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># wait up to 20 seconds for it to actually appear first</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>    wait <span class="op">=</span> WebDriverWait(driver, timeout <span class="op">=</span> <span class="dv">20</span>)</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, <span class="st">'[data-e2e="modal-close-inner-button"]'</span>)))</span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>    close_button <span class="op">=</span> driver.find_element(By.CSS_SELECTOR, <span class="st">'[data-e2e="modal-close-inner-button"]'</span>)</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> close_button:</span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>        close_button.click()</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> arrow_down(driver):</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a><span class="co">    Sends the ARROW_DOWN key to a webdriver instance.</span></span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>    actions <span class="op">=</span> ActionChains(driver)</span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>    actions.send_keys(Keys.ARROW_DOWN)</span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>    actions.perform()</span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_videos(driver):</span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a><span class="co">    Finds all tiktoks loaded in the browser</span></span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>    videos <span class="op">=</span> driver.find_elements(By.CSS_SELECTOR, <span class="st">'[data-e2e="recommend-list-item-container"]'</span>)</span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> videos</span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_description(video):</span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a><span class="co">    Extracts the video description along with any hashtags</span></span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a>        description <span class="op">=</span> video.find_element(By.CSS_SELECTOR, <span class="st">'[data-e2e="video-desc"]'</span>).text</span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a>        <span class="co"># if the description is missing, just get any text from the video</span></span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a>        description <span class="op">=</span> video.text</span>
+<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> description</span>
+<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_current(videos):</span>
+<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a><span class="co">    Given the list of videos it returns the one that's currently playing</span></span>
+<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> video <span class="kw">in</span> videos:</span>
+<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> video.find_elements(By.TAG_NAME, <span class="st">'video'</span>):</span>
+<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a>            <span class="co"># this one has the video, we can return it and that ends the function.</span></span>
+<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> video</span>
+<span id="cb25-76"><a href="#cb25-76" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-77"><a href="#cb25-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb25-78"><a href="#cb25-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-79"><a href="#cb25-79" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_target_video(description, keywords):</span>
+<span id="cb25-80"><a href="#cb25-80" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb25-81"><a href="#cb25-81" aria-hidden="true" tabindex="-1"></a><span class="co">    Looks for keywords in the given description. </span></span>
+<span id="cb25-82"><a href="#cb25-82" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="al">NOTE</span><span class="co">: only looks for the substring IE partial match is enough.</span></span>
+<span id="cb25-83"><a href="#cb25-83" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns `True` if there are any or `False` when there are none.</span></span>
+<span id="cb25-84"><a href="#cb25-84" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-85"><a href="#cb25-85" aria-hidden="true" tabindex="-1"></a>    <span class="co"># check in any of the keywords is in the description</span></span>
+<span id="cb25-86"><a href="#cb25-86" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> keyword <span class="kw">in</span> keywords:</span>
+<span id="cb25-87"><a href="#cb25-87" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> keyword <span class="kw">in</span> description:</span>
+<span id="cb25-88"><a href="#cb25-88" aria-hidden="true" tabindex="-1"></a>            <span class="co"># we have a video of interest, let's watch it </span></span>
+<span id="cb25-89"><a href="#cb25-89" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb25-90"><a href="#cb25-90" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-91"><a href="#cb25-91" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if we're still here it means no keywords were found</span></span>
+<span id="cb25-92"><a href="#cb25-92" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-94"><a href="#cb25-94" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> screenshot(video, filename<span class="op">=</span><span class="st">"screenshot.png"</span>):</span>
+<span id="cb25-95"><a href="#cb25-95" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb25-96"><a href="#cb25-96" aria-hidden="true" tabindex="-1"></a><span class="co">    Saves a screenshot of a given video to a specified file</span></span>
+<span id="cb25-97"><a href="#cb25-97" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-98"><a href="#cb25-98" aria-hidden="true" tabindex="-1"></a>    screenshot <span class="op">=</span> video.screenshot_as_png</span>
+<span id="cb25-99"><a href="#cb25-99" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(filename, <span class="st">'wb'</span>) <span class="im">as</span> output:</span>
+<span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a>        output.write(screenshot)</span>
+<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-102"><a href="#cb25-102" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> save_source(driver, filename<span class="op">=</span><span class="st">"screenshot.html"</span>):</span>
+<span id="cb25-103"><a href="#cb25-103" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb25-104"><a href="#cb25-104" aria-hidden="true" tabindex="-1"></a><span class="co">    Saves the browser HTML to a file</span></span>
+<span id="cb25-105"><a href="#cb25-105" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-106"><a href="#cb25-106" aria-hidden="true" tabindex="-1"></a>    page_html <span class="op">=</span> driver.page_source</span>
+<span id="cb25-107"><a href="#cb25-107" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">'webpage.html'</span>, <span class="st">'w'</span>) <span class="im">as</span> output:</span>
+<span id="cb25-108"><a href="#cb25-108" aria-hidden="true" tabindex="-1"></a>        output.write(page_html)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Ok, with that out of the way, let’s set up our first data collection.</p>
-<p>Let’s make a directory to save screenshots. We will save screenshots here whenever we find a video related to food.</p>
-<div id="89e12185" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>os.makedirs(<span class="st">'data/screenshots/'</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>First, let’s make a directory to save screenshots. We will save screenshots here whenever we find a video related to food.</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>os.makedirs(<span class="st">'data/screenshots/'</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="681ae5c9-a29d-49d1-8c30-f2f5b053b92b" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>browser, page <span class="op">=</span> <span class="cf">await</span> open_browser()</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Open the default tiktok For You page</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> page.goto(<span class="st">"https://www.tiktok.com/foryou"</span>)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> expect(page.locator(<span class="st">'video'</span>).first).to_be_visible()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="0fdff08c" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># if the description has any one these words, we will watch the video</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>keywords <span class="op">=</span> [<span class="st">'food'</span>, <span class="st">'dish'</span>, <span class="st">'cook'</span>, <span class="st">'pizza'</span>, <span class="st">'recipe'</span>, <span class="st">'mukbang'</span>, <span class="st">'dinner'</span>, <span class="st">'foodie'</span>, <span class="st">'restaurant'</span>]</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># this is where will we store decisions we take</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>decisions <span class="op">=</span> []</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># open a browser, and go to TikTok's For You page.</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>browser, page <span class="op">=</span> <span class="cf">await</span> open_browser()</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Open the default tiktok For You page</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> page.goto(<span class="st">"https://www.tiktok.com/foryou"</span>)</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's wait for the first video to load before we start scrolling</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> expect(page.locator(<span class="st">'video'</span>).first).to_be_visible()</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tiktok_index <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">100</span>):</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># make sure to dismiss the login window</span></span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> close_login_dialog(page)</span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get all videos</span></span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    tiktoks <span class="op">=</span> <span class="cf">await</span> find_videos(page)</span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the current tiktok is the one that's currently showing the video player</span></span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    current_video <span class="op">=</span> <span class="cf">await</span> get_current(tiktoks)</span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> current_video <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'no more videos'</span>)</span>
-<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
-<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>              </span>
-<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># read the description of the video</span></span>
-<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    description <span class="op">=</span> <span class="cf">await</span> get_description(current_video)</span>
-<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># categorize the video as relevant to `keywords` or not.</span></span>
-<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    contains_keyword <span class="op">=</span> is_target_video(description, keywords)</span>
-<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>    decisions.append(contains_keyword)</span>
-<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(tiktok_index, contains_keyword, description)</span>
-<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> contains_keyword:</span>
-<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>        <span class="co"># we have a video of interest, let's take a screenshot</span></span>
-<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>        <span class="co">## here we declare the files we'll save. they're named according to their order.</span></span>
-<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>        fn_screenshot <span class="op">=</span> <span class="ss">f"data/screenshots/screenshot_</span><span class="sc">{</span>tiktok_index<span class="sc">:05}</span><span class="ss">.png"</span></span>
-<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>        fn_page_source <span class="op">=</span> fn_screenshot.replace(<span class="st">'.png'</span>, <span class="st">'.html'</span>)</span>
-<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> screenshot(current_video, fn_screenshot)</span>
-<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> save_source(page, fn_page_source)</span>
-<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># and now watch it for 30 seconds</span></span>
-<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> page.wait_for_timeout(<span class="dv">30000</span>)</span>
-<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># move to the next video</span></span>
-<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> page.keyboard.press(<span class="st">"ArrowDown"</span>)</span>
-<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> page.wait_for_timeout(<span class="dv">1000</span>)</span>
-<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> browser.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># if the description has any one these words, we will watch the video</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>keywords <span class="op">=</span> [<span class="st">'food'</span>, <span class="st">'dish'</span>, <span class="st">'cook'</span>, <span class="st">'pizza'</span>, <span class="st">'recipe'</span>, <span class="st">'mukbang'</span>, <span class="st">'dinner'</span>, <span class="st">'foodie'</span>, <span class="st">'restaurant'</span>]</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># this is where will we store decisions we take</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>decisions <span class="op">=</span> []</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co"># open a browser, and go to TikTok's For You page.</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>driver <span class="op">=</span> open_browser()</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>driver.get(<span class="st">'https://tiktok.com/foryou'</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>close_login_dialog(driver)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tiktok_index <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">100</span>):</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get all videos</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    tiktoks <span class="op">=</span> find_videos(driver)</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the current tiktok is the one that's currently showing the video player</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    current_video <span class="op">=</span> get_current(tiktoks)</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> current_video <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'no more videos'</span>)</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>              </span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># read the description of the video</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>    description <span class="op">=</span> get_description(current_video)</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># categorize the video as relevant to `keywords` or not.</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>    contains_keyword <span class="op">=</span> is_target_video(description, keywords)</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>    decisions.append(contains_keyword )</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(tiktok_index, contains_keyword, description)</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> contains_keyword:</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>        <span class="co"># we have a video of interest, let's take a screenshot</span></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>        <span class="co">## here we declare the files we'll save. they're named according to their order.</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>        fn_screenshot <span class="op">=</span> <span class="ss">f"data/screenshots/screenshot_</span><span class="sc">{</span>tiktok_index<span class="sc">:05}</span><span class="ss">.png"</span></span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>        fn_page_soure <span class="op">=</span> fn_screenshot.replace(<span class="st">'.png'</span>, <span class="st">'.html'</span>)</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>        screenshot(current_video, fn_screenshot)</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>        save_source(driver, fn_page_source)</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># and now watch it for 30 seconds</span></span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">30</span>)</span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># move to the next video</span></span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>    arrow_down(driver)</span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">2</span>)</span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>driver.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0 False Super winner! Whoever clears the board first wins👌Sling Puck Game #viral  #viralvideo  #2024 #satisfying 
-1 True #india  #streetfood  #food  #fpy  #foryou  #longervideos  
-2 False Jajaja YO NO SOY LA QUE REACCIONA, es una nena que se muere por el juhador  #richardRios  #colombia  
-3 False No sean esa persona 🥺 
-4 False 02.07. Happy birthday #happybirthday  #nohea  #asmr  #satisfyingvideo  
-5 False 
-6 False Every car needs this!🤯 #lifehack  #cars  #diy  #sports  
-7 False This was insane 🫣🤣
-8 False #momsoftiktok  #baseketball  #nba  #tiktok  #fyp  #foryou  
-9 False This is the story of Nasim Aghdam #youtube  #nasim  #truecrime  
-10 False Geeze im tired of hurting 
-11 False How North Korea is Now Impossible to Escape 🇰🇵🇰🇷 #northkorea  #korea  #southkorea  #northkoreafact  #northkorealife  #border  #maps  #geography  #learn  #history  #geotok  #historytok  #funfacts  #fyp 
-12 False 
-13 False Apple watch hidden camera
-14 False 34 years later.. someone please tell me! #nostalgia  #90skids  #90stoys  #thirties  #foryou  #nostalgic  
-15 False Part 1. #fyp  #foryou  #movie  
-16 False 
-17 False This is sand leveling, or topdressing. It creates a more level surface for your lawn by filling in low areas. I use masonry sand since I have Bermuda grass. If you have a cool season grass type, a screened topsoil may be better. I like to put a little fertilizer down prior to, and after to ensure bermuda is growing aggressively through the sand. I water every other day for a week and within 2 weeks it should be almost fully recovered. Part 2 update coming soon #lawn  #lawncare  #lawnleveling  #topdressing  #diy  #landscaping  #howto  
-18 False Try not to laugh #prank  #funny  #funnyvideos  #scare  #scareprank  
-19 False #foryoupage  #foryoupageofficiall  #viralvideo  #trending  #fypシ゚viral  #vacation  #bahamas🇧🇸  #vacay  
-20 False Bro done messed up ☠️‼️#donpollo  #fyp  #meme #funny  
-21 False #greenscreen  maybe one day, you’ll love us. #singlemom  
-22 False Hint: she looks nothing like the dad  #trending  #guessthedad  #momtok  #babytok  #daddysgirl  #fypage  
-23 False 💔 95 - on our way back to Michigan 💔 - I once saw a truck driver run into a mountain to avoid hitting other cars 💔#wherethewildthingsare  #trucker  #trucktok🔥  #truckdrivers  #lukecombs  
-24 False Cheeseburger Egg Rolls 
-25 False Broke character at the end 😭 #fredbeyer  
-26 False Part 1#foryou  #viral  
-27 False Only at 511 😂😂😂 #ofcourse  #crackerbarrel  
+<pre><code>0 False ДО КОНЦА😂 а какой у тебя рост?
+1 False • Reprodução: (SBT/Programa Raul Gil) 🇧🇷
+#combateaosuicidio
+2 False #stitch #이어찍기 #추천 #fyp #viral #xyzbca #korean #おすすめ
+3 True Cuando hago papas de esta manera, todos me preguntan por la receta😋😱#viral #parati #recetas #cocina #recetasfaciles #papa #queso #jamon #food #saborestiktok
+4 False #ومش_هزود_في_الملام #explore
+#fypシ #foryoupage #fyp #viral
+#مش_هنظبط_الريتش_بقي🖤 #حزين
+#حالات_واتس_حزينه💔 #foryou
+5 False #PasiondeGavilanes #telenovelacolombiana
+6 False #accident a veces pasa de todo 👉 sigueme para PARTE 2.
+7 False Zjedzcie se tez cos fajnego dzis #gotowaniezdominika
+8 False كيف تكتب اسم يوسف بخط جميل♥️🌹-
+-
+-
+-
+9 False بنت الجنوب 🔥🤍🇹🇳#مطماطة_قابس_تونس #اكسبلور
+10 False Game on
+11 False Чи бачите різницю між фото? Чи бачите які кадри зроблені на дорогу , а які на дешеву камеру? ☺️ #фотограф #фотоапарат #обзор #фотографія
+12 False #bendiciones #mideseo #TikTok #viral #
+13 False The most Useful Toy ever! 2 😂 #fun #play #fyp
+14 False Replying to @user4034722293618
+15 False jajeczniczka z kielbasiana
+16 False كام مره بكيت ؟ 🥺💔🎧 #المصمم_sheko🎧 #الرتش_فى_زمه_الله💔 #حالات_واتس #شاشه_سوداء #مصمم_حالات_واتس_شاشه_سوداء #fypシ #foryou #fyp #viral #music #tiktok
+17 False #movie #movieclip #fyp
+18 False Я ПРОТИВ КУРЕНИЯ, А ВЫ?
+19 False Uno de nuestros trends favoritos 😍🍭 @SHICKO 💊 @N E N A 🍓
+20 False Esse final me quebrou…🥺💛
+
+🎥Filme: Extraordinário
+
+#disciplina #motivacional #trechosvisionarios #extraordinar
+21 False Parece que o Vin Diesel curtiu “Vai Sentando” 😅
+22 False Para mi mama una niña valiente ♥️💕🇺🇸#parati #parati #parati #parati #parati #fyp #fyp #viral #viral #viral #viral #viral #viral #vistas #vistas #vistas ##vistas #vistas #muyviral @TikTok
+23 False #drawing #viralvideo🔥 #fypシ゚viral
+24 False شو رأيكم كان فيها تكفي اللقمة اللي بتمها؟ 😐#hasanandhawraa #ramdan2023 #رمضان_يجمعنا #رمضان
+25 False Brock is always there to save the day 🦈💪🏼 #wwe #wrestling #wrestlingmemes #brocklesnar #wweisfake #fakesituation #sharkattack #sharks #wwe2023 #nextgen #wwenetwork #smackdown #wwefan #bodybuilding #beach #holiday #pool #sea
+26 False HONEY, I SEE YOU #foryou #omspxd #music #mashonda #fyp #lyrics #speed #spedup #🎧
+27 False #fyp #mrbeast #foryou wow 😳😲
 28 False 
-29 False Here’s a quick tutorial to setting up your Loop Lasso 🤠  #physics  #technology  #looplasso  
-30 False #animalattacks  #truestory  #scarystories  #tiktokstoryteller  #fyp  #pitbull  #pitbullattacksurvivor  #dogattacks  #fyp  
-31 False Jesus loves you 🙏 #jesus  #jesuschrist  #christian  #christianitytiktok  #God  
-32 False If you’ve ever considered getting a German Shepard… let this be your sign. I’m literally shaking 
-33 False Life is weird, scary, and unpredictable sometimes. Here’s to starting over. I’m free now 🤍 Couldn’t have done it without my chosen family #domesticabuseawareness  #marriage  #divorce  #startingover  
-34 False 🆘 Plz Help Me! OMG! Hilarious Encounter with a Regal 🐴 | Tourist's Unexpected Adventure 😂
-35 False #cute  
-36 False PRAUM❤️ #prom2024  #prom  #dress  #fyp  #reddress  #windsor  #foryou  
-37 False #fyp  
-38 False Nah fam. I’m not for this. I had to get back into line so I could record this. #ai  #artificialintelligence  #wendys  
-39 False Chinese culture inspired version of the asoka trend 👏I’m so proud of this one  Let me know how many transitions you see in here, cuz i lost track hahhaa   Song: my new swag by Vava #transitions  #transitionbts  #grwm  #asoka  
-40 False on to the next project #diyqueen  #diy  #diyproject  #asmr  #asmrsounds  #asmrvideo  #asmrtiktoks  #fyp  #cuttingglass  #glasscutting  #cutglass  
-41 False #copspolice  #cop  #cops  #police  #policeofficer  #copsofftiktok  #copsontiktok  #copstiktok  #foryou  #fyp  #Trending  #fyp  #sheriff  #Monment  #viralvideo  #coptiktok  #trendingvideo  #Viral  
-42 False 
-43 False Grandma and puppy helps police find grandson #police  #policeofficer  #policeoftiktok  
-44 False How Bullet Proof Glass Works 🤔
-45 False I swear he ONLY loves mom 🥰 #funny  #viral  #dogsoftiktok  
-46 False When troops dont recognize their leadership 🤣😭  #fypシ  #foryoupage  #specialforces  #military  #soldier  #militaryedit  @wooh_man  
-47 False Uncovered a really cool part of my family history yesterday and I feel so lucky to have seen another beautiful side to my late grandfather 🤍 #army  #airforce  #vintagevibes  #vintagestyle  #familyhistory  #historical  #ww2  #vso  #aarp  #vfw  #veterans  
-48 False 
-49 False Vietnamese billionaire Truong My Lan defrauded the bank and said the remaining 26,886,338.30 was at sea. #money  #bank  #billions  #truongmylan  #fyp  #foryou  
-50 False #su57  #russia  
-51 False I didn't even have a donut.....that day. 🍩 #copsoftiktok  #speeding  #trafficstop  #donuts  #speed  #mean  
-52 False I take you to the candy shop #horse  #candyshop  
-53 False No murders today. Just a little blackmail 👍 #airbnb  #truecrime  #blackmail  #memphis  
-54 False I still do not understand 
-55 False 14 y/o muslims homemade clock mistaken for a bomb at school #bomb  #clock  #student  #school  #funny  #islam  #texas  #trending  #viral  #foryou  #discrimination  #teen  #art  
-56 False Qatar Airbus A380 #aviation  
-57 False He ordered a bogo sandwich in the app but they won’t fulfill the order because they said they didn’t participate in that special offer and he got mad #customerservice  #subway  #fypage  #foryou  #fypシ゚viral🖤video  
-58 False I think it was a tie tbh. Who yall got during this fight?? #ivory  #nowthatstv  #liddymechelle  #fyp  #onmysoul  #nowthatstvedit  #viral  #nttv  #fyp  #makemefamous  #blowthisup  #foryou  #vsp  #makemefamous  #liddyvsivory  #capcut  
-59 False Tip  #soilph  #soiltester  #soil  #soils  #soilheath  #plant  #plantsoftiktok  #plants  #planting  #plantlife  #plantlover  #garden  #gardening  #gardenlife  #gardens  #flower  #flowers  #tips  #tip  #gardenlove  
-60 False This is hilarious 😂 #trump2024  #maga  #donaldtrump  
-61 False For Real V8 Experts 💚💛❤️          SHARE your result in the comment!
-62 False #CapCut  #story  #storytime  #utah  #scary  #creepy  #florida  #fyp  
-63 False Einstein as a kid? 🤨#einstein  #smart  #kid  #math  #hack  #meme  #cool  #school  #student  #education  #bigbraintutor  #studytok  #learnontiktok  #learn  #save  
-64 False #question  What lane is for slow traffic Who knows ? #driving  #traffic  #roadrage  #truck  #foryoupage  #highway  
-65 True 😂😂#viral  #funny #xybca  #foryou  #fypage  #fypシ゚viral  #fyppppppppppppppppppppppp  #manger  #bk  #latenightsnack  #food  
-66 False #sad  
-67 False #dementia  #funny  #fyppppppppppppppppppppppp  
-68 False just another day in Chicago #chicago  #foryoupage  #fyp  
-69 False There are no fingerprints, and no more scratches. When applying a mobile phone screen protector, choose Magic John screen protector that’s been tempered twice.#magicjohn  #newyork  #california  #tiktokmademebuyit  #tiktokshop  #iphone  #losangeles  #screenprotector  #usa_tiktok  
-70 False i am here🥰#fyp  #foryou  #real  #relate  #relatable  #him  #stalker  #viral  #viral?  #inyourcloset  
-71 False should dweeb count? 🤣 #trivia  
-72 False This was just the beginning 👹 #terrelljubilee  #terrelltexas  #carnival  #scammers  #shennanigins  #yellow 
-73 False NBA Best Editing Special Effects #NBA  #basketball  #sports  #fyp  @TikTok  @NBA  
-74 False The Strangers just busted through the wall at the Chapter 1 Premiere🪓 #thestrangers  @Lionsgate   
-75 False #walkingwithlions  #lions  #travel  #southafrica  
-76 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-77 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-78 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-79 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-80 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-81 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-82 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-83 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-84 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-85 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-86 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-87 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-88 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-89 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-90 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-91 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-92 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-93 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-94 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-95 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-96 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-97 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-98 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  
-99 False Oranic Lions Mane from the fully fruiting body grown on mycelium. #lionsmane  #lionsmanemushroom  #memoryloss  #cognitivefunctions  #brain  #fyp  #ttshop  #tiktokmademebuyit  #tiktokshop  </code></pre>
+29 False Sometimes its better to save your breathe. #trauma #traumahealing #awakining #love #relationship #relatable #loveyourself #men #women #healing #problems #girltalk #therapy #couple #mom #fyp #fypシ #emotion
+30 False I love my body 🥰💜.. Dc: @Dance God 🦅🇬🇭 #purplespeedy
+31 False raye mi camioneta por ustedes jajajajajajaja
+32 False 
+33 False My new car #catsoftiktok #fyp #fypシ
+34 False 
+35 False Fiz um almoço insano! @Mateus ASMR
+36 False #bajonesemocionales #🥀💔
+37 False Don't mess with Cristiano 😤|| #cristianoronaldo #cr7 #mufc #intermilan #manutd #viral #ucl #tiktoktrending
+38 False This Small Town Farmer Better Buckle Up! - End #dealornodeal #show #fyp #deal
+39 False Genius, billionaire, playboy, philanthropist... and a great dancer🕺#downey #rdj #robertdowneyjr #ironman #tonystark #unrealdowneyjr #unrealrobertdowneyjr
+40 False Celebre as suas vitórias, amiga! 😍 Fazer 1% todos os dias vai te levar a lugares que você nem imagina.
+Eu treino com a @Queima Diária 🔥 desde novembro de 2022 e fico muito feliz com esses resultados. Quem vem nessa comigo? Clica no link da bio ou nos stories e experimente por 30 dias!
+41 False اكتب شيء تؤجر عليه ✨🤍 #fyp #قران #عبدالرحمن_مسعد
+42 False I ❤️ Michael Jordan 🏀 #mercuri_88 #funny #littlebrother #tiktok #mom #CapCut #basketball #nba #jordan
+43 False Estavam com saudade? Nao me deixa sem graça nao caraaaa kkkkkk
+44 False يعني ارسمها علشان افرحها ويحصل معايا كدة 🤦‍♂️ #علي_الراوي
+45 False Ролик уже на канале💋
+46 False What k-drama do you think this is? #kdrama #드라마 #seoul #theglory
+47 False cat #cat #catsoftiktok #fun #foryou #fyp #viral #funny #😂😂😂 #🤣🤣🤣
+48 False #korea #seoul #socialexperiment #fyp
+49 False 
+50 False #fyp #foryou #طيران
+51 False الماء والنار… 🥀💔 #lebrany #viral #foryou #explor
+52 False #foryou #recovery #homecare #gloves
+53 False Салат из одного ингредиента
+54 False #blog #vacuna Hoy tocó hacer vacunar a Salchipapu contra la rabia 🥺🐶
+55 False Song name: Jegi Jegi
+Watch full song on youtube ( Barbud Music )
+
+#lailakhan #newsong #rejarahish #tiktokpakistan
+56 False Putting automatic stickers on manual doors 😂 #rosscreations #prank
+57 False Abril 11 parte 7 “Comida Turka”
+58 True recipe: @ファビオ飯(イタリア料理人)🇮🇹Fabio #tiktokfood #asmr
+59 False Metallic silver epoxy floor🔥 #fyp #epoxyresin #garagegoals #epoxypour #polyasparticfloors #polyaspartic #theepoxypros
+60 False Enter the homepage to watch more wonderful videos#movieclips
+61 False Respuesta a @RZㅤＧＯＬＯＳＡღ -😅 @Duhsein
+62 False Почему «Титаник» до сих пор не подняли со дна океана? #титаник
+63 False Funny homework!✨✨#asmr #home #goodthing #foryou
+64 False 😂😂@도윤 #주전 #fyp
+65 False #parati #fyp #foryou #foryoupage #viral #trump #trump2024 #biden #teamtrump #donaldtrump
+66 False Não acreditei no resultado🥺🙌🏼
+67 False Atât de vrednică sunt… 😂
+M-am făcut de negreală pe obraz🤦🏻‍♀️😂 #soferițadecamion🚛😍 #AGLogistics #oriundeîneuropa #truckgirl
+68 False Gatinho Resgatado na chuva 🙏🏻 #jesus #jesuscristo #deus #resgateanimal #resgate #gato #gatinho #cat #viraliza
+69 False #pegar un video de
+@Yohary Michell Rios #maestra #maestros #universidad #universidad #clases #clasesvirtuales #profesora #profesor #fyp #parati #fouryou #fouyoupage #escuela #escuelatiktok #viral #
+70 False So cuteee😂
+71 False بوظتلهم الدنيا 😂
+72 False #pourtoi #foryou #cpl #bracelet #trend
+73 False What’s one way He’s held you as you’ve stepped out in faith? 🌊 #UNITED #fyp #christiantiktok #worship #Oceans
+74 False Antwort auf @🍇Wallah Krise🍇 I am going out tonight 💚 #bumpyride
+75 False #ليلياناا_نحن_عنوان_الجمال👑😍 #viral #fipシ #foryou #foryoupage #جمال #مكياج #شنيون #عرايس #لف #ميش #اكسبلور #لايك #هشتاك #مشاهير_تيك_توك #تخصيل
+76 False Full Episode 293 on YT &amp; Spotify | ShxtsnGigs Podcast
+77 False GAME DE RUA COM LARRIKA! #gamederua #viral #fy #fypシ #pravoce #foryoupage
+78 False The smallest phone #CapCut #oppo #infinix #Motorola #zte #huawei #vivo #samsung
+79 False 
+80 False Respect Moment in Football ❤️#footballeur #surprise #fan #respectmoment #respectinfootball #moment #respect #foryou #pourtoi #football
+81 False I think I got it in my pants 😧 #learnfromkhaby #comic
+82 False Respondendo a @hg_11236 ta aqui a reacao dela ❤️❤️❤️❤️ fofa demais! #fypシ #diadasmaes #surpresa
+83 False Наступ на Белгород. Що роблять добровольці там #війна #грайворон #белгород #українськийтікток #андрійковаленко
+84 False Have you ever eaten a cappuccino croissant? ☕️🥐
+.
+.
+.
+#pastry #pasticceria #italia #croissant
+85 False #recetas #facil whatia en tierrra
+86 False seyran inşallah gidersin feritinn bı kazimdan tokat yemediği kalmamisti#yalıcapkınıxferit #feritkorhan #seyrankorhan #mertramazandemir #afrasaraçoğlu #seyfer #yalıçapkını #keşfet #fypシ #foryoupage #foryou #viral
+87 False 
+88 False La puissance de l’eau #pourtoi #meteo #inondation #eau #vigilance
+89 False Olha a aranha
+#alegriaquecontagia #comedia #viral #rireomelhorremedio #rireprosfortes #rirrenovaalma #gargalhada #fypシ #viralvideo #comediante #trolagem
+90 False Se puede ser infiel por chat? VIDEO COMPLETO EN EL LINK DE MI PERFIL ✅ #juliosinfiltros #relaciones #pareja #relacionessanas #infidelidad #infieles #microinfidelidades
+91 False Replying to @MC Codër
+92 False #kamalaghalan❣
+93 False Лобода про детей
+94 False Відмічай друга😅#українськийтікток #футболкизпринтами #подарунокхлопцю #подарунокдругу
+95 False Find your self worth.#real #loyalty #love #sad #sadquotes #relatable #betryal #foryou #scrolling #mindset #reality #xyzbca #fyp
+96 False #київ #вибух #нло #метеорит #ракета #сяйво #спалах #сніданокз1плюс1
+97 False اكثر مسلسل حبيتوها برمضان ؟#مهند_رفل #explore
+98 False المنتج اللي قالب التيك توك .. أسفنجة التنضيف السحرية 🧐 #حركة_لاكسبلورر #fyp #gym #عبدالرحمن_وابتسام #trendingtiktok #challenge #fypシ
+99 True Scotch Egg 😍🥚 #scotchegg #egg #easyrecipe #easyrecipes #caviar #eggs #asmrfood #bacon #cooktok #foodtok #recipesoftiktok #homecook #dinnerideas #eggrecipe #breakfastideas #fancy</code></pre>
 </div>
 </div>
-<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-tip callout callout-style-simple callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
+<div class="callout-caption-container flex-fill">
 Pro tip: Be careful about keywords
 </div>
 </div>
@@ -941,18 +1033,14 @@ Pro tip: Be careful about keywords
 <p>For experiments that use <code>keywords</code>, the choices we make will directly shape our results. In the field, you can mitigate your own predisposition and biases by working with <a href="https://themarkup.org/google-the-giant/2021/04/09/how-we-discovered-googles-social-justice-blocklist-for-youtube-ad-placements#sourcing-social-justice-keywords">domain experts to curate keyword lists</a>.</p>
 </div>
 </div>
-<div id="8b45827f" class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>plt.plot(decisions, ds<span class="op">=</span><span class="st">'steps'</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Video Number'</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Watched'</span>)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>plt.yticks([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="st">'False'</span>, <span class="st">'True'</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>plt.plot(decisions, ds<span class="op">=</span><span class="st">'steps'</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Video Number'</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Watched'</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>plt.yticks([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="st">'False'</span>, <span class="st">'True'</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="browser_automation_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="browser_automation_files/figure-html/cell-22-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>The figure above shows when during our 100-videos-long session we were recommended a video about food (from <code>keywords</code>). The x-axis is chronological, the 1st video displayed is on the left, and the most recent video is on the right. The y-axis is “yes” or “no,” depending on if the video was related to food.</p>
@@ -989,7 +1077,6 @@ Pro tip: Be careful about keywords
 <p>More tutorials on the same subject:</p>
 <ul>
 <li>“<a href="https://scrapism.lav.io/using-real-browsers/">Using real browsers</a>” - Sam Lavigne</li>
-<li>“<a href="https://github.com/jsoma/ire24-scraping?tab=readme-ov-file">Scraping with Playwright - IRE 2024</a>” - Jonathan Soma</li>
 </ul>
 <p>Notable investigations, audits, and tools using browser automation:</p>
 <ul>
@@ -1009,9 +1096,9 @@ Pro tip: Be careful about keywords
 <pre>@incollection{inspect2023browser,
   author    = {Sapiezynski, Piotr and Yin, Leon},
   title     = {Browser Automation},
-  booktitle = {Inspect Element: A practitioner's guide to auditing algorithms and hypothesis-driven investigations},
+  booktitle = {Inspect Element: the practitioner's guide to hypothesis-driven data investigations},
   year      = {2023},
-  editor    = {Yin, Leon and Sapiezynski, Piotr and Raji, Inioluwa Deborah},
+  editor    = {Yin, Leon and Sapiezynski, Piotr},
   note      = {\url{https://inspectelement.org}}
 }
 </pre>
@@ -1051,15 +1138,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1091,50 +1175,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/inspectelement\.org");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1144,17 +1189,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1166,245 +1202,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -1446,13 +1246,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./apis.html" class="pagination-link" aria-label="Undocumented APIs">
+      <a href="./apis.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Undocumented APIs</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./best-practices-data-collection.html" class="pagination-link" aria-label="Best practices">
-        <span class="nav-page-text"><span class="chapter-title">Best practices</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./xpath.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-title">Parsing with Xpath</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1460,5 +1260,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/yinleon/inspect-element/blob/main/browser_automation.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+</body></html>

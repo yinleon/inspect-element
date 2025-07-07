@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://inspectelement.org/index.html</loc>
+    <lastmod>2025-07-07T04:08:23.608Z</lastmod>
+  </url>
+  <url>
     <loc>https://inspectelement.org/start.html</loc>
-    <lastmod>2025-07-07T03:49:14.374Z</lastmod>
+    <lastmod>2025-07-07T04:08:23.608Z</lastmod>
   </url>
   <url>
     <loc>https://inspectelement.org/checklist.html</loc>
-    <lastmod>2025-07-07T03:49:14.373Z</lastmod>
+    <lastmod>2025-07-07T04:08:23.609Z</lastmod>
   </url>
   <url>
     <loc>https://inspectelement.org/build-your-own-datasets.html</loc>
-    <lastmod>2025-07-07T03:49:14.373Z</lastmod>
+    <lastmod>2025-07-07T04:08:23.610Z</lastmod>
   </url>
   <url>
     <loc>https://inspectelement.org/apis.html</loc>
-    <lastmod>2025-07-07T03:49:14.371Z</lastmod>
+    <lastmod>2025-07-07T04:08:23.613Z</lastmod>
   </url>
   <url>
     <loc>https://inspectelement.org/browser_automation.html</loc>
-    <lastmod>2025-07-07T03:49:14.373Z</lastmod>
+    <lastmod>2025-07-07T04:08:23.617Z</lastmod>
+  </url>
+  <url>
+    <loc>https://inspectelement.org/xpath.html</loc>
+    <lastmod>2025-07-07T04:08:23.618Z</lastmod>
   </url>
   <url>
     <loc>https://inspectelement.org/best-practices-data-collection.html</loc>
-    <lastmod>2025-07-07T03:49:14.371Z</lastmod>
-  </url>
-  <url>
-    <loc>https://inspectelement.org/index.html</loc>
-    <lastmod>2025-07-07T03:49:14.374Z</lastmod>
+    <lastmod>2025-07-07T04:08:23.619Z</lastmod>
   </url>
   <url>
     <loc>https://inspectelement.org/references.html</loc>
-    <lastmod>2024-07-10T20:47:41.448Z</lastmod>
+    <lastmod>2025-07-07T04:08:23.620Z</lastmod>
   </url>
 </urlset>

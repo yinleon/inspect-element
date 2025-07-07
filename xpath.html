@@ -7,11 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Leon Yin">
-<meta name="dcterms.date" content="2025-01-04">
-<meta name="keywords" content="xpath, web parsing, web scraping, beautifulSoup">
-<meta name="description" content="How to parse HTML pages with the universal XPATH syntax. BeautifulSoup no more.">
+<meta name="dcterms.date" content="2024-07-26">
+<meta name="description" content="Why aren’t you using XPath? Get familar now!">
 
-<title>Parsing the web with xpath</title>
+<title>XPath</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -129,13 +128,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 }</script>
 
 
-<meta property="og:title" content="Parsing webpages with Xpath">
-<meta property="og:description" content="The superior way to navigate the web">
+<meta property="og:title" content="XPath to Success">
+<meta property="og:description" content="Why aren't you using XPath? Get familar now!">
 <meta property="og:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
 <meta property="og:site-name" content="Inspect Element">
 <meta property="og:locale" content="us_EN">
-<meta name="twitter:title" content="Parsing webpages with Xpath">
-<meta name="twitter:description" content="The superior way to navigate the web">
+<meta name="twitter:title" content="XPath to Success">
+<meta name="twitter:description" content="Why aren't you using XPath? Get familar now!">
 <meta name="twitter:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -146,7 +145,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Parsing the web with Xpath</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Parsing HTML with XPath</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -246,21 +245,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#parsing-static-websites-in-the-browser" id="toc-parsing-static-websites-in-the-browser" class="nav-link active" data-scroll-target="#parsing-static-websites-in-the-browser">Parsing Static Websites in the Browser</a>
+  <li><a href="#introduction-to-xpath" id="toc-introduction-to-xpath" class="nav-link active" data-scroll-target="#introduction-to-xpath">Introduction to XPath</a>
   <ul class="collapse">
-  <li><a href="#how-to-copy-the-xpath-of-an-element-in-dev-tools." id="toc-how-to-copy-the-xpath-of-an-element-in-dev-tools." class="nav-link" data-scroll-target="#how-to-copy-the-xpath-of-an-element-in-dev-tools.">How to copy the xpath of an element in Dev Tools.</a></li>
-  <li><a href="#what-is-xpath" id="toc-what-is-xpath" class="nav-link" data-scroll-target="#what-is-xpath">What is xpath?</a></li>
-  <li><a href="#identifying-the-optimal-xpath-in-the-browser" id="toc-identifying-the-optimal-xpath-in-the-browser" class="nav-link" data-scroll-target="#identifying-the-optimal-xpath-in-the-browser">Identifying the optimal xpath in the browser</a></li>
-  <li><a href="#selecting-specific-attributes" id="toc-selecting-specific-attributes" class="nav-link" data-scroll-target="#selecting-specific-attributes">Selecting specific attributes</a></li>
-  <li><a href="#xpath-practice" id="toc-xpath-practice" class="nav-link" data-scroll-target="#xpath-practice">Xpath practice</a></li>
+  <li><a href="#what-is-xpath" id="toc-what-is-xpath" class="nav-link" data-scroll-target="#what-is-xpath">What is XPath?</a></li>
+  <li><a href="#identifying-the-optimal-xpath-in-the-browser" id="toc-identifying-the-optimal-xpath-in-the-browser" class="nav-link" data-scroll-target="#identifying-the-optimal-xpath-in-the-browser">Identifying the optimal XPath in the browser</a></li>
   <li><a href="#text-matching" id="toc-text-matching" class="nav-link" data-scroll-target="#text-matching">Text Matching</a></li>
   </ul></li>
-  <li><a href="#parsing-xpath-from-html-pages-in-python" id="toc-parsing-xpath-from-html-pages-in-python" class="nav-link" data-scroll-target="#parsing-xpath-from-html-pages-in-python">Parsing Xpath from HTML pages in Python</a>
+  <li><a href="#web-parsing-with-xpath" id="toc-web-parsing-with-xpath" class="nav-link" data-scroll-target="#web-parsing-with-xpath">Web Parsing with XPath</a>
   <ul class="collapse">
-  <li><a href="#visit-the-page" id="toc-visit-the-page" class="nav-link" data-scroll-target="#visit-the-page">1. Visit the page</a></li>
-  <li><a href="#convert-the-html-string-into-a-etree" id="toc-convert-the-html-string-into-a-etree" class="nav-link" data-scroll-target="#convert-the-html-string-into-a-etree">2. Convert the HTML string into a <code>etree</code></a></li>
-  <li><a href="#select-all-the-links" id="toc-select-all-the-links" class="nav-link" data-scroll-target="#select-all-the-links">3. Select all the links</a></li>
-  <li><a href="#parse-each-link" id="toc-parse-each-link" class="nav-link" data-scroll-target="#parse-each-link">4. Parse each link</a></li>
+  <li><a href="#static-html" id="toc-static-html" class="nav-link" data-scroll-target="#static-html">Static HTML</a></li>
+  <li><a href="#compared-to-beautifulsoup" id="toc-compared-to-beautifulsoup" class="nav-link" data-scroll-target="#compared-to-beautifulsoup">Compared to BeautifulSoup</a></li>
+  <li><a href="#the-same-example-using-xpath" id="toc-the-same-example-using-xpath" class="nav-link" data-scroll-target="#the-same-example-using-xpath">The same example using xpath</a></li>
+  <li><a href="#browser-automation" id="toc-browser-automation" class="nav-link" data-scroll-target="#browser-automation">Browser Automation</a></li>
+  </ul></li>
+  <li><a href="#equivalent-functions-across-frameworks" id="toc-equivalent-functions-across-frameworks" class="nav-link" data-scroll-target="#equivalent-functions-across-frameworks">Equivalent functions across frameworks</a>
+  <ul class="collapse">
+  <li><a href="#when-things-get-more-complicated" id="toc-when-things-get-more-complicated" class="nav-link" data-scroll-target="#when-things-get-more-complicated">When things get more complicated</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/yinleon/inspect-element/blob/main/xpath.ipynb" class="toc-action">Edit this page</a></p></div></div></nav>
@@ -270,7 +270,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-title">Parsing the web with Xpath</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-title">Parsing HTML with XPath</span></h1>
 </div>
 
 
@@ -287,10 +287,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 4, 2025</p>
+      <p class="date">July 26, 2024</p>
     </div>
   </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">July 7, 2025</p>
+    </div>
+  </div>
     
   </div>
   
@@ -299,151 +305,260 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
-<p><a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://inspectelement.org/xpath">📖 Read online</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://colab.research.google.com/github/yinleon/inspect-element/blob/main/xpath.ipynb">🖥️ Interactive version</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://github.com/yinleon/inspect-element/blob/main/xpath.ipynb">⚙️ GitHub</a></p>
-<p><br></p>
+<p><a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://inspectelement.org/xpath">📖 Read online</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://colab.research.google.com/github/yinleon/inspect-element/blob/main/xpath.ipynb">🖥️ Interactive version</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://github.com/yinleon/inspect-element/blob/main/xpath.ipynb">⚙️ GitHub</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_self" href="apis.html#citation">🏛 Citation</a> <br></p>
 </div>
 </div>
-<p>Xpath is a language used to query and navigate XML-formatted documents, such as HTML.</p>
-<p>It is a useful tool for web scraping, as the syntax is standardized across browsers and web parsing software packages.</p>
-<p>For this reason, xpath is a seamless workflow between live websites in a browser and custom software to parse out fields (from static HTML) or interact with elements (using browser automation).</p>
-<p>Although it’s a unique language on its own, it can generate simple, precise, and generalizable expressions to parse web pages.</p>
-<section id="parsing-static-websites-in-the-browser" class="level2">
-<h2 class="anchored" data-anchor-id="parsing-static-websites-in-the-browser">Parsing Static Websites in the Browser</h2>
-<p>Xpath can be used on a live web pages that you encounter on your browser. That makes it a convenient tool that can change how to navigate the web.</p>
-<p>We’re going to identify all the recent article titles and links from NPR. In your browser and go to our example website: <a href="https://text.npr.org/">https://text.npr.org/</a></p>
-<figure class="figure">
-<img src="assets/npr_site.png" style="width:90%" aria-label="A screenshot of the NPR static website" class="figure-img">
-</figure>
+<p><a href="https://en.wikipedia.org/wiki/XPath">XPath</a> is an expression language used to parse and navigate <a href="https://en.wikipedia.org/wiki/XML">XML</a>-formatted documents such as HTML.</p>
+<p>XPath is useful for web scraping and can be used in place of the popular <a href="https://beautiful-soup-4.readthedocs.io/en/latest/">BeautifulSoup</a> Python package.</p>
+<p>A key advantage of XPath is its universality. The same selectors will work across browsers and web scraping tools, which smoothes the lines between inspecting live websites, writing code to pull data from HTML pages, and identifying specific web elements to interact with using <a href="./browser_automation.html">browser automation</a> tools.</p>
+<p>This section will teach you how to write simple, precise, and generalizable XPath expressions to parse and manipulate web pages.</p>
+<section id="introduction-to-xpath" class="level1">
+<h1>Introduction to XPath</h1>
+<p>We’re going to identify all the recent article titles and links from NPR. In your browser and go to our example website: https://text.npr.org/</p>
 <p>Next, open the dev tools by right-clicking anywhere and selecting “Inspect” (or however else).</p>
-<section id="how-to-copy-the-xpath-of-an-element-in-dev-tools." class="level3">
-<h3 class="anchored" data-anchor-id="how-to-copy-the-xpath-of-an-element-in-dev-tools.">How to copy the xpath of an element in Dev Tools.</h3>
-<p>Select any element in the “Elements” (or “Inspector”) tab and copy the xpath</p>
+<p>Select any element in the “Elements” tab and copy the XPath:</p>
 <figure class="figure">
-<img src="assets/xpath_devtools.png" style="width:90%" aria-label="A screenshot of the NPR static website" class="figure-img">
+<img src="assets/xpath_devtools.png" width="75%" class="figure-img">
+<figcaption align="left" style="font-size:80%;" class="figure-caption">
+How to copy the xpath of an element in Dev Tools.
+</figcaption>
 </figure>
-<p>The element we selected is an <code>&lt;a&gt;</code> tag with a link and a title that looks like this (note the text will differ for you):</p>
-<pre class="{html}"><code>&lt;a class="topic-title" href="/nx-s1-5035272"&gt;What is in Project 2025? &lt;/a&gt;</code></pre>
-<p>The resulting xpath that we copied looks like this:</p>
-<pre><code>/html/body/main/div/ul/li[1]/a
-</code></pre>
-</section>
+<p>The element we’re selecting is an <code>&lt;a&gt;</code> tag with a link and a title that looks like this:</p>
+<pre><code>&lt;a class="topic-title" href="/nx-s1-5035272"&gt;What is in Project 2025? &lt;/a&gt;</code></pre>
+<p>The resulting XPath that we copied looks like this:</p>
+<pre><code>/html/body/main/div/ul/li[1]/a</code></pre>
 <section id="what-is-xpath" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-xpath">What is xpath?</h3>
-<p>Xpath records hierarchy across a branch of HTML tags. The first tag denotes the starting place and the last tag denoting the destination.</p>
-<p>It designates where an element lives in an HTML document (as if you were honing in on a street address from the center of the Earth).</p>
-<p>The example above is long and specific to one element on the page.</p>
-<p>At it’s worst, xpath provides is directions to a specifc destination (for example the Shake Shack in Madison Square). At best, xpath provides directions that lead to every Shake Shack.</p>
-<p>With a little practice xpath can be both precise and generalizable, providing an elegant way to locate and select elements from web pages.</p>
-<p>Here is the other extreme: short and generic.</p>
-<pre><code>.//a</code></pre>
-<p>This syntax yields the target element mixed with every other element on the page with an <code>&lt;a&gt;</code> tag. Following the Shake Shack analogy, this xpath represents directions to every restaurant on Earth.</p>
-<p>You’ll notice the “.//” before the <code>&lt;a&gt;</code> tag, which denotes a search <em>anywhere</em> on the page.</p>
-<p>My favorite part about xpath is that you can identify and refine them <strong>in browser</strong>, and use the same xpath in different frameworks to make web parsing a breeze.</p>
-<p>The Goldie Locks approach is not about specifying the exact route, biut rather the destinguishing attributes of the destination.</p>
+<h3 class="anchored" data-anchor-id="what-is-xpath">What is XPath?</h3>
+<p>XPath records hierarchically across a cascade of HTML tags, with the last tag denoting the destination.</p>
+<p>It designates where an element lives in an HTML document (as if you were honing in on a street address from the center of the earth).</p>
+<p>The example above is long and specific to one element on the page (BAD!). It is called an <em>absolute XPath</em>.</p>
+<p>Absolute XPath provides directions to a <em>specifc</em> destination (for example the Shake Shack in Madison Square). However, there’s another form of XPath called a <em>relative XPath</em> that can provide directions to <em>every</em> Shake Shack.</p>
+<p>With a little practice XPath can be both precise and generalizable, providing an elegant way to locate and select elements from web pages.</p>
+<p>Here is the other extreme: short and generic (ALSO BAD!!).</p>
+<pre><code>//a</code></pre>
+<p>This <em>relative XPath</em> syntax yields the target element mixed with every other element on the page with an <code>&lt;a&gt;</code> tag. Following the Shake Shack analogy, this XPath represents directions to every restaurant on Earth.</p>
+<p>You’ll notice the “//” before the <code>&lt;a&gt;</code> tag, which denotes a search <em>anywhere</em> on the page.</p>
 </section>
 <section id="identifying-the-optimal-xpath-in-the-browser" class="level3">
-<h3 class="anchored" data-anchor-id="identifying-the-optimal-xpath-in-the-browser">Identifying the optimal xpath in the browser</h3>
-<p>Let’s jump into the live website. We’ll try to print the title of each headline of the day.</p>
-<p>In Dev Tools, switch over to the “console” tab. This allows us to execute JavaScript on the page.</p>
-<p>We’ll use the <code>$x()</code> function to select elements on the page by xpath (“x” for <strong>x</strong>path). As a start, type a HTML tag such as an <code>&lt;a&gt;</code> tag: <code>$x('.//a')</code></p>
+<h3 class="anchored" data-anchor-id="identifying-the-optimal-xpath-in-the-browser">Identifying the optimal XPath in the browser</h3>
+<p>A key strength of XPath is that you can identify and refine them <em>in browser</em>, and use the same XPath in different frameworks to make web parsing a breeze.</p>
+<p>The Goldie Locks approach is not about specifying the exact route (absolute XPath), but rather identifying the destinguishing attributes of the destination (a precise relative XPath).</p>
+<p>Let’s jump back to the live <a href="https://text.npr.org/">NPR website</a>:</p>
+<ol type="1">
+<li><p>In Dev Tools, switch over to the “console” tab. This allows us to execute JavaScript on the page.</p></li>
+<li><p>We’ll use the <code>$x()</code> <a href="https://developer.chrome.com/docs/devtools/console/utilities#xpath-function">function</a> to select elements on the page by xpath (“x” for <strong>x</strong>path). This is unique to devtools and not a standard JavaScript function.</p></li>
+</ol>
+<p>As a start, type a HTML tag such as a “header”, “a”, “div”:</p>
+<pre><code>$x('//a')</code></pre>
+<p>XPath offers an easy way specify attributes and other distinguishable features.</p>
+<p>You just add an “@” sign before the attribute name. This allows you to denote specific attribute values <code>//a[@href="/nx-s1-5035272"]</code> or simply the presence of an attribute <code>//a[@href]</code>.</p>
+<p>Here’s a workflow for honing in to the optimal XPath:</p>
+<ul>
+<li>Start a XPath with a HTML tag with closed brackets: <code>//a[ ... ]</code></li>
+<li>copy + paste attributes from a live element (for example <code>&lt;a class="topic-title" href="/nx-s1-5035272"&gt;</code>)</li>
+<li>Add “@” before each attribute, ending up with: <code>//a[@class="topic-title" and @href="/nx-s1-5035272"]</code>.</li>
+</ul>
+<p>From there, you can remove overly-specific attributes. In the case above, the <code>class</code> is unique enough to isolate news articles.</p>
+<pre><code>$x('//a[@class="topic-title"]')</code></pre>
+<p>When available, identify elements using accessibility features (<code>aria</code>) or <code>data</code> attributes. These are less subject to change and are easy to read.</p>
+</section>
+<section id="text-matching" class="level2">
+<h2 class="anchored" data-anchor-id="text-matching">Text Matching</h2>
+<p>XPath also allows for text-matching.</p>
+<p>Here’s how you can match for a link on the page with text mentioning “2025”</p>
+<pre><code>$x('//a[@href and contains(text(),"2025")]')</code></pre>
+<p>To sanity check your results, you can expand the resulting list and click any of the elements. This will highlight the element on the page and shoot you back to the Dev Tools “Elements” tab to view the element.</p>
 <video width="100%" controls="" loop="">
 <source src="assets/xpath_simple.mp4" type="video/mp4">
 </video>
-<p>The results for just any <code>&lt;a&gt;</code> tag is too general, returning elements that we don’t want. xpath offers an easy way specify attributes and other distinguishable features.</p>
-</section>
-<section id="selecting-specific-attributes" class="level3">
-<h3 class="anchored" data-anchor-id="selecting-specific-attributes">Selecting specific attributes</h3>
-<p>You can use the “@” sign before an attribute name. This allows you to denote specific attribute values <code>.//a[@href="/nx-s1-5035272"]</code> will look for an <code>&lt;a&gt;</code> tag with an <code>href</code> attribute of “/nx-s1-5035272”.</p>
-<p>Better yet, you can simply the presence of an attribute without a specific value <code>.//a[@href]</code>.</p>
-<p>Similar to any other attribute, you can also select elements based on class <code>'.//a[@class="topic-title"]')</code></p>
-</section>
-<section id="xpath-practice" class="level3">
-<h3 class="anchored" data-anchor-id="xpath-practice">Xpath practice</h3>
-<p>If you want to get better at writing xpath, here’s a simple workflow you can use for an element you want to parse.</p>
-<pre><code>&lt;a class="topic-title" href="/nx-s1-5248297"&gt;</code></pre>
-<ul>
-<li>Remove the delimiter brackets <code>&lt;</code> and <code>&gt;</code> and closing tag. <code>a class="topic-title" href="/nx-s1-5248297"</code><br></li>
-<li>Add the leading path indicators <code>.//</code>. <code>.//a class="topic-title" href="/nx-s1-5248297"</code><br></li>
-<li>Start a xpath with a HTML tag with closed brackets: <code>.//a[ ... ]</code> for example <code>.//a[ class="topic-title" href="/nx-s1-5248297"]</code>.<br></li>
-<li>Add <code>@</code> before each attribute, and <code>and</code> between each attribute ending up with: <code>.//a[@class="topic-title" and @href="/nx-s1-5248297"]</code>. <br></li>
-<li>From here, you can remove overly-specific attributes. In the case above, the class is unique enough to isolate news articles.</li>
-</ul>
-<pre><code>$x('.//a[@class="topic-title"]')</code></pre>
-</section>
-<section id="text-matching" class="level3">
-<h3 class="anchored" data-anchor-id="text-matching">Text Matching</h3>
-<p>xpath also allows for text-matching.</p>
-<p>Here’s how you can match for a link on the page with text mentioning “2025”</p>
-<pre><code>$x('.//a[contains(text(),"2025")]')</code></pre>
-<p>To sanity check your results, you can expand the resulting list and click any of the elements. This will highlight the element on the page and shoot you back to the Dev Tools “Elements” tab to view the element.</p>
 </section>
 </section>
-<section id="parsing-xpath-from-html-pages-in-python" class="level2">
-<h2 class="anchored" data-anchor-id="parsing-xpath-from-html-pages-in-python">Parsing Xpath from HTML pages in Python</h2>
-<p>With the correct xpath in hand, we can automate this parsing in Python using the <a href="https://lxml.de/">lxml</a> package.</p>
-<pre><code>!pip install lxml</code></pre>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lxml <span class="im">import</span> etree</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="visit-the-page" class="level3">
-<h3 class="anchored" data-anchor-id="visit-the-page">1. Visit the page</h3>
+<section id="web-parsing-with-xpath" class="level1">
+<h1>Web Parsing with XPath</h1>
+<section id="static-html" class="level2">
+<h2 class="anchored" data-anchor-id="static-html">Static HTML</h2>
+<p>With the correct xpath in hand, we can automate this parsing in Python.</p>
 <p>Let’s visit the website and retrieve the static HTML from the page.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://text.npr.org/"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>resp <span class="op">=</span> requests.get(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="compared-to-beautifulsoup" class="level2">
+<h2 class="anchored" data-anchor-id="compared-to-beautifulsoup">Compared to BeautifulSoup</h2>
+<p>If you’re familar with <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup</a>, we’re going to be doing the same steps as below. In both cases we’ll search unique patterns between the element tags, classes, <code>data</code> attributes, and other features to isolate the correct elements.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># read the webpage as bs4</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>soup <span class="op">=</span> BeautifulSoup(resp.text)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># select all the "a" tags with the specified class.</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>articles <span class="op">=</span> soup.find_all(<span class="st">"a"</span>, {<span class="st">"class"</span>: <span class="st">"topic-title"</span>})</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># iterate through each headline and grab the title and link of each story.</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> []</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> elm <span class="kw">in</span> articles:</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    link <span class="op">=</span> elm.get(<span class="st">'href'</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    link <span class="op">=</span> <span class="ss">f"https://npr.org</span><span class="sc">{</span>link<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> elm.text</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> {<span class="st">'link'</span> : link, <span class="st">'title'</span>: title}</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    data.append(row)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>data[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>[{'link': 'https://npr.org/nx-s1-5458512',
+  'title': 'How good was the forecast? Texas officials and the National Weather Service disagree'},
+ {'link': 'https://npr.org/nx-s1-5458514',
+  'title': 'Texas officials race to find survivors after devastating floods '},
+ {'link': 'https://npr.org/nx-s1-5457278',
+  'title': 'At least 78 dead and dozens missing after catastrophic Texas flooding '},
+ {'link': 'https://npr.org/nx-s1-5454890',
+  'title': '4 things to know about the vaccine ingredient thimerosal'},
+ {'link': 'https://npr.org/g-s1-75874',
+  'title': 'Knives, bullets and thieves: the quest for food in Gaza'}]</code></pre>
+</div>
+</div>
+</section>
+<section id="the-same-example-using-xpath" class="level2">
+<h2 class="anchored" data-anchor-id="the-same-example-using-xpath">The same example using xpath</h2>
+<p>Here we’ll read the HTML into <a href="https://lxml.de/">lxml</a> to parse elements based on xpath. Note: some frameworks prefer the <code>.//</code> relative syntax (lxml) compared to <code>//</code> (Playwright).</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lxml <span class="im">import</span> etree</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># read the webpage as lxml</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>tree <span class="op">=</span> etree.HTML(resp.text)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># select all the "a" tags with the specified class.</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>xpath_article <span class="op">=</span> <span class="st">'.//a[@class="topic-title"]'</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>elements <span class="op">=</span> tree.findall(xpath_article)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># iterate through each headline and grab the title and link of each story.</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> []</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> elm <span class="kw">in</span> elements:</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    link <span class="op">=</span> elm.get(<span class="st">'href'</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    link <span class="op">=</span> <span class="ss">f"https://npr.org</span><span class="sc">{</span>link<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> elm.text</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> {<span class="st">'link'</span> : link, <span class="st">'title'</span>: title}</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    data.append(row)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>data[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>[{'link': 'https://npr.org/nx-s1-5458512',
+  'title': 'How good was the forecast? Texas officials and the National Weather Service disagree'},
+ {'link': 'https://npr.org/nx-s1-5458514',
+  'title': 'Texas officials race to find survivors after devastating floods '},
+ {'link': 'https://npr.org/nx-s1-5457278',
+  'title': 'At least 78 dead and dozens missing after catastrophic Texas flooding '},
+ {'link': 'https://npr.org/nx-s1-5454890',
+  'title': '4 things to know about the vaccine ingredient thimerosal'},
+ {'link': 'https://npr.org/g-s1-75874',
+  'title': 'Knives, bullets and thieves: the quest for food in Gaza'}]</code></pre>
+</div>
+</div>
+<p>The outcome is the same between BeautifulSoup and lxml. However BeautifulSoup only works with static HTML you’ve saved or stored in memory.</p>
+<p>XPath can be used to parse data in this format, but also can be used to work in browser automation frameworks.</p>
+</section>
+<section id="browser-automation" class="level2">
+<h2 class="anchored" data-anchor-id="browser-automation">Browser Automation</h2>
+<p>The same xpath can be used for browser automation frameworks, such as Playwright.</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://text.npr.org/"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># download software</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install playwright</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>playwright install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Requirement already satisfied: playwright in /Users/leon/miniconda3/lib/python3.7/site-packages (1.35.0)
+Requirement already satisfied: pyee==9.0.4 in /Users/leon/miniconda3/lib/python3.7/site-packages (from playwright) (9.0.4)
+Requirement already satisfied: typing-extensions in /Users/leon/miniconda3/lib/python3.7/site-packages (from playwright) (3.7.4.3)
+Requirement already satisfied: greenlet==2.0.2 in /Users/leon/miniconda3/lib/python3.7/site-packages (from playwright) (2.0.2)</code></pre>
+</div>
 </div>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>resp <span class="op">=</span> requests.get(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> playwright.async_api <span class="im">import</span> async_playwright</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>playwright <span class="op">=</span> <span class="cf">await</span> async_playwright().start()</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>browser <span class="op">=</span> <span class="cf">await</span> playwright.chromium.launch(headless <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>page <span class="op">=</span> <span class="cf">await</span> browser.new_page()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="convert-the-html-string-into-a-etree" class="level3">
-<h3 class="anchored" data-anchor-id="convert-the-html-string-into-a-etree">2. Convert the HTML string into a <code>etree</code></h3>
-<p>This allows us to parse the text using xpath</p>
+<p>The exact function to use XPath is a little different across scraping tools (‘locator’ in the case of Playwright), but the XPath expressions stay the same.</p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tree <span class="op">=</span> etree.HTML(resp.text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># go to the webpage,</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> page.goto(url)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># we use xpath in the `locator` function to select all the articles.</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>xpath_article <span class="op">=</span> <span class="st">'//a[@class="topic-title"]'</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>elms <span class="op">=</span> <span class="cf">await</span> page.locator(xpath_article).<span class="bu">all</span>()</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># iterate through each headline and grab the title and link of each story.</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> []</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> elm <span class="kw">in</span> elms:</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> <span class="cf">await</span> elm.text_content()</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    link <span class="op">=</span> <span class="cf">await</span> elm.get_attribute(<span class="st">'href'</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    link <span class="op">=</span> <span class="ss">f'https://npr.org</span><span class="sc">{</span>link<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> {<span class="st">'link'</span>: link, <span class="st">'title'</span>: title,}</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    data.append(row)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>data[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>[{'link': 'https://npr.org/nx-s1-5458512',
+  'title': 'How good was the forecast? Texas officials and the National Weather Service disagree'},
+ {'link': 'https://npr.org/nx-s1-5458514',
+  'title': 'Texas officials race to find survivors after devastating floods '},
+ {'link': 'https://npr.org/nx-s1-5457278',
+  'title': 'At least 78 dead and dozens missing after catastrophic Texas flooding '},
+ {'link': 'https://npr.org/nx-s1-5454890',
+  'title': '4 things to know about the vaccine ingredient thimerosal'},
+ {'link': 'https://npr.org/g-s1-75874',
+  'title': 'Knives, bullets and thieves: the quest for food in Gaza'}]</code></pre>
 </div>
+</div>
+<p>To review, here is how we would find all the article elements across the frameworks we mentioned…</p>
 </section>
-<section id="select-all-the-links" class="level3">
-<h3 class="anchored" data-anchor-id="select-all-the-links">3. Select all the links</h3>
-<p>Use an xpath to identify all the links on the page that are the same class <code>topic-title</code>.</p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>elements <span class="op">=</span> tree.findall(<span class="st">'.//a[@class="topic-title"]'</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(elements)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>20</code></pre>
-</div>
-</div>
 </section>
-<section id="parse-each-link" class="level3">
-<h3 class="anchored" data-anchor-id="parse-each-link">4. Parse each link</h3>
-<p>Now we can iterate through each headline and grab the title and link of each story:</p>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> []</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> elm <span class="kw">in</span> elements:</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get the link for each link card</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    link <span class="op">=</span> elm.get(<span class="st">'href'</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    link <span class="op">=</span> <span class="ss">f"https://npr.org</span><span class="sc">{</span>link<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> elm.text</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> {<span class="st">'link'</span> : link, <span class="st">'title'</span>: title}</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    data.append(row)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>[{'link': 'https://npr.org/nx-s1-5248297',
-  'title': 'A storm will bring heavy snow and dangerous ice from the Plains to the East Coast'},
- {'link': 'https://npr.org/nx-s1-5248299',
-  'title': "A Pulitzer winner quits 'Washington Post' after a cartoon on Bezos is killed"},
- {'link': 'https://npr.org/g-s1-41101',
-  'title': "The Golden Globes are Sunday night. Here's five things to look for"},
- {'link': 'https://npr.org/nx-s1-5248310',
-  'title': 'Film director and screenwriter Jeff Baena, husband of Aubrey Plaza, dead at 47'},
- {'link': 'https://npr.org/nx-s1-5248283',
-  'title': "Jurassic footprints are discovered on a 'dinosaur highway' in southern England"}]</code></pre>
-</div>
-</div>
-<p>That’s all!</p>
+<section id="equivalent-functions-across-frameworks" class="level1">
+<h1>Equivalent functions across frameworks</h1>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 15%">
+<col style="width: 63%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Framework</th>
+<th style="text-align: left;">Function</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">bs4</td>
+<td style="text-align: left;"><code>find_all</code></td>
+<td style="text-align: left;"><code>soup.find_all("a", {"class": "topic-title"})</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Browser console</td>
+<td style="text-align: left;"><code>$x</code></td>
+<td style="text-align: left;"><code>$x('//a[@class="topic-title"]')</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lxml</td>
+<td style="text-align: left;"><code>findall</code></td>
+<td style="text-align: left;"><code>tree.findall('//a[@class="topic-title"]')</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Playwright</td>
+<td style="text-align: left;"><code>locator</code></td>
+<td style="text-align: left;"><code>page.locator('//a[@class="topic-title"]').all()</code></td>
+</tr>
+</tbody>
+</table>
+<section id="when-things-get-more-complicated" class="level2">
+<h2 class="anchored" data-anchor-id="when-things-get-more-complicated">When things get more complicated</h2>
+<p>We exhibited XPath’s basic functionality on a simple static HTML page. It really shines when it comes to breaking down a complicated website</p>
 
 
 </section>

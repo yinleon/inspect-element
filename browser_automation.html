@@ -466,8 +466,8 @@ Requirement already satisfied: typing-extensions in /Users/lyin72/miniconda3/lib
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>What is <code>await</code>? We’re running Playwright in <a href="https://realpython.com/python-async-features/#understanding-asynchronous-programming">asynchronous</a> mode, which is compatible with Jupyter Notebooks. You can run Playwright synchronously as a <strong>script</strong>, but not as a notebook. In practice you’ll want to twinkler and iterate, so a notebook is preferred.</p>
-<p>We explicitly call <code>await</code> after each line of code so that each command is run sequentially. Otherwise, every line of code runs at the same time.</p>
+<p>What is <code>await</code>? We’re running Playwright <a href="https://realpython.com/python-async-features/#understanding-asynchronous-programming">asynchronously</a>, which is the only way to be compatible with Jupyter Notebooks. You <em>can</em> run Playwright synchronously (aka in regular Python) as a <strong>script</strong>, but not as a notebook. In practice you’ll want to tinker and iterate, so a notebook is preferred.</p>
+<p>We explicitly call <code>await</code> after each line of Playwright code so that each command is run sequentially. Otherwise, every line of code runs at the same time.</p>
 </div>
 </div>
 </div>
@@ -507,12 +507,13 @@ Requirement already satisfied: typing-extensions in /Users/lyin72/miniconda3/lib
 <p>Now that we have the building blocks for swiping through the For You page, let’s view the recommended TikTok videos and parse out information (called metadata) for each video.</p>
 <p>When we asked Playwright to search for the “Continue as guest” button (Step 3), we used a locator function based on text. Playwright had other <a href="https://playwright.dev/python/docs/locators">locator</a> functions to find what you’re looking for:</p>
 <ul>
-<li>get_by_role() to locate by explicit and implicit accessibility attributes.</li>
-<li>get_by_text() to locate by text content.</li>
-<li>get_by_label() to locate by the associated label’s text.</li>
-<li>get_by_placeholder() to locate an input by placeholder.</li>
-<li>get_by_alt_text() to locate an element, usually image, by its text alternative.</li>
-<li>get_by_title() to locate an element by its title attribute.</li>
+<li><code>get_by_role()</code> to locate by explicit and implicit accessibility attributes.</li>
+<li><code>get_by_text()</code> to locate by text content.</li>
+<li><code>get_by_label()</code> to locate by the associated label’s text.</li>
+<li><code>get_by_placeholder()</code> to locate an input by placeholder.</li>
+<li><code>get_by_alt_text()</code> to locate an element, usually image, by its text alternative.</li>
+<li><code>get_by_title()</code> to locate an element by its title attribute.</li>
+<li><code>get_by_test_id()</code> to locate an element based on its data-testid attribute (other attributes can be configured).</li>
 </ul>
 <p>The developers suggest using these recommended locators. This will make your code more legible and reliable. Other browser automation tools have comparable functions.</p>
 <p>Unfortunately for us, none of these will work for our task. If you look at the source code for TikTok videos, you won’t find any of these locators useful. However, there are fields that we can use to identify videos another way.</p>
@@ -979,11 +980,9 @@ Pro tip: Be careful about keywords
 <p>There are some advanced use-cases and tasks you can perform with browser automation that include</p>
 <ul>
 <li>Authentication using the browser and storing cookies for later use.<br></li>
-<li>Intercept background <a href="./apis.html">API</a> calls and combine browser automation with API calls. See <a href="https://pypi.org/project/selenium-wire/"><code>selenium-wire</code></a> as an example.<br></li>
-<li>Signing in with one or more email addresses.<br></li>
+<li>Intercept background <a href="./apis.html">API</a> calls and combine browser automation with API calls. See <a href="https://pypi.org/project/selenium-wire/"><code>selenium-wire</code></a> as an example.</li>
 </ul>
-<p>We may cover some or all of these topics in subsequent tutorials, but you should feel free to experiment.</p>
-<p>Let us know what you’re interested in learning more about!</p>
+<p>We may cover some or all of these topics in subsequent tutorials.</p>
 </section>
 </section>
 <section id="related-readings" class="level1">
@@ -1011,9 +1010,9 @@ Pro tip: Be careful about keywords
 <pre>@incollection{inspect2023browser,
   author    = {Sapiezynski, Piotr and Yin, Leon},
   title     = {Browser Automation},
-  booktitle = {Inspect Element: A practitioner's guide to auditing algorithms and hypothesis-driven investigations},
+  booktitle = {Inspect Element},
   year      = {2023},
-  editor    = {Yin, Leon and Sapiezynski, Piotr and Raji, Inioluwa Deborah},
+  editor    = {Yin, Leon and Sapiezynski, Piotr},
   note      = {\url{https://inspectelement.org}}
 }
 </pre>

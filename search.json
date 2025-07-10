@@ -259,55 +259,6 @@
     "text": "Acknowledgements\nThank you to Ruth Talbot and John West for answering questions about their two respective investigations."
   },
   {
-    "objectID": "xpath.html",
-    "href": "xpath.html",
-    "title": "Parsing HTML with XPath",
-    "section": "",
-    "text": "Introduction to XPath\nWe’re going to identify all the recent article titles and links from NPR. In your browser and go to our example website: https://text.npr.org/\nNext, open the dev tools by right-clicking anywhere and selecting “Inspect” (or however else).\nSelect any element in the “Elements” tab and copy the XPath:\nThe element we’re selecting is an <a> tag with a link and a title that looks like this:\nThe resulting XPath that we copied looks like this:"
-  },
-  {
-    "objectID": "xpath.html#text-matching",
-    "href": "xpath.html#text-matching",
-    "title": "Parsing HTML with XPath",
-    "section": "Text Matching",
-    "text": "Text Matching\nXPath also allows for text-matching.\nHere’s how you can match for a link on the page with text mentioning “2025”\n$x('//a[@href and contains(text(),\"2025\")]')\nTo sanity check your results, you can expand the resulting list and click any of the elements. This will highlight the element on the page and shoot you back to the Dev Tools “Elements” tab to view the element."
-  },
-  {
-    "objectID": "xpath.html#static-html",
-    "href": "xpath.html#static-html",
-    "title": "Parsing HTML with XPath",
-    "section": "Static HTML",
-    "text": "Static HTML\nWith the correct xpath in hand, we can automate this parsing in Python.\nLet’s visit the website and retrieve the static HTML from the page.\n\nimport requests\n\n\nurl = \"https://text.npr.org/\"\nresp = requests.get(url)"
-  },
-  {
-    "objectID": "xpath.html#compared-to-beautifulsoup",
-    "href": "xpath.html#compared-to-beautifulsoup",
-    "title": "Parsing HTML with XPath",
-    "section": "Compared to BeautifulSoup",
-    "text": "Compared to BeautifulSoup\nIf you’re familar with BeautifulSoup, we’re going to be doing the same steps as below. In both cases we’ll search unique patterns between the element tags, classes, data attributes, and other features to isolate the correct elements.\n\nfrom bs4 import BeautifulSoup\n\n# read the webpage as bs4\nsoup = BeautifulSoup(resp.text)\n\n# select all the \"a\" tags with the specified class.\narticles = soup.find_all(\"a\", {\"class\": \"topic-title\"})\n\n# iterate through each headline and grab the title and link of each story.\ndata = []\nfor elm in articles:\n    link = elm.get('href')\n    link = f\"https://npr.org{link}\"\n    title = elm.text\n    row = {'link' : link, 'title': title}\n    data.append(row)\n    \ndata[:5]\n\n[{'link': 'https://npr.org/nx-s1-5458512',\n  'title': 'How good was the forecast? Texas officials and the National Weather Service disagree'},\n {'link': 'https://npr.org/nx-s1-5458514',\n  'title': 'Texas officials race to find survivors after devastating floods '},\n {'link': 'https://npr.org/nx-s1-5457278',\n  'title': 'At least 78 dead and dozens missing after catastrophic Texas flooding '},\n {'link': 'https://npr.org/nx-s1-5454890',\n  'title': '4 things to know about the vaccine ingredient thimerosal'},\n {'link': 'https://npr.org/g-s1-75874',\n  'title': 'Knives, bullets and thieves: the quest for food in Gaza'}]"
-  },
-  {
-    "objectID": "xpath.html#the-same-example-using-xpath",
-    "href": "xpath.html#the-same-example-using-xpath",
-    "title": "Parsing HTML with XPath",
-    "section": "The same example using xpath",
-    "text": "The same example using xpath\nHere we’ll read the HTML into lxml to parse elements based on xpath. Note: some frameworks prefer the .// relative syntax (lxml) compared to // (Playwright).\n\nfrom lxml import etree\n\n# read the webpage as lxml\ntree = etree.HTML(resp.text)\n\n# select all the \"a\" tags with the specified class.\nxpath_article = './/a[@class=\"topic-title\"]'\nelements = tree.findall(xpath_article)\n\n# iterate through each headline and grab the title and link of each story.\ndata = []\nfor elm in elements:\n    link = elm.get('href')\n    link = f\"https://npr.org{link}\"\n    title = elm.text\n    row = {'link' : link, 'title': title}\n    data.append(row)\n    \ndata[:5]\n\n[{'link': 'https://npr.org/nx-s1-5458512',\n  'title': 'How good was the forecast? Texas officials and the National Weather Service disagree'},\n {'link': 'https://npr.org/nx-s1-5458514',\n  'title': 'Texas officials race to find survivors after devastating floods '},\n {'link': 'https://npr.org/nx-s1-5457278',\n  'title': 'At least 78 dead and dozens missing after catastrophic Texas flooding '},\n {'link': 'https://npr.org/nx-s1-5454890',\n  'title': '4 things to know about the vaccine ingredient thimerosal'},\n {'link': 'https://npr.org/g-s1-75874',\n  'title': 'Knives, bullets and thieves: the quest for food in Gaza'}]\n\n\nThe outcome is the same between BeautifulSoup and lxml. However BeautifulSoup only works with static HTML you’ve saved or stored in memory.\nXPath can be used to parse data in this format, but also can be used to work in browser automation frameworks."
-  },
-  {
-    "objectID": "xpath.html#browser-automation",
-    "href": "xpath.html#browser-automation",
-    "title": "Parsing HTML with XPath",
-    "section": "Browser Automation",
-    "text": "Browser Automation\nThe same xpath can be used for browser automation frameworks, such as Playwright.\n\n# download software\n!pip install playwright\n!playwright install\n\nRequirement already satisfied: playwright in /Users/leon/miniconda3/lib/python3.7/site-packages (1.35.0)\nRequirement already satisfied: pyee==9.0.4 in /Users/leon/miniconda3/lib/python3.7/site-packages (from playwright) (9.0.4)\nRequirement already satisfied: typing-extensions in /Users/leon/miniconda3/lib/python3.7/site-packages (from playwright) (3.7.4.3)\nRequirement already satisfied: greenlet==2.0.2 in /Users/leon/miniconda3/lib/python3.7/site-packages (from playwright) (2.0.2)\n\n\n\nfrom playwright.async_api import async_playwright\n\nplaywright = await async_playwright().start()\nbrowser = await playwright.chromium.launch(headless = False)\npage = await browser.new_page()\n\nThe exact function to use XPath is a little different across scraping tools (‘locator’ in the case of Playwright), but the XPath expressions stay the same.\n\n# go to the webpage,\nawait page.goto(url)\n\n# we use xpath in the `locator` function to select all the articles.\nxpath_article = '//a[@class=\"topic-title\"]'\nelms = await page.locator(xpath_article).all()\n\n# iterate through each headline and grab the title and link of each story.\ndata = []\nfor elm in elms:\n    title = await elm.text_content()\n    link = await elm.get_attribute('href')\n    link = f'https://npr.org{link}'\n    row = {'link': link, 'title': title,}\n    data.append(row)\n\ndata[:5]\n\n[{'link': 'https://npr.org/nx-s1-5458512',\n  'title': 'How good was the forecast? Texas officials and the National Weather Service disagree'},\n {'link': 'https://npr.org/nx-s1-5458514',\n  'title': 'Texas officials race to find survivors after devastating floods '},\n {'link': 'https://npr.org/nx-s1-5457278',\n  'title': 'At least 78 dead and dozens missing after catastrophic Texas flooding '},\n {'link': 'https://npr.org/nx-s1-5454890',\n  'title': '4 things to know about the vaccine ingredient thimerosal'},\n {'link': 'https://npr.org/g-s1-75874',\n  'title': 'Knives, bullets and thieves: the quest for food in Gaza'}]\n\n\nTo review, here is how we would find all the article elements across the frameworks we mentioned…"
-  },
-  {
-    "objectID": "xpath.html#when-things-get-more-complicated",
-    "href": "xpath.html#when-things-get-more-complicated",
-    "title": "Parsing HTML with XPath",
-    "section": "When things get more complicated",
-    "text": "When things get more complicated\nWe exhibited XPath’s basic functionality on a simple static HTML page. It really shines when it comes to breaking down a complicated website"
-  },
-  {
     "objectID": "best-practices-data-collection.html#dont-repeat-work",
     "href": "best-practices-data-collection.html#dont-repeat-work",
     "title": "Best practices for data collection",

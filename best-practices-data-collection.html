@@ -242,6 +242,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#make-a-todo-list" id="toc-make-a-todo-list" class="nav-link" data-scroll-target="#make-a-todo-list">Make a todo list</a></li>
   <li><a href="#save-receipts" id="toc-save-receipts" class="nav-link" data-scroll-target="#save-receipts">Save receipts</a></li>
   <li><a href="#break-up-the-work-and-make-it-as-small-as-possible" id="toc-break-up-the-work-and-make-it-as-small-as-possible" class="nav-link" data-scroll-target="#break-up-the-work-and-make-it-as-small-as-possible">Break up the work, and make it as small as possible</a></li>
+  <li><a href="#parallelism" id="toc-parallelism" class="nav-link" data-scroll-target="#parallelism">Parallelism</a></li>
   <li><a href="#bigger-isnt-always-better" id="toc-bigger-isnt-always-better" class="nav-link" data-scroll-target="#bigger-isnt-always-better">Bigger isn’t always better</a></li>
   <li><a href="#spotcheck-everything" id="toc-spotcheck-everything" class="nav-link" data-scroll-target="#spotcheck-everything">Spotcheck everything</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
@@ -281,7 +282,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <p>In the previous chapters, we covered techniques and methods of data collection.</p>
-<p>You can apply those techniques towards building a <em>data pipeline</em>, which can increase the reliability and scale of your data collection significantly. The professional pursuit of this task is data engineering, and it often involves APIs, cloud computing, and databases.</p>
+<p>You can apply those techniques towards building a <em>data pipeline</em>, which can increase the reliability and scale of your data collection significantly. (More on data pipelines in the <a href="./data-pipelines">next section</a>.)</p>
+<p>The industry term for this task is <em>data engineering</em>, and it often involves APIs, cloud computing, and databases.</p>
 <p>Here are some helpful tips for building datasets.</p>
 <section id="dont-repeat-work" class="level2">
 <h2 class="anchored" data-anchor-id="dont-repeat-work">Don’t repeat work</h2>
@@ -358,6 +360,32 @@ A screenshot of a Google Search for “Ida Tarbell” that was saved, and staine
 <p>Break scraping tasks into the smallest units of work. This makes scaling up easier, and it also prevents a single point of failure disrupting your entire workflow.</p>
 <p>Certain components of a scraper can be slower than others. By dividing the tasks, you can better identify bottlenecks to optimize the pipeline. Use to-do lists, and check for existing files to help communicate between tasks.</p>
 <p>Remember that big problems can be broken up into smaller problems. Being smart can help you get to the finish line faster and debug issues quicker.</p>
+</section>
+<section id="parallelism" class="level2">
+<h2 class="anchored" data-anchor-id="parallelism">Parallelism</h2>
+<p>With small modular scripts it’s easier to scale up with multiprocessing or launching multiple machines running the same script.</p>
+<p>Python’s <code>Pool</code> class from the default <a href="https://docs.python.org/3/library/multiprocessing.html">multiprocessiing</a> library is handy if you want to utilize multiple CPUs to preprocess many files.</p>
+<pre><code>from multiprocessing import Pool
+from tqdm import tqdm
+import pandas as pd
+
+def file_parser_func(fn : str):
+    """
+    Example function to read a file into a dataframe and return a list of dictionaries
+    """
+    return pd.read_csv(fn).to_dict('records')
+
+files = ['a.csv', 'b.csv']
+
+data = []
+with Pool(processes=8) as pool:
+    for record in tqdm(pool.imap_unordered(file_parser_func, files), 
+                       total=len(files)):
+        data.extend(record)
+
+df = pd.DataFrame(data)</code></pre>
+<p>You can use multiprocessing directly on Pandas dataframes using <a href="https://www.wrighters.io/options-to-run-pandas-dataframe-apply-in-parallel/">frameworks</a> such as Dask or <a href="https://gist.github.com/yinleon/e80a6ad09bdf2e9ae223f4c5edd3c2c8">Pandarallel</a>.</p>
+<p>You can check the status of your CPU cores and multiprocessing tasks using <a href="https://htop.dev/"><code>htop</code></a> on Linux/Unix machines (this includes Mac).</p>
 </section>
 <section id="bigger-isnt-always-better" class="level2">
 <h2 class="anchored" data-anchor-id="bigger-isnt-always-better">Bigger isn’t always better</h2>

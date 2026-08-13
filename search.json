@@ -39,7 +39,7 @@
     "href": "build-your-own-datasets.html#what-to-expect-in-this-section",
     "title": "Build your own datasets",
     "section": "What to expect in this section?",
-    "text": "What to expect in this section?\nPublicly available data is a useful tool to audit and investigate technologies and their underlying business practices.\nThe following sections will cover programmatic data collection and best-practices.\nWe’ll discuss data collection techniques such as:\n\nFinding undocumented APIs\nBrowser automation\nApp automation\nParsing HTML and JSON\n\nUse these techniques to build datasets that allow you to test original hypotheses, design clear experiments, and understand the limitations that come along with the decisions you make."
+    "text": "What to expect in this section?\nPublicly available data is a useful tool to audit and investigate technologies and their underlying business practices.\nThe following sections will cover programmatic data collection and best-practices.\nWe’ll discuss data collection techniques such as:\n\nFinding undocumented APIs\nBrowser automation\nCrowdsourcing\nParsing HTML and JSON\n\nUse these techniques to build datasets that allow you to test original hypotheses, design clear experiments, and understand the limitations that come along with the decisions you make."
   },
   {
     "objectID": "build-your-own-datasets.html#legal-precedents",
@@ -285,6 +285,13 @@
     "title": "Best practices for data collection",
     "section": "Break up the work, and make it as small as possible",
     "text": "Break up the work, and make it as small as possible\nBreak scraping tasks into the smallest units of work. This makes scaling up easier, and it also prevents a single point of failure disrupting your entire workflow.\nCertain components of a scraper can be slower than others. By dividing the tasks, you can better identify bottlenecks to optimize the pipeline. Use to-do lists, and check for existing files to help communicate between tasks.\nRemember that big problems can be broken up into smaller problems. Being smart can help you get to the finish line faster and debug issues quicker."
+  },
+  {
+    "objectID": "best-practices-data-collection.html#parallelism",
+    "href": "best-practices-data-collection.html#parallelism",
+    "title": "Best practices for data collection",
+    "section": "Parallelism",
+    "text": "Parallelism\nWith small modular scripts it’s easier to scale up with multiprocessing or launching multiple machines running the same script.\nPython’s Pool class from the default multiprocessiing library is handy if you want to utilize multiple CPUs to preprocess many files.\nfrom multiprocessing import Pool\nfrom tqdm import tqdm\nimport pandas as pd\n\ndef file_parser_func(fn : str):\n    \"\"\"\n    Example function to read a file into a dataframe and return a list of dictionaries\n    \"\"\"\n    return pd.read_csv(fn).to_dict('records')\n\nfiles = ['a.csv', 'b.csv']\n\ndata = []\nwith Pool(processes=8) as pool:\n    for record in tqdm(pool.imap_unordered(file_parser_func, files), \n                       total=len(files)):\n        data.extend(record)\n\ndf = pd.DataFrame(data)\nYou can use multiprocessing directly on Pandas dataframes using frameworks such as Dask or Pandarallel.\nYou can check the status of your CPU cores and multiprocessing tasks using htop on Linux/Unix machines (this includes Mac)."
   },
   {
     "objectID": "best-practices-data-collection.html#bigger-isnt-always-better",

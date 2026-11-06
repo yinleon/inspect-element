@@ -63,6 +63,11 @@ book:
         file: xpath.ipynb
       - text: "Best practices"
         file: best-practices-data-collection.ipynb
+
+    - part: "Analysis"
+      chapters:
+      - text: "Classification with LLMs"
+        file: classification_llms.ipynb
 #     - part: Designing experiments
 #       chapters:
 #       - text: "Classification"

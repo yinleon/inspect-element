@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Label Segments</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #1f2328;
+    --muted: #59636e;
+    --border: #d1d9e0;
+    --panel: #f6f8fa;
+    --accent: #2780e3;
+    --true: #1a7f37;
+    --false: #cf222e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1117;
+      --text: #e6edf3;
+      --muted: #9198a1;
+      --border: #3d444d;
+      --panel: #151b23;
+      --accent: #4493f8;
+      --true: #3fb950;
+      --false: #f85149;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1117;
+    --text: #e6edf3;
+    --muted: #9198a1;
+    --border: #3d444d;
+    --panel: #151b23;
+    --accent: #4493f8;
+    --true: #3fb950;
+    --false: #f85149;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px 16px;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  /* the tool sits in a colored box with a black border. swap --box for another color:
+     fuchsia #F5D0FE, green #BBF7D0. text colors are fixed dark so they stay readable in dark mode */
+  main {
+    --box: #FED7AA;
+    --text: #1f2328;
+    --muted: #3f3f46;
+    --border: #000000;
+    --panel: #fff7ed;
+    --accent: #2780e3;
+    --true: #1a7f37;
+    --false: #cf222e;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 16px;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    background: var(--box);
+    color: var(--text);
+  }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--muted); font-size: 0.9rem; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  input[type="text"] {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #ffffff;
+    color: var(--text);
+    font: inherit;
+    flex: 1;
+    min-width: 0;
+  }
+  button {
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--panel);
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+  }
+  button:hover { border-color: var(--accent); }
+  button.true { border-color: var(--true); color: var(--true); }
+  button.false { border-color: var(--false); color: var(--false); }
+  button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #ffffff; }
+  .video {
+    position: relative;
+    width: 50%;
+    min-width: 280px;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 12px;
+    background: var(--panel);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .segment {
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--panel);
+    white-space: pre-wrap;
+  }
+  kbd {
+    padding: 0 4px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+  [hidden] { display: none !important; }
+  /* less padding when embedded in a chapter page */
+  body.embedded { padding: 2px; background: transparent; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Label transcript segments</h1>
+  <p class="muted">Does the segment mention elections or voting?</p>
+
+  <section id="setup">
+    <div class="row">
+      <input type="text" id="reviewer" placeholder="Your name" aria-label="Your name">
+      <button id="start">Start</button>
+    </div>
+    <p class="muted" id="status">Loading segments...</p>
+    <div class="row" id="file-row" hidden>
+      <label class="muted" for="file">Couldn't load the sample. Choose the .json.gz file instead:</label>
+      <input type="file" id="file" accept=".gz,.json">
+    </div>
+  </section>
+
+  <section id="labeler" hidden>
+    <p class="muted" id="progress"></p>
+    <div class="video"><iframe id="player" title="YouTube clip" allow="encrypted-media" allowfullscreen></iframe></div>
+    <div class="segment" id="text"></div>
+    <div class="row" id="note-row" hidden>
+      <input type="text" id="note" placeholder="Note (Enter to finish, Esc to close)" aria-label="Note">
+    </div>
+    <div class="row">
+      <button class="true" data-answer="True">True <kbd>t</kbd></button>
+      <button class="false" data-answer="False">False <kbd>f</kbd></button>
+      <button data-answer="">Skip <kbd>s</kbd></button>
+      <button id="undo">Undo <kbd>b</kbd></button>
+      <button id="interesting" aria-pressed="false">Interesting <kbd>i</kbd></button>
+      <button id="note-toggle" aria-pressed="false">Note <kbd>n</kbd></button>
+    </div>
+  </section>
+
+  <p id="done" hidden>All segments labeled.</p>
+
+  <div class="row">
+    <button id="download">Download labels (CSV)</button>
+  </div>
+</main>
+
+<script>
+  const urlSegments = "../data/input/classification/full_send_segments_sample.json.gz";
+  const SEED = 303;
+  // embedded in a chapter page: skip the name prompt and use a default reviewer
+  const EMBEDDED = window.self !== window.top;
+  const DEFAULT_REVIEWER = "inspect element user";
+
+  let segments = [];
+  let queue = [];
+  let labels = [];
+  let reviewer = "";
+
+  const $ = (id) => document.getElementById(id);
+
+  // seeded shuffle, so every reviewer sees the same order
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = a + 0x6d2b79f5 | 0;
+      let t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function shuffle(items, seed) {
+    const rand = mulberry32(seed);
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+    return items;
+  }
+
+  // the file is gzipped; some servers already decompress it, so fall back to plain json
+  async function parseTranscripts(buffer) {
+    try {
+      const stream = new Blob([buffer]).stream().pipeThrough(new DecompressionStream("gzip"));
+      return JSON.parse(await new Response(stream).text());
+    } catch (e) {
+      return JSON.parse(new TextDecoder().decode(buffer));
+    }
+  }
+
+  function loadSegments(transcripts) {
+    segments = [];
+    for (const transcript of transcripts) {
+      for (const seg of transcript.segments) {
+        segments.push({ video_id: transcript.video_id, id: seg.id, start: seg.start, end: seg.end, text: seg.text.trim() });
+      }
+    }
+    shuffle(segments, SEED);
+    $("status").textContent = `${segments.length} segments loaded.`;
+    $("file-row").hidden = true;
+    if (EMBEDDED) {
+      $("reviewer").value = DEFAULT_REVIEWER;
+      start();
+    }
+  }
+
+  function storageKey() { return "label-segments:" + reviewer; }
+  function readLabels() {
+    try { return JSON.parse(localStorage.getItem(storageKey())) || []; } catch (e) { return []; }
+  }
+  function saveLabels() {
+    try { localStorage.setItem(storageKey(), JSON.stringify(labels)); } catch (e) { /* labels still download */ }
+  }
+
+  function start() {
+    reviewer = $("reviewer").value.trim();
+    if (!reviewer || segments.length === 0) return;
+    labels = readLabels();
+    const done = new Set(labels.map((l) => l.video_id + "-" + l.id));
+    queue = segments.filter((s) => !done.has(s.video_id + "-" + s.id));
+    $("setup").hidden = true;
+    show();
+  }
+
+  function show() {
+    const seg = queue[0];
+    $("labeler").hidden = !seg;
+    $("done").hidden = !!seg;
+    if (!seg) return;
+    $("progress").textContent = `${labels.length + 1} of ${segments.length}  |  ${reviewer}`;
+    $("player").src = `https://www.youtube.com/embed/${seg.video_id}?start=${Math.floor(seg.start)}&end=${Math.ceil(seg.end)}`;
+    $("text").textContent = seg.text;
+    $("note").value = "";
+    setNote(false);
+    $("interesting").setAttribute("aria-pressed", "false");
+  }
+
+  function toggleInteresting() {
+    const pressed = $("interesting").getAttribute("aria-pressed") === "true";
+    $("interesting").setAttribute("aria-pressed", String(!pressed));
+  }
+
+  // the note box is collapsed by default; opening it puts the cursor in it
+  function setNote(open) {
+    $("note-row").hidden = !open;
+    $("note-toggle").setAttribute("aria-pressed", String(open));
+    if (open) $("note").focus();
+  }
+
+  function answer(value) {
+    const seg = queue.shift();
+    if (!seg) return;
+    labels.push({ video_id: seg.video_id, id: seg.id, mentions_voting: value, interesting: $("interesting").getAttribute("aria-pressed") === "true" ? "True" : "", reviewer: reviewer, note: $("note").value.trim(), segment: seg });
+    saveLabels();
+    show();
+  }
+
+  function undo() {
+    const last = labels.pop();
+    if (!last) return;
+    queue.unshift(last.segment || segments.find((s) => s.video_id === last.video_id && s.id === last.id));
+    saveLabels();
+    show();
+  }
+
+  function csvCell(value) {
+    const s = String(value ?? "");
+    return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+
+  function download() {
+    const header = ["video_id", "id", "mentions_voting", "interesting", "reviewer", "note"];
+    const lines = [header.join(",")].concat(labels.map((l) => header.map((h) => csvCell(l[h])).join(",")));
+    const blob = new Blob([lines.join("\n") + "\n"], { type: "text/csv" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `voting_labels_${reviewer || "reviewer"}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  $("start").addEventListener("click", start);
+  $("reviewer").addEventListener("keydown", (e) => { if (e.key === "Enter") start(); });
+  $("undo").addEventListener("click", undo);
+  $("interesting").addEventListener("click", toggleInteresting);
+  $("download").addEventListener("click", download);
+  $("note-toggle").addEventListener("click", () => setNote($("note-row").hidden));
+  // enter keeps the note and returns to hot keys; esc closes the box (the note is kept until the next segment)
+  $("note").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") $("note").blur();
+    if (e.key === "Escape") { $("note").blur(); setNote(false); }
+  });
+  document.querySelectorAll("[data-answer]").forEach((b) => b.addEventListener("click", () => answer(b.dataset.answer)));
+  document.addEventListener("keydown", (e) => {
+    if ($("labeler").hidden || e.target.tagName === "INPUT") return;
+    if (e.key === "t") answer("True");
+    if (e.key === "f") answer("False");
+    if (e.key === "s") answer("");
+    if (e.key === "b") undo();
+    if (e.key === "i") toggleInteresting();
+    // preventDefault so the "n" isn't typed into the note box
+    if (e.key === "n") { e.preventDefault(); setNote($("note-row").hidden); }
+  });
+  $("file").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (file) loadSegments(await parseTranscripts(await file.arrayBuffer()));
+  });
+
+  // when embedded in an iframe, tell the parent page how tall the tool is so it can resize the frame
+  if (EMBEDDED) {
+    document.body.classList.add("embedded");
+    new ResizeObserver(() => {
+      window.parent.postMessage({ labelSegmentsHeight: Math.ceil(document.body.getBoundingClientRect().height) }, "*");
+    }).observe(document.body);
+  }
+
+  fetch(urlSegments)
+    .then((r) => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+    .then(parseTranscripts)
+    .then(loadSegments)
+    .catch(() => {
+      $("status").textContent = "";
+      $("file-row").hidden = false;
+    });
+</script>
+</body>
+</html>

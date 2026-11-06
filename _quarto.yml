@@ -1,7 +1,9 @@
 project:
   type: book
   output-dir: docs
-  resources: assets/
+  resources:
+    - assets/
+    - data/input/classification/
 
 execute:
   freeze: auto

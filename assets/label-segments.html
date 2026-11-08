@@ -133,8 +133,8 @@
     </div>
     <p class="muted" id="status">Loading segments...</p>
     <div class="row" id="file-row" hidden>
-      <label class="muted" for="file">Couldn't load the sample. Choose the .json.gz file instead:</label>
-      <input type="file" id="file" accept=".gz,.json">
+      <label class="muted" for="file">Couldn't load the sample. Choose voting_to_annotate.csv instead:</label>
+      <input type="file" id="file" accept=".csv">
     </div>
   </section>
 
@@ -163,7 +163,8 @@
 </main>
 
 <script>
-  const urlSegments = "../data/input/classification/full_send_segments_sample.json.gz";
+  // every segment the keywords or the llm flagged, written by classification_llms.ipynb
+  const urlSegments = "../data/classification/intermediary/voting_to_annotate.csv";
   const SEED = 303;
   // embedded in a chapter page: skip the name prompt and use a default reviewer
   const EMBEDDED = window.self !== window.top;
@@ -194,23 +195,28 @@
     return items;
   }
 
-  // the file is gzipped; some servers already decompress it, so fall back to plain json
-  async function parseTranscripts(buffer) {
-    try {
-      const stream = new Blob([buffer]).stream().pipeThrough(new DecompressionStream("gzip"));
-      return JSON.parse(await new Response(stream).text());
-    } catch (e) {
-      return JSON.parse(new TextDecoder().decode(buffer));
+  // minimal csv parser: handles quoted fields with commas, quotes, and newlines
+  function parseCsv(text) {
+    const rows = [];
+    let row = [], field = "", quoted = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (quoted) {
+        if (c === '"' && text[i + 1] === '"') { field += '"'; i++; }
+        else if (c === '"') quoted = false;
+        else field += c;
+      } else if (c === '"') quoted = true;
+      else if (c === ",") { row.push(field); field = ""; }
+      else if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
+      else if (c !== "\r") field += c;
     }
+    if (field || row.length) { row.push(field); rows.push(row); }
+    const header = rows.shift();
+    return rows.map((r) => Object.fromEntries(header.map((h, j) => [h, r[j]])));
   }
 
-  function loadSegments(transcripts) {
-    segments = [];
-    for (const transcript of transcripts) {
-      for (const seg of transcript.segments) {
-        segments.push({ video_id: transcript.video_id, id: seg.id, start: seg.start, end: seg.end, text: seg.text.trim() });
-      }
-    }
+  function loadSegments(text) {
+    segments = parseCsv(text).map((r) => ({ video_id: r.video_id, id: Number(r.id), start: Number(r.start), end: Number(r.end), text: r.text.trim() }));
     shuffle(segments, SEED);
     $("status").textContent = `${segments.length} segments loaded.`;
     $("file-row").hidden = true;
@@ -266,7 +272,7 @@
   function answer(value) {
     const seg = queue.shift();
     if (!seg) return;
-    labels.push({ video_id: seg.video_id, id: seg.id, mentions_voting: value, interesting: $("interesting").getAttribute("aria-pressed") === "true" ? "True" : "", reviewer: reviewer, note: $("note").value.trim(), segment: seg });
+    labels.push({ video_id: seg.video_id, id: seg.id, contains_voting_human: value, interesting: $("interesting").getAttribute("aria-pressed") === "true" ? "True" : "", reviewer: reviewer, note: $("note").value.trim(), segment: seg });
     saveLabels();
     show();
   }
@@ -285,7 +291,7 @@
   }
 
   function download() {
-    const header = ["video_id", "id", "mentions_voting", "interesting", "reviewer", "note"];
+    const header = ["video_id", "id", "contains_voting_human", "interesting", "reviewer", "note"];
     const lines = [header.join(",")].concat(labels.map((l) => header.map((h) => csvCell(l[h])).join(",")));
     const blob = new Blob([lines.join("\n") + "\n"], { type: "text/csv" });
     const a = document.createElement("a");
@@ -319,7 +325,7 @@
   });
   $("file").addEventListener("change", async (e) => {
     const file = e.target.files[0];
-    if (file) loadSegments(await parseTranscripts(await file.arrayBuffer()));
+    if (file) loadSegments(await file.text());
   });
 
   // when embedded in an iframe, tell the parent page how tall the tool is so it can resize the frame
@@ -331,8 +337,7 @@
   }
 
   fetch(urlSegments)
-    .then((r) => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
-    .then(parseTranscripts)
+    .then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); })
     .then(loadSegments)
     .catch(() => {
       $("status").textContent = "";

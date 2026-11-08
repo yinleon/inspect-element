@@ -3,7 +3,8 @@ project:
   output-dir: docs
   resources:
     - assets/
-    - data/input/classification/
+    - data/classification/input/
+    - data/classification/intermediary/voting_to_annotate.csv
 
 execute:
   freeze: auto

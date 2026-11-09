@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Leon Yin">
+<meta name="dcterms.date" content="2026-11-06">
+<meta name="keywords" content="classification, large language models, llm, annotation, validation, inter-rater reliability, codebook">
+<meta name="description" content="How to use large language models to categorize records for an investigation, and how to validate results before publication.">
+
+<title>Classification with LLMs</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./best-practices-data-collection.html" rel="prev">
+<link href="./assets/favicon/favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<meta property="og:title" content="Classification with LLMs">
+<meta property="og:description" content="How to use large language models to categorize records for an investigation, and how to validate the results before you publish.">
+<meta property="og:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
+<meta property="og:site-name" content="Inspect Element">
+<meta property="og:locale" content="us_EN">
+<meta name="twitter:title" content="Classification with LLMs">
+<meta name="twitter:description" content="How to use large language models to categorize records for an investigation, and how to validate the results before you publish.">
+<meta name="twitter:image" content="https://inspectelement.org/assets/inspect-element-logo.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Classification with LLMs</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Inspect Element</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/yinleon/inspect-element" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./start.html" class="sidebar-item-text sidebar-link">Planning investigations</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./checklist.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Checklist</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./build-your-own-datasets.html" class="sidebar-item-text sidebar-link">Build your own datasets</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Undocumented APIs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./browser_automation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Browser automation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./xpath.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parsing with Xpath</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./best-practices-data-collection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Best practices</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Analysis</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./classification_llms.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Classification with LLMs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#annotation-journalism" id="toc-annotation-journalism" class="nav-link active" data-scroll-target="#annotation-journalism">Annotation Journalism</a></li>
+  <li><a href="#manual-labor-is-a-good-thing" id="toc-manual-labor-is-a-good-thing" class="nav-link" data-scroll-target="#manual-labor-is-a-good-thing">Manual labor is a good thing</a></li>
+  <li><a href="#keywords-and-expertise" id="toc-keywords-and-expertise" class="nav-link" data-scroll-target="#keywords-and-expertise">Keywords and expertise</a></li>
+  <li><a href="#when-to-use-llms" id="toc-when-to-use-llms" class="nav-link" data-scroll-target="#when-to-use-llms">When to use LLMs?</a></li>
+  <li><a href="#tutorial" id="toc-tutorial" class="nav-link" data-scroll-target="#tutorial">Tutorial</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#comparing-our-two-approaches" id="toc-comparing-our-two-approaches" class="nav-link" data-scroll-target="#comparing-our-two-approaches">Comparing our two approaches</a></li>
+  <li><a href="#data-annotations" id="toc-data-annotations" class="nav-link" data-scroll-target="#data-annotations">Data Annotations</a>
+  <ul class="collapse">
+  <li><a href="#comparing-annotators" id="toc-comparing-annotators" class="nav-link" data-scroll-target="#comparing-annotators">Comparing annotators</a></li>
+  </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  </ul></li>
+  <li><a href="#citation" id="toc-citation" class="nav-link" data-scroll-target="#citation">Citation</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/yinleon/inspect-element/blob/main/classification_llms.ipynb" class="toc-action">Edit this page</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-title">Classification with LLMs</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Leon Yin </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 6, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<p><a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://inspectelement.org/classification_llms">📖 Read online</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://colab.research.google.com/github/yinleon/inspect-element/blob/main/classification_llms.ipynb">🖥️ Interactive version</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_blank" href="https://github.com/yinleon/inspect-element/blob/main/classification_llms.ipynb">⚙️ GitHub</a> <a type="button" class="btn btn-outline-primary btn-sm" target="_self" href="#citation">🏛 Citation</a> <br></p>
+</div>
+</div>
+<p>When we hear terms like hate speech, terrorism, or NSFW, you probably have a mental image of what that looks like.</p>
+<p>However, when publishing an article or developing a methodology, precise language is everything – especially with terminology that our reporting builds upon.</p>
+<p>Davey Alba and I have a long-running joke that every story we work on amounts to “annotation journalism,” as we always end up labeling and then counting something.</p>
+<p>In this section we’ll walk through how to determine testable categories manually, scale the process using reproducible rubrics and automation, and how to verify labels for publication.</p>
+<section id="annotation-journalism" class="level2">
+<h2 class="anchored" data-anchor-id="annotation-journalism">Annotation Journalism</h2>
+<p>In the aftermath of the 2024 U.S. Presidential Election, traditional media outlets were dubbing President Trump’s win the “podcast election” thanks to another <em>internet thing</em>.</p>
+<p>To dig in deeper, our reporting team watched hundreds of hours of videos from <a href="https://www.bloomberg.com/graphics/2025-youtube-podcast-men-for-trump/">nine YouTube podcasters</a> and livestreamers to understand their strategy, messaging, and cultural appeal.</p>
+<p>We focused on the types of guests featured – whether they were comedians, athletes, musicians, or Internet celebrities – and how often political topics such as voting, war, and transgender identity were discussed.</p>
+<p><img src="assets/youtube_political_podcasters_elections.png" width="95%"></p>
+</section>
+<section id="manual-labor-is-a-good-thing" class="level2">
+<h2 class="anchored" data-anchor-id="manual-labor-is-a-good-thing">Manual labor is a good thing</h2>
+<p>To do this, we manually extracted which guests appeared in each video by each YouTube show, and created a keyword list for the common themes we encountered.</p>
+<p>A strong starting place for reporting borrows from sociology and digital ethnography: engaging directly with the source material. In our case it meant watching hours of video over and over again.</p>
+<p>Manual groundwork helps identify testable patterns and stumble upon resonant examples that could stick with readers.</p>
+<p>Discussing what you see with your reporting team helps solidify themes and arrive at a logical narrative. Although this kind of work can be a slog, making time for these tasks can improve the quality of your work.</p>
+<div class="callout-note callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+What about topic modeling?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In computational social science, <a href="https://guides.library.upenn.edu/penntdm/methods/topic_modeling">topic modeling</a> is one way to segment bodies of text thematically; however, it is an <a href="https://hai.stanford.edu/ai-definitions/what-is-unsupervised-learning">unsupervised</a> and probabilistic algorithm – there is no <a href="https://hai.stanford.edu/ai-definitions/what-is-supervised-learning">answer key</a> and results can differ between runs. It’s worth knowing, but it’s often used for exploratory analysis.</p>
+</div>
+</div>
+</section>
+<section id="keywords-and-expertise" class="level2">
+<h2 class="anchored" data-anchor-id="keywords-and-expertise">Keywords and expertise</h2>
+<p>After getting a handle on what these shows and their guests discussed, we consulted subject-matter experts on our guest categories, political topics, and related keywords. Researchers helped us incorporate overlooked topics and hone our keyword lists.</p>
+<p>As livestreams can be over 8 hours long, analyzing transcripts with paid AI tools can be expensive and time-consuming.</p>
+<p>Keyword matching is fast and virtually free of charge. Although keyword matching is crude, it works well for a proof of concept and can be built-upon to produce publication-ready findings.</p>
+<p>In our investigation, we searched the transcripts for keywords related to the political topics we had identified. We reviewed segments containing each keyword to confirm the topic was discussed and root out false positives.</p>
+<p>Most transcription tools will organize transcripts into manageable segments with timestamps. With this information we can generate a link to the exact moment of a quote in a video.</p>
+<pre>1. TRANSCRIPT SEGMENT
+   {"video_id": "<span style="background-color:#FDE68A; color:#713F12;">To-4jtSzw8U</span>", "start": <span style="background-color:#BFDBFE; color:#1E3A8A;">887.5</span>, "end": <span style="background-color:#BFDBFE; color:#1E3A8A;">888.9</span>,
+    "text": "Older people probably will <span style="background-color:#BBF7D0; color:#14532D;">vote</span> for Biden."}
+        │
+        ▼
+2. KEYWORD MATCH   (regex)
+   kw_voting = ["<span style="background-color:#BBF7D0; color:#14532D;">vote</span>", "election", "ballot"]  → HIT
+        │
+        ▼
+3. SPREADSHEET OF HITS  with timestamped links
+   youtube.com/watch?v=<span style="background-color:#FDE68A; color:#713F12;">To-4jtSzw8U</span>&amp;t=<span style="background-color:#BFDBFE; color:#1E3A8A;">887</span>s
+        │
+        ▼
+4. VERIFY   click the link in the spreadsheet, watch the clip on YouTube
+        │
+        ▼
+5. LABEL
+   video_id    | text     | youtube_url | contains_voting? | annotator | comment
+   <span style="background-color:#FDE68A; color:#713F12;">To-4jtSzw8U</span> | <span style="background-color:#BBF7D0; color:#14532D;">Older p…</span> | https://…   | <span style="background-color:#E9D5FF; color:#581C87;">TRUE</span>              | LY        |
+</pre>
+<p>Verification is the name of the game, as we need to be confident that our headline statistic is solid. I use automation (in this case keyword matching) to scale out searching for patterns previously identified through manual review. Confirming also tends to be much faster than trying to label videos from scratch.</p>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Pro tip: Use a codebook
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Write an instruction manual called a “codebook” to define categories and how to handle edge cases. This is a concept from social science to standardize labels across annotators.</p>
+<p>Subjective categories will inevitably differ. <a href="https://rcd.ucsb.edu/node/345">Intercoder reliability</a> determines how often annotators agree.</p>
+</div>
+</div>
+</section>
+<section id="when-to-use-llms" class="level2">
+<h2 class="anchored" data-anchor-id="when-to-use-llms">When to use LLMs?</h2>
+<p>You may be wondering: why not throw a language model at the problem and call it a day?</p>
+<p>LLMs are not a hammer to throw at every problem. They are neither magic nor sci-fi “<a href="https://knowyourmeme.com/memes/zoom-and-enhance">enhance</a>” functions. Using any technical tool is a matter of finding the most reliable and least-bad solution to a problem.</p>
+<p>For example, categorizing something as “political” is not straightforward. Besides elected officials and elections, what constitutes political?</p>
+<p>No matter what technical approach you choose, break the problem up into manageable pieces and employ <em>pseudocode</em> to sequence and organize your approach in plain English. Rock climbers call this “beta” for a route prior to getting on the wall.</p>
+<p>As AI assistants make most coding tasks trivial, our strength as investigators lies in the questions we ask. How do we assess vulnerabilities in our logic? Are our questions driven by a hypothesis? What assumptions are left unsaid, and how could they mislead readers? What are edge cases that undermine the hypothesis or break the system we designed?</p>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Pro tip: Ask narrow questions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Tell me if this is political” is too blunt. Concrete categories like “elections and voting,” “immigration,” or “war” yield more precise results, and avoid the assumptions that loaded terms carry.</p>
+</div>
+</div>
+<p>For now, let’s look at an example of classifying text using a local language model and verifying the results in an annotation interface.</p>
+</section>
+<section id="tutorial" class="level1">
+<h1>Tutorial</h1>
+<p>Now let’s classify whether transcript segments mention voting or elections using a local language model. We will compare this method to keyword matching, and verify the labels by hand to produce a validation dataset.</p>
+<ol type="1">
+<li>Download Ollama</li>
+<li>Preview the text and glean some categories.</li>
+<li>Run subset text through Ollama with Pydantic. One category = one API call.</li>
+<li>Verify the text using a coding interface. Marking things as “?” and interesting</li>
+<li>Intercoder reliability and golden set</li>
+<li>Make changes to prompts etc</li>
+<li>Run on everything</li>
+</ol>
+</section>
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<p>We will use <a href="https://ollama.com">Ollama</a> to run the qwen language model locally on your machine.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install ollama</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> serve</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> pull qwen3.5:4b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Install the Python packages: the <a href="https://github.com/ollama/ollama-python">Ollama Python library</a>, <a href="https://docs.pydantic.dev">Pydantic</a>, and <a href="https://pandas.pydata.org">pandas</a>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install ollama pydantic pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gzip</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ollama <span class="im">import</span> chat</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we will work with a sample of transcripts taken from YouTube stored in Whisper’s JSON format (a common AI transcription tool).</p>
+<p>It is a subset of videos from one podcast.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fn_transcripts <span class="op">=</span> <span class="st">"data/classification/input/full_send_segments_sample.json.gz"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>transcripts <span class="op">=</span> json.load(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    gzip.<span class="bu">open</span>(fn_transcripts, <span class="st">"rt"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.json_normalize(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    transcripts, record_path<span class="op">=</span><span class="st">"segments"</span>, meta<span class="op">=</span>[<span class="st">"video_id"</span>]</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here’s a simple keyword list search:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>kw_voting <span class="op">=</span> [</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'vote'</span>, <span class="st">'election'</span>, <span class="st">'ballot'</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'contains_voting_kw'</span>] <span class="op">=</span> df[<span class="st">'text'</span>].<span class="bu">str</span>.contains(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'|'</span>.join(kw_voting), regex<span class="op">=</span><span class="va">True</span>, case<span class="op">=</span><span class="va">False</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pydantic allows us to define a data schema for the language model’s output. This is way better than what I used to do by defining this within a prompt, as we can use Ollama’s <code>format</code> parameter directly (read the <a href="https://docs.ollama.com/capabilities/structured-outputs#python-2">documentation</a>).</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> VotingLabel(BaseModel):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    This defines the data schema of the LLM response</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    contains_voting_llm: <span class="bu">bool</span> <span class="op">|</span> <span class="va">None</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    quote: <span class="bu">str</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we will feed each transcript segment through the local language model and compile the labels.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dir_labels <span class="op">=</span> <span class="st">"data/classification/intermediary/voting_labels/"</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>os.makedirs(dir_labels, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, row <span class="kw">in</span> df.iterrows():</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># save one label per transcript segment as a record</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    fn_out <span class="op">=</span> dir_labels <span class="op">+</span> <span class="ss">f"</span><span class="sc">{</span>row[<span class="st">'video_id'</span>]<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>row[<span class="st">'id'</span>]<span class="sc">}</span><span class="ss">.json"</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> os.path.exists(fn_out):</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        prompt <span class="op">=</span> <span class="ss">f"Does this podcast transcript mention elections or voting?</span><span class="ch">\n\n</span><span class="sc">{</span>row<span class="sc">.</span>text<span class="sc">}</span><span class="ss">"</span>          </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> chat(</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>            model<span class="op">=</span><span class="st">"qwen3.5:4b"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>            messages<span class="op">=</span>[{</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">"role"</span>: <span class="st">"user"</span>, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">"content"</span>: prompt</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>            }],</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>            <span class="bu">format</span><span class="op">=</span>VotingLabel.model_json_schema(),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            think<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> VotingLabel.model_validate_json(</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>            response.message.content</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(fn_out, <span class="st">"w"</span>) <span class="im">as</span> f:</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>            f.write(label.model_dump_json())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Read the language model labels into a dataframe, and get a breakdown on the labels.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> []</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> fn <span class="kw">in</span> glob.glob(dir_labels <span class="op">+</span> <span class="st">"*.json"</span>):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    video_id, segment_id <span class="op">=</span> fn.split(<span class="st">"/"</span>)[<span class="op">-</span><span class="dv">1</span>].split(<span class="st">".json"</span>)[<span class="dv">0</span>].rsplit(<span class="st">"-"</span>, <span class="dv">1</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(fn) <span class="im">as</span> f:</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> json.load(f)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    labels.append({<span class="st">"video_id"</span>: video_id, <span class="st">"id"</span>: <span class="bu">int</span>(segment_id), <span class="op">**</span>label})</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>df_labels <span class="op">=</span> pd.DataFrame(labels)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>df_labels[<span class="st">'contains_voting_llm'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>contains_voting_llm
+False    109
+True      91
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<section id="comparing-our-two-approaches" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-our-two-approaches">Comparing our two approaches</h2>
+<p>We can see where the two approaches agreed by looking down the diagonal. The disagreement rate, where one method got a hit and the other did not, is less than 10%:<br></p>
+<p>(11 + 5) / 200 = 8%</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># line up keyword hits and llm labels by segment</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df_merged <span class="op">=</span> df.merge(df_labels, on<span class="op">=</span>[<span class="st">"video_id"</span>, <span class="st">"id"</span>], how<span class="op">=</span><span class="st">"left"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>pd.crosstab(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    df_merged[<span class="st">"contains_voting_kw"</span>],</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    df_merged[<span class="st">"contains_voting_llm"</span>],</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    margins<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>contains_voting_llm</th>
+      <th>False</th>
+      <th>True</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>contains_voting_kw</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>False</th>
+      <td>98</td>
+      <td>5</td>
+      <td>103</td>
+    </tr>
+    <tr>
+      <th>True</th>
+      <td>11</td>
+      <td>86</td>
+      <td>97</td>
+    </tr>
+    <tr>
+      <th>All</th>
+      <td>109</td>
+      <td>91</td>
+      <td>200</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Neither method is the answer key, and just because they agree it doesn’t mean it’s correct.</p>
+<p>That’s where hand labeling comes in.</p>
+</section>
+<section id="data-annotations" class="level2">
+<h2 class="anchored" data-anchor-id="data-annotations">Data Annotations</h2>
+<p>Verification is necessary prior to publication. You could either publish the method’s classification <a href="https://www.ire.org/2026/08/13/using-llms-in-data-journalism-can-be-trustworthy-if-these-five-elements-are-in-your-methodology/">accuracy rate</a> from a subsample of the data, or exhaustively annotate every record, or every “True” hit, to get a lower bound.</p>
+<p>Both approaches involve manual data annotations – or category “coding”. Starting with a small subset early in the process creates a “golden set” to use as a performance benchmark for your classification system.</p>
+<p>Here we will verify every segment that was labeled <code>contains_voting</code> by either the keywords or the language model. This is the “lower-bound” verification, that will tell us <em>at least</em> how many segments in the sample contain the topic.</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fn_to_annotate <span class="op">=</span> <span class="st">"data/classification/intermediary/voting_to_annotate.csv"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># every segment either method flagged, without the labels, so annotators label blind</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>df_to_annotate <span class="op">=</span> df_merged[</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    df_merged[<span class="st">"contains_voting_kw"</span>] <span class="op">|</span> (df_merged[<span class="st">"contains_voting_llm"</span>] <span class="op">==</span> <span class="va">True</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>df_to_annotate[[<span class="st">"video_id"</span>, <span class="st">"id"</span>, <span class="st">"start"</span>, <span class="st">"end"</span>, <span class="st">"text"</span>]].to_csv(</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    fn_to_annotate, index<span class="op">=</span><span class="va">False</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(df_to_annotate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>102</code></pre>
+</div>
+</div>
+<p>Here’s an example of a data annotation interface with basic functionality. In my experience, hot-key mapping and single verification tasks help reduce the time needed to verify labels.</p>
+<iframe id="label-segments" src="assets/label-segments.html" width="100%" height="300" style="border:0;">
+</iframe>
+<script>
+  // resize the labeling tool's frame to fit its content
+  window.addEventListener("message", (e) => {
+    const frame = document.getElementById("label-segments");
+    if (e.source === frame.contentWindow && e.data.labelSegmentsHeight) {
+      frame.style.height = e.data.labelSegmentsHeight + "px";
+    }
+  });
+</script>
+<p>The “interesting” flag saves anecdotes to review and use in publication, whereas “skip” can be used to mark edge cases to discuss with annotators.</p>
+<p>The coding interface should be super simple by default, but provide the ability to drill in further for context. In this case you can actually watch the time-stamped clip. For text, for example, you could show an abbreviated segment and allow for expanding to the full text or more metadata.</p>
+<p>When running such tasks, I tend to use a simple command-line implementation built on Python (the user interface above is purely demonstrative). These are fairly straightforward to vibe-code, and if your reporting team has a coding assistant installed you can just send them the codebase and dataset and have it set up easily.</p>
+<p>Here’s the <a href="https://github.com/yinleon/inspect-element/blob/main/scripts/classification/label_segments.py">Python script</a> for reference.</p>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Pro tip: Information Security
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Keeping this task entirely local – including the classification itself – ensures data does not get read by private AI firms and other tech platforms. This is a requirement if the data you’re working with is sensitive.</p>
+</div>
+</div>
+<p>Some annotation platforms you can also check out, if you don’t want to start from scratch: <a href="https://prodigy.ai/">Prodigy</a>, <a href="https://frisket.dev/">Frisket</a></p>
+<section id="comparing-annotators" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-annotators">Comparing annotators</h3>
+<p>Every labels file in <code>data/classification/hand/</code> is compared by reviewer. To add your own, place your file in that directory: <code>scripts/classification/label_segments.py</code> saves there already, and the CSV you download from the tool above can be moved there. The directory comes with two synthetic annotators and a reference set to compare against. Each reviewer name should appear in only one file.</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dir_hand <span class="op">=</span> <span class="st">"data/classification/hand/"</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>files_labels <span class="op">=</span> glob.glob(dir_hand <span class="op">+</span> <span class="st">"*.csv"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> []</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> fn <span class="kw">in</span> files_labels:</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    _df <span class="op">=</span> pd.read_csv(fn, dtype<span class="op">=</span><span class="bu">str</span>, keep_default_na<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    data.extend(_df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>df_annotations <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> data</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># one row per segment, one column per reviewer. a blank answer is a skip</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>df_wide <span class="op">=</span> df_annotations.pivot(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>[<span class="st">"video_id"</span>, <span class="st">"id"</span>], columns<span class="op">=</span><span class="st">"reviewer"</span>, values<span class="op">=</span><span class="st">"contains_voting_human"</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>).replace(<span class="st">""</span>, <span class="st">"skip"</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>col_reviewers <span class="op">=</span> df_wide.columns.tolist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we can compare the agreement rate as well as the range the headline results could change.</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>has_skip <span class="op">=</span> (df_wide[col_reviewers] <span class="op">==</span> <span class="st">"skip"</span>).<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>has_same_answer <span class="op">=</span> df_wide[col_reviewers].nunique(axis<span class="op">=</span><span class="dv">1</span>) <span class="op">==</span> <span class="dv">1</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>df_wide[<span class="st">"is_unanimous"</span>] <span class="op">=</span> has_same_answer <span class="op">&amp;</span> <span class="op">~</span>has_skip</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>answered <span class="op">=</span> df_wide[col_reviewers].isin([<span class="st">"True"</span>, <span class="st">"False"</span>]).<span class="bu">sum</span>()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>share_true <span class="op">=</span> (df_wide[col_reviewers] <span class="op">==</span> <span class="st">"True"</span>).<span class="bu">sum</span>() <span class="op">/</span> answered</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Reviewers agreed on </span><span class="sc">{</span>df_wide[<span class="st">'is_unanimous'</span>]<span class="sc">.</span>mean()<span class="sc">:.0%}</span><span class="ss"> of segments"</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Between </span><span class="sc">{</span>share_true<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.0%}</span><span class="ss"> and </span><span class="sc">{</span>share_true<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.0%}</span><span class="ss"> of segments mention voting, depending on the reviewer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reviewers agreed on 85% of segments
+Between 89% and 92% of segments mention voting, depending on the reviewer</code></pre>
+</div>
+</div>
+<p>Here we can review exactly where annotators differed.</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_text <span class="op">=</span> pd.read_csv(fn_to_annotate, dtype<span class="op">=</span><span class="bu">str</span>).set_index([<span class="st">"video_id"</span>, <span class="st">"id"</span>])</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df_review <span class="op">=</span> df_wide.loc[<span class="op">~</span>df_wide[<span class="st">"is_unanimous"</span>], col_reviewers].join(df_text[<span class="st">"text"</span>])</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>df_review.head(<span class="dv">3</span>).style.<span class="bu">apply</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> col: [<span class="st">"background-color: #FDE68A"</span> <span class="cf">if</span> v <span class="op">==</span> <span class="st">"skip"</span> <span class="cf">else</span> <span class="st">""</span> <span class="cf">for</span> v <span class="kw">in</span> col], </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    subset<span class="op">=</span>col_reviewers,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+
+<style type="text/css">
+#T_2f115_row2_col0 {
+  background-color: #FDE68A;
+}
+</style>
+<table id="T_2f115">
+  <thead>
+    <tr>
+      <th class="blank">&nbsp;</th>
+      <th class="blank level0">&nbsp;</th>
+      <th id="T_2f115_level0_col0" class="col_heading level0 col0">annotator a</th>
+      <th id="T_2f115_level0_col1" class="col_heading level0 col1">annotator b</th>
+      <th id="T_2f115_level0_col2" class="col_heading level0 col2">annotator c</th>
+      <th id="T_2f115_level0_col3" class="col_heading level0 col3">text</th>
+    </tr>
+    <tr>
+      <th class="index_name level0">video_id</th>
+      <th class="index_name level1">id</th>
+      <th class="blank col0">&nbsp;</th>
+      <th class="blank col1">&nbsp;</th>
+      <th class="blank col2">&nbsp;</th>
+      <th class="blank col3">&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_2f115_level0_row0" class="row_heading level0 row0">-re1pBdMD8I</th>
+      <th id="T_2f115_level1_row0" class="row_heading level1 row0">312</th>
+      <td id="T_2f115_row0_col0" class="data row0 col0">False</td>
+      <td id="T_2f115_row0_col1" class="data row0 col1">True</td>
+      <td id="T_2f115_row0_col2" class="data row0 col2">True</td>
+      <td id="T_2f115_row0_col3" class="data row0 col3"> The second thing that was really weird is I I did- they had me do security for the Iraqi poll workers, because you guys are probably too young to remember this, but 2005 was the big Iraqi parliamentary elections and you remember like where people stuck their fingers in the ink and then raised their purple finger to show that they had voted. We were doing security for those poll workers, and what was so weird about it is a lot of American leaders had convinced themselves that we were there for democracy.</td>
+    </tr>
+    <tr>
+      <th id="T_2f115_level0_row1" class="row_heading level0 row1" rowspan="2">2VLBqkj2nDM</th>
+      <th id="T_2f115_level1_row1" class="row_heading level1 row1">11</th>
+      <td id="T_2f115_row1_col0" class="data row1 col0">False</td>
+      <td id="T_2f115_row1_col1" class="data row1 col1">True</td>
+      <td id="T_2f115_row1_col2" class="data row1 col2">True</td>
+      <td id="T_2f115_row1_col3" class="data row1 col3"> Comm is neither left or right. It's about making sure that everybody votes and when you vote, we're making sure that your vote is actually counted. We can't just be tweeting and posting about all this stuff.</td>
+    </tr>
+    <tr>
+      <th id="T_2f115_level1_row2" class="row_heading level1 row2">121</th>
+      <td id="T_2f115_row2_col0" class="data row2 col0">skip</td>
+      <td id="T_2f115_row2_col1" class="data row2 col1">False</td>
+      <td id="T_2f115_row2_col2" class="data row2 col2">False</td>
+      <td id="T_2f115_row2_col3" class="data row2 col3"> Right now that there was no war declared in Ukraine, even though we're at war with with Russia, right now, they just printed a hundred- and you know what- 160 billion. Now that we've sent there and they're sending it there with you know, congressional votes and all those Congress people who are voting for it. Mitch McConnell, etc. Are all in the tank with General Dynamics, Northrop Grumman, you know, boeing, Lockheed, all of the military industrial complex might have the contractors that are all making the money.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<p><a href="https://scikit-learn.org/0.21/tutorial/basic/tutorial.html">Supervised machine learning</a> is an essential topic to know. It is out of scope for this section, read documentation from Scikit-Learn and check out the <a href="https://github.com/amueller/introduction_to_ml_with_python">textbook</a> co-written by one of the main contributors Andreas C. Müller.</p>
+</section>
+</section>
+<section id="citation" class="level1">
+<h1>Citation</h1>
+<p>To cite this chapter, please use the following BibTeX entry:</p>
+<pre>@incollection{yin2026classification,
+  author    = {Yin, Leon},
+  title     = {Classification with LLMs},
+  booktitle = {Inspect Element: A practical guide to data investigations},
+  year      = {2026},
+  editor    = {Yin, Leon and Sapiezynski, Piotr},
+  note      = {\url{https://inspectelement.org}}
+}
+</pre>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./best-practices-data-collection.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Best practices</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

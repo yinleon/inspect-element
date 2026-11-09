@@ -271,13 +271,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#tutorial" id="toc-tutorial" class="nav-link" data-scroll-target="#tutorial">Tutorial</a>
   <ul class="collapse">
   <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#load-the-transcripts" id="toc-load-the-transcripts" class="nav-link" data-scroll-target="#load-the-transcripts">Load the transcripts</a></li>
+  <li><a href="#keyword-matching" id="toc-keyword-matching" class="nav-link" data-scroll-target="#keyword-matching">Keyword matching</a></li>
+  <li><a href="#classifying-with-a-language-model" id="toc-classifying-with-a-language-model" class="nav-link" data-scroll-target="#classifying-with-a-language-model">Classifying with a language model</a></li>
   <li><a href="#comparing-our-two-approaches" id="toc-comparing-our-two-approaches" class="nav-link" data-scroll-target="#comparing-our-two-approaches">Comparing our two approaches</a></li>
-  <li><a href="#data-annotations" id="toc-data-annotations" class="nav-link" data-scroll-target="#data-annotations">Data Annotations</a>
+  <li><a href="#verifying-by-hand" id="toc-verifying-by-hand" class="nav-link" data-scroll-target="#verifying-by-hand">Verifying by hand</a>
   <ul class="collapse">
   <li><a href="#comparing-annotators" id="toc-comparing-annotators" class="nav-link" data-scroll-target="#comparing-annotators">Comparing annotators</a></li>
   </ul></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   <li><a href="#citation" id="toc-citation" class="nav-link" data-scroll-target="#citation">Citation</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/yinleon/inspect-element/blob/main/classification_llms.ipynb" class="toc-action">Edit this page</a></p></div></div></nav>
@@ -419,13 +422,12 @@ Pro tip: Ask narrow questions
 <h1>Tutorial</h1>
 <p>Now let’s classify whether transcript segments mention voting or elections using a local language model. We will compare this method to keyword matching, and verify the labels by hand to produce a validation dataset.</p>
 <ol type="1">
-<li>Download Ollama</li>
-<li>Preview the text and glean some categories.</li>
-<li>Run subset text through Ollama with Pydantic. One category = one API call.</li>
-<li>Verify the text using an annotation interface. Marking things as “?” and interesting</li>
-<li>Intercoder reliability and golden set</li>
-<li>Make changes to prompts etc</li>
-<li>Run on everything</li>
+<li>Set up Ollama and the Python packages.</li>
+<li>Load a sample of podcast transcripts.</li>
+<li>Flag segments that mention voting with a keyword search.</li>
+<li>Label the same segments with a local language model.</li>
+<li>Compare the two approaches.</li>
+<li>Verify the flagged segments by hand and compare annotators.</li>
 </ol>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
@@ -445,6 +447,9 @@ Pro tip: Ask narrow questions
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ollama <span class="im">import</span> chat</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="load-the-transcripts" class="level2">
+<h2 class="anchored" data-anchor-id="load-the-transcripts">Load the transcripts</h2>
 <p>Here we will work with a sample of transcripts taken from YouTube stored in Whisper’s JSON format (a common AI transcription tool).</p>
 <p>It is a subset of videos from one podcast.</p>
 <div class="cell" data-execution_count="3">
@@ -458,7 +463,10 @@ Pro tip: Ask narrow questions
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    transcripts, record_path<span class="op">=</span><span class="st">"segments"</span>, meta<span class="op">=</span>[<span class="st">"video_id"</span>]</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Here’s a simple keyword list search:</p>
+</section>
+<section id="keyword-matching" class="level2">
+<h2 class="anchored" data-anchor-id="keyword-matching">Keyword matching</h2>
+<p>Here’s a simplified keyword list:</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>kw_voting <span class="op">=</span> [</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'vote'</span>, <span class="st">'election'</span>, <span class="st">'ballot'</span></span>
@@ -467,6 +475,9 @@ Pro tip: Ask narrow questions
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'|'</span>.join(kw_voting), regex<span class="op">=</span><span class="va">True</span>, case<span class="op">=</span><span class="va">False</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="classifying-with-a-language-model" class="level2">
+<h2 class="anchored" data-anchor-id="classifying-with-a-language-model">Classifying with a language model</h2>
 <p>Pydantic allows us to define a data schema for the language model’s output. This is way better than what I used to do by defining this within a prompt, as we can use Ollama’s <code>format</code> parameter directly (read the <a href="https://docs.ollama.com/capabilities/structured-outputs#python-2">documentation</a>).</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> VotingLabel(BaseModel):</span>
@@ -582,8 +593,8 @@ Name: count, dtype: int64</code></pre>
 <p>Neither method is the answer key, and just because they agree it doesn’t mean it’s correct.</p>
 <p>That’s where hand labeling comes in.</p>
 </section>
-<section id="data-annotations" class="level2">
-<h2 class="anchored" data-anchor-id="data-annotations">Data Annotations</h2>
+<section id="verifying-by-hand" class="level2">
+<h2 class="anchored" data-anchor-id="verifying-by-hand">Verifying by hand</h2>
 <p>Verification is necessary prior to publication. You could either publish the method’s classification <a href="https://www.ire.org/2026/08/13/using-llms-in-data-journalism-can-be-trustworthy-if-these-five-elements-are-in-your-methodology/">accuracy rate</a> from a subsample of the data, or exhaustively annotate every record, or every “True” hit, to get a lower bound.</p>
 <p>Both approaches involve manual data annotations – or “coding” in social science terms (labeling, not programming). Starting with a small subset early in the process creates a “golden set” to use as a performance benchmark for your classification system.</p>
 <p>Here we will verify every segment that was labeled <code>contains_voting</code> by either the keywords or the language model. This is the “lower-bound” verification, that will tell us <em>at least</em> how many segments in the sample contain the topic.</p>
@@ -616,7 +627,7 @@ Name: count, dtype: int64</code></pre>
 </script>
 <p>The “interesting” flag saves anecdotes to review and use in publication, whereas “skip” can be used to mark edge cases to discuss with annotators.</p>
 <p>The annotation interface should be super simple by default, but provide the ability to drill in further for context. In this case you can actually watch the time-stamped clip. For text, for example, you could show an abbreviated segment and allow for expanding to the full text or more metadata.</p>
-<p>When running such tasks, I tend to use a simple command-line implementation built on Python (the user interface above is purely demonstrative). These are fairly straightforward to vibe-code, and if your reporting team has an AI coding assistant installed you can just send them the codebase and dataset and have it set up easily.</p>
+<p>When running such tasks, I tend to use a command-line tool written in Python (the user interface above is purely demonstrative). These are fairly straightforward to vibe-code, and if your reporting team has an AI coding assistant installed you can just send them the codebase and dataset and have it set up easily.</p>
 <p>Here’s the <a href="https://github.com/yinleon/inspect-element/blob/main/scripts/classification/label_segments.py">Python script</a> for reference.</p>
 <div class="callout-tip callout callout-style-simple callout-captioned">
 <div class="callout-header d-flex align-content-center">
@@ -733,13 +744,13 @@ Between 89% and 92% of segments mention voting, depending on the reviewer</code>
 </table>
 </div>
 </div>
-<p>Based on the disagreements and edge cases that were skipped, you may revise the codebook or simply note the correct answer separately. You can scale up this entire process if you want to verify all the records (which I recommend).</p>
+<p>Based on the disagreements and edge cases that were skipped, finalize the labels for this dataset. You may revise your annotation codebook or the classification algorithm at this point. You can scale up this entire process if you want to verify all the records by hand.</p>
 </section>
 </section>
-<section id="further-reading" class="level2">
-<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+</section>
+<section id="further-reading" class="level1">
+<h1>Further reading</h1>
 <p><a href="https://scikit-learn.org/0.21/tutorial/basic/tutorial.html">Supervised machine learning</a> is an essential topic to know. It is out of scope for this section, read documentation from Scikit-Learn and check out the <a href="https://github.com/amueller/introduction_to_ml_with_python">textbook</a> co-written by one of the main contributors Andreas C. Müller.</p>
-</section>
 </section>
 <section id="citation" class="level1">
 <h1>Citation</h1>

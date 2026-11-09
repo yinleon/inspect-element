@@ -268,9 +268,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#manual-labor-is-a-good-thing" id="toc-manual-labor-is-a-good-thing" class="nav-link" data-scroll-target="#manual-labor-is-a-good-thing">Manual labor is a good thing</a></li>
   <li><a href="#keywords-and-expertise" id="toc-keywords-and-expertise" class="nav-link" data-scroll-target="#keywords-and-expertise">Keywords and expertise</a></li>
   <li><a href="#when-to-use-llms" id="toc-when-to-use-llms" class="nav-link" data-scroll-target="#when-to-use-llms">When to use LLMs?</a></li>
-  <li><a href="#tutorial" id="toc-tutorial" class="nav-link" data-scroll-target="#tutorial">Tutorial</a></li>
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
+  <li><a href="#tutorial" id="toc-tutorial" class="nav-link" data-scroll-target="#tutorial">Tutorial</a>
   <ul class="collapse">
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
   <li><a href="#comparing-our-two-approaches" id="toc-comparing-our-two-approaches" class="nav-link" data-scroll-target="#comparing-our-two-approaches">Comparing our two approaches</a></li>
   <li><a href="#data-annotations" id="toc-data-annotations" class="nav-link" data-scroll-target="#data-annotations">Data Annotations</a>
   <ul class="collapse">
@@ -399,7 +399,7 @@ Pro tip: Use a codebook
 <p>LLMs are not a hammer to throw at every problem. They are neither magic nor sci-fi “<a href="https://knowyourmeme.com/memes/zoom-and-enhance">enhance</a>” functions. Using any technical tool is a matter of finding the most reliable and least-bad solution to a problem.</p>
 <p>For example, categorizing something as “political” is not straightforward. Besides elected officials and elections, what constitutes political?</p>
 <p>No matter what technical approach you choose, break the problem up into manageable pieces and employ <em>pseudocode</em> to sequence and organize your approach in plain English. Rock climbers call this “beta” for a route prior to getting on the wall.</p>
-<p>As AI assistants make most coding tasks trivial, our strength as investigators lies in the questions we ask. How do we assess vulnerabilities in our logic? Are our questions driven by a hypothesis? What assumptions are left unsaid, and how could they mislead readers? What are edge cases that undermine the hypothesis or break the system we designed?</p>
+<p>As AI assistants make most software coding tasks trivial, our strength as investigators lies in the questions we ask. How do we assess vulnerabilities in our logic? Are our questions driven by a hypothesis? What assumptions are left unsaid, and how could they mislead readers? What are edge cases that undermine the hypothesis or break the system we designed?</p>
 <div class="callout-tip callout callout-style-simple callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -422,14 +422,13 @@ Pro tip: Ask narrow questions
 <li>Download Ollama</li>
 <li>Preview the text and glean some categories.</li>
 <li>Run subset text through Ollama with Pydantic. One category = one API call.</li>
-<li>Verify the text using a coding interface. Marking things as “?” and interesting</li>
+<li>Verify the text using an annotation interface. Marking things as “?” and interesting</li>
 <li>Intercoder reliability and golden set</li>
 <li>Make changes to prompts etc</li>
 <li>Run on everything</li>
 </ol>
-</section>
-<section id="setup" class="level1">
-<h1>Setup</h1>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <p>We will use <a href="https://ollama.com">Ollama</a> to run the qwen language model locally on your machine.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install ollama</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> serve</span>
@@ -523,6 +522,7 @@ True      91
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
+</section>
 <section id="comparing-our-two-approaches" class="level2">
 <h2 class="anchored" data-anchor-id="comparing-our-two-approaches">Comparing our two approaches</h2>
 <p>We can see where the two approaches agreed by looking down the diagonal. The disagreement rate, where one method got a hit and the other did not, is less than 10%:<br></p>
@@ -585,7 +585,7 @@ Name: count, dtype: int64</code></pre>
 <section id="data-annotations" class="level2">
 <h2 class="anchored" data-anchor-id="data-annotations">Data Annotations</h2>
 <p>Verification is necessary prior to publication. You could either publish the method’s classification <a href="https://www.ire.org/2026/08/13/using-llms-in-data-journalism-can-be-trustworthy-if-these-five-elements-are-in-your-methodology/">accuracy rate</a> from a subsample of the data, or exhaustively annotate every record, or every “True” hit, to get a lower bound.</p>
-<p>Both approaches involve manual data annotations – or category “coding”. Starting with a small subset early in the process creates a “golden set” to use as a performance benchmark for your classification system.</p>
+<p>Both approaches involve manual data annotations – or “coding” in social science terms (labeling, not programming). Starting with a small subset early in the process creates a “golden set” to use as a performance benchmark for your classification system.</p>
 <p>Here we will verify every segment that was labeled <code>contains_voting</code> by either the keywords or the language model. This is the “lower-bound” verification, that will tell us <em>at least</em> how many segments in the sample contain the topic.</p>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fn_to_annotate <span class="op">=</span> <span class="st">"data/classification/intermediary/voting_to_annotate.csv"</span></span>
@@ -615,8 +615,8 @@ Name: count, dtype: int64</code></pre>
   });
 </script>
 <p>The “interesting” flag saves anecdotes to review and use in publication, whereas “skip” can be used to mark edge cases to discuss with annotators.</p>
-<p>The coding interface should be super simple by default, but provide the ability to drill in further for context. In this case you can actually watch the time-stamped clip. For text, for example, you could show an abbreviated segment and allow for expanding to the full text or more metadata.</p>
-<p>When running such tasks, I tend to use a simple command-line implementation built on Python (the user interface above is purely demonstrative). These are fairly straightforward to vibe-code, and if your reporting team has a coding assistant installed you can just send them the codebase and dataset and have it set up easily.</p>
+<p>The annotation interface should be super simple by default, but provide the ability to drill in further for context. In this case you can actually watch the time-stamped clip. For text, for example, you could show an abbreviated segment and allow for expanding to the full text or more metadata.</p>
+<p>When running such tasks, I tend to use a simple command-line implementation built on Python (the user interface above is purely demonstrative). These are fairly straightforward to vibe-code, and if your reporting team has an AI coding assistant installed you can just send them the codebase and dataset and have it set up easily.</p>
 <p>Here’s the <a href="https://github.com/yinleon/inspect-element/blob/main/scripts/classification/label_segments.py">Python script</a> for reference.</p>
 <div class="callout-tip callout callout-style-simple callout-captioned">
 <div class="callout-header d-flex align-content-center">
@@ -674,64 +674,66 @@ Between 89% and 92% of segments mention voting, depending on the reviewer</code>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_text <span class="op">=</span> pd.read_csv(fn_to_annotate, dtype<span class="op">=</span><span class="bu">str</span>).set_index([<span class="st">"video_id"</span>, <span class="st">"id"</span>])</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df_review <span class="op">=</span> df_wide.loc[<span class="op">~</span>df_wide[<span class="st">"is_unanimous"</span>], col_reviewers].join(df_text[<span class="st">"text"</span>])</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>df_review.head(<span class="dv">3</span>).style.<span class="bu">apply</span>(</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> col: [<span class="st">"background-color: #FDE68A"</span> <span class="cf">if</span> v <span class="op">==</span> <span class="st">"skip"</span> <span class="cf">else</span> <span class="st">""</span> <span class="cf">for</span> v <span class="kw">in</span> col], </span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    subset<span class="op">=</span>col_reviewers,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>display_annotator_diffs(df_review.head(<span class="dv">3</span>), col_reviewers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 
+
+<style>
+.review-table tbody tr:nth-child(odd)  { background-color: #F3F4F6; }
+.review-table tbody tr:nth-child(even) { background-color: #FFFFFF; }
+.review-table td { text-align: left; }
+</style>
 <style type="text/css">
-#T_2f115_row2_col0 {
+#T_3bad0_row2_col2 {
   background-color: #FDE68A;
 }
 </style>
-<table id="T_2f115">
+<table id="T_3bad0_" class="review-table">
   <thead>
     <tr>
-      <th class="blank">&nbsp;</th>
-      <th class="blank level0">&nbsp;</th>
-      <th id="T_2f115_level0_col0" class="col_heading level0 col0">annotator a</th>
-      <th id="T_2f115_level0_col1" class="col_heading level0 col1">annotator b</th>
-      <th id="T_2f115_level0_col2" class="col_heading level0 col2">annotator c</th>
-      <th id="T_2f115_level0_col3" class="col_heading level0 col3">text</th>
+      <th class="col_heading level0 col0" colspan="2">segment</th>
+      <th class="col_heading level0 col2" colspan="3">annotator</th>
+      <th class="col_heading level0 col5"></th>
     </tr>
     <tr>
-      <th class="index_name level0">video_id</th>
-      <th class="index_name level1">id</th>
-      <th class="blank col0">&nbsp;</th>
-      <th class="blank col1">&nbsp;</th>
-      <th class="blank col2">&nbsp;</th>
-      <th class="blank col3">&nbsp;</th>
+      <th class="col_heading level1 col0">video_id</th>
+      <th class="col_heading level1 col1">id</th>
+      <th class="col_heading level1 col2">A</th>
+      <th class="col_heading level1 col3">B</th>
+      <th class="col_heading level1 col4">C</th>
+      <th class="col_heading level1 col5">text</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th id="T_2f115_level0_row0" class="row_heading level0 row0">-re1pBdMD8I</th>
-      <th id="T_2f115_level1_row0" class="row_heading level1 row0">312</th>
-      <td id="T_2f115_row0_col0" class="data row0 col0">False</td>
-      <td id="T_2f115_row0_col1" class="data row0 col1">True</td>
-      <td id="T_2f115_row0_col2" class="data row0 col2">True</td>
-      <td id="T_2f115_row0_col3" class="data row0 col3"> The second thing that was really weird is I I did- they had me do security for the Iraqi poll workers, because you guys are probably too young to remember this, but 2005 was the big Iraqi parliamentary elections and you remember like where people stuck their fingers in the ink and then raised their purple finger to show that they had voted. We were doing security for those poll workers, and what was so weird about it is a lot of American leaders had convinced themselves that we were there for democracy.</td>
+      <td id="T_3bad0_row0_col0" class="data row0 col0">-re1pB…</td>
+      <td id="T_3bad0_row0_col1" class="data row0 col1">312</td>
+      <td id="T_3bad0_row0_col2" class="data row0 col2">False</td>
+      <td id="T_3bad0_row0_col3" class="data row0 col3">True</td>
+      <td id="T_3bad0_row0_col4" class="data row0 col4">True</td>
+      <td id="T_3bad0_row0_col5" class="data row0 col5"> The second thing that was really weird is I I did- they had me do security for the Iraqi poll workers, because you…</td>
     </tr>
     <tr>
-      <th id="T_2f115_level0_row1" class="row_heading level0 row1" rowspan="2">2VLBqkj2nDM</th>
-      <th id="T_2f115_level1_row1" class="row_heading level1 row1">11</th>
-      <td id="T_2f115_row1_col0" class="data row1 col0">False</td>
-      <td id="T_2f115_row1_col1" class="data row1 col1">True</td>
-      <td id="T_2f115_row1_col2" class="data row1 col2">True</td>
-      <td id="T_2f115_row1_col3" class="data row1 col3"> Comm is neither left or right. It's about making sure that everybody votes and when you vote, we're making sure that your vote is actually counted. We can't just be tweeting and posting about all this stuff.</td>
+      <td id="T_3bad0_row1_col0" class="data row1 col0">2VLBqk…</td>
+      <td id="T_3bad0_row1_col1" class="data row1 col1">11</td>
+      <td id="T_3bad0_row1_col2" class="data row1 col2">False</td>
+      <td id="T_3bad0_row1_col3" class="data row1 col3">True</td>
+      <td id="T_3bad0_row1_col4" class="data row1 col4">True</td>
+      <td id="T_3bad0_row1_col5" class="data row1 col5"> Comm is neither left or right. It's about making sure that everybody votes and when you vote, we're making sure that…</td>
     </tr>
     <tr>
-      <th id="T_2f115_level1_row2" class="row_heading level1 row2">121</th>
-      <td id="T_2f115_row2_col0" class="data row2 col0">skip</td>
-      <td id="T_2f115_row2_col1" class="data row2 col1">False</td>
-      <td id="T_2f115_row2_col2" class="data row2 col2">False</td>
-      <td id="T_2f115_row2_col3" class="data row2 col3"> Right now that there was no war declared in Ukraine, even though we're at war with with Russia, right now, they just printed a hundred- and you know what- 160 billion. Now that we've sent there and they're sending it there with you know, congressional votes and all those Congress people who are voting for it. Mitch McConnell, etc. Are all in the tank with General Dynamics, Northrop Grumman, you know, boeing, Lockheed, all of the military industrial complex might have the contractors that are all making the money.</td>
+      <td id="T_3bad0_row2_col0" class="data row2 col0">2VLBqk…</td>
+      <td id="T_3bad0_row2_col1" class="data row2 col1">121</td>
+      <td id="T_3bad0_row2_col2" class="data row2 col2">skip</td>
+      <td id="T_3bad0_row2_col3" class="data row2 col3">False</td>
+      <td id="T_3bad0_row2_col4" class="data row2 col4">False</td>
+      <td id="T_3bad0_row2_col5" class="data row2 col5"> Right now that there was no war declared in Ukraine, even though we're at war with with Russia, right now, they just…</td>
     </tr>
   </tbody>
 </table>
 </div>
 </div>
+<p>Based on the disagreements and edge cases that were skipped, you may revise the codebook or simply note the correct answer separately. You can scale up this entire process if you want to verify all the records (which I recommend).</p>
 </section>
 </section>
 <section id="further-reading" class="level2">
